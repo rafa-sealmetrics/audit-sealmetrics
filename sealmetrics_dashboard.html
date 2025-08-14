@@ -1,0 +1,1541 @@
+    <script>
+        // Simular contador en tiempo real
+        function updateCounter() {
+            const counter = document.getElementById('hitCounter');
+            let current = parseInt(counter.textContent.replace(/,/g, ''));
+            current += Math.floor(Math.random() * 5) + 1;
+            counter.textContent = current.toLocaleString();
+        }
+        
+        setInterval(updateCounter, 2000);
+
+        // Interactive Matrix Data
+        const matrixData = {
+            sizes: {
+                headers: ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44'],
+                facebook: ['2.1%', '3.8%', '3.2%', '3.5%', '4.2%', '2.9%', '2.7%', '2.4%', '1.9%', '1.6%'],
+                google: ['1.8%', '2.9%', '3.1%', '3.3%', '3.6%', '4.1%', '4.5%', '4.2%', '3.8%', '3.2%'],
+                instagram: ['2.8%', '2.6%', '3.4%', '3.7%', '3.1%', '2.5%', '2.1%', '1.8%', '1.5%', '1.2%'],
+                tiktok: ['1.9%', '2.1%', '2.4%', '2.6%', '2.3%', '1.9%', '1.6%', '1.4%', '1.1%', '0.9%'],
+                googleads: ['1.6%', '2.3%', '2.7%', '2.9%', '3.2%', '3.5%', '3.8%', '3.6%', '3.1%', '2.8%'],
+                email: ['3.1%', '3.4%', '3.8%', '4.1%', '3.9%', '3.6%', '3.2%', '2.9%', '2.5%', '2.1%'],
+                averages: ['2.2%', '2.8%', '3.1%', '3.4%', '3.4%', '3.1%', '2.9%', '2.7%', '2.3%', '2.0%']
+            },
+            prices: {
+                headers: ['€0-50', '€51-100', '€101-150', '€151-200', '€200+'],
+                facebook: ['2.1%', '3.4%', '3.8%', '2.9%', '2.2%'],
+                google: ['1.8%', '3.1%', '4.2%', '4.8%', '3.9%'],
+                instagram: ['3.2%', '3.6%', '2.8%', '2.1%', '1.8%'],
+                tiktok: ['3.8%', '2.4%', '1.9%', '1.2%', '0.8%'],
+                googleads: ['2.3%', '3.2%', '3.9%', '4.1%', '3.2%'],
+                email: ['2.8%', '3.8%', '4.2%', '5.1%', '6.2%'],
+                averages: ['2.7%', '3.3%', '3.5%', '3.4%', '3.0%']
+            },
+            colors: {
+                headers: ['Negro', 'Blanco', 'Marrón', 'Rojo', 'Azul'],
+                facebook: ['3.2%', '2.8%', '3.1%', '2.1%', '2.4%'],
+                google: ['3.8%', '3.4%', '4.2%', '2.9%', '3.1%'],
+                instagram: ['2.9%', '3.6%', '2.4%', '2.8%', '3.2%'],
+                tiktok: ['2.1%', '2.4%', '1.8%', '2.9%', '2.6%'],
+                googleads: ['3.4%', '3.1%', '3.6%', '2.4%', '2.8%'],
+                email: ['4.1%', '3.8%', '4.4%', '3.2%', '3.6%'],
+                averages: ['3.3%', '3.2%', '3.3%', '2.7%', '3.0%']
+            },
+            materials: {
+                headers: ['Cuero', 'Ante', 'Sintético', 'Textil', 'Canvas'],
+                facebook: ['3.8%', '3.2%', '2.4%', '2.9%', '2.6%'],
+                google: ['4.5%', '4.1%', '2.8%', '3.2%', '3.1%'],
+                instagram: ['3.1%', '2.8%', '2.9%', '3.4%', '3.2%'],
+                tiktok: ['2.2%', '2.1%', '2.6%', '2.8%', '2.4%'],
+                googleads: ['3.9%', '3.6%', '2.7%', '3.1%', '2.9%'],
+                email: ['4.8%', '4.2%', '3.1%', '3.6%', '3.4%'],
+                averages: ['3.7%', '3.3%', '2.7%', '3.2%', '3.0%']
+            }
+        };
+
+        const campaignData = {
+            facebook: {
+                campaigns: ['FB_Retargeting_Premium', 'FB_Lookalike_Core', 'FB_Interest_Sneakers', 'FB_Broad_Awareness'],
+                data: [
+                    ['4.2%', '4.8%', '5.1%', '5.4%', '5.9%', '4.8%', '4.2%', '3.8%', '3.1%', '2.8%', '4.4%', '+€18,900/mes'],
+                    ['3.1%', '3.6%', '3.9%', '4.2%', '4.7%', '3.9%', '3.4%', '3.1%', '2.6%', '2.2%', '3.5%', '+€12,600/mes'],
+                    ['2.8%', '3.2%', '3.4%', '3.8%', '4.1%', '3.2%', '2.9%', '2.6%', '2.1%', '1.8%', '3.0%', '+€8,900/mes'],
+                    ['1.9%', '2.4%', '2.6%', '2.9%', '3.2%', '2.6%', '2.3%', '2.1%', '1.8%', '1.4%', '2.3%', '+€4,200/mes']
+                ]
+            },
+            google: {
+                campaigns: ['Google_Shopping_Premium', 'Google_Search_Brand', 'Google_Search_Generic', 'Google_Display_Retarg'],
+                data: [
+                    ['3.8%', '4.2%', '4.6%', '4.9%', '5.2%', '5.8%', '6.1%', '5.9%', '5.4%', '4.8%', '5.1%', '+€22,400/mes'],
+                    ['2.9%', '3.4%', '3.8%', '4.1%', '4.4%', '4.8%', '5.2%', '4.9%', '4.2%', '3.8%', '4.2%', '+€16,800/mes'],
+                    ['1.8%', '2.3%', '2.7%', '3.1%', '3.4%', '3.8%', '4.1%', '3.9%', '3.4%', '3.1%', '3.2%', '+€9,600/mes'],
+                    ['2.4%', '2.8%', '3.1%', '3.4%', '3.7%', '4.1%', '4.4%', '4.2%', '3.8%', '3.4%', '3.5%', '+€7,200/mes']
+                ]
+            },
+            instagram: {
+                campaigns: ['IG_Stories_Premium', 'IG_Feed_Lifestyle', 'IG_Reels_Trending', 'IG_IGTV_Brand'],
+                data: [
+                    ['3.8%', '3.6%', '4.2%', '4.6%', '4.1%', '3.4%', '2.9%', '2.6%', '2.1%', '1.8%', '3.3%', '+€14,200/mes'],
+                    ['2.6%', '2.4%', '3.1%', '3.4%', '2.9%', '2.2%', '1.9%', '1.6%', '1.3%', '1.1%', '2.3%', '+€8,600/mes'],
+                    ['3.2%', '2.9%', '3.6%', '4.1%', '3.6%', '2.8%', '2.4%', '2.1%', '1.8%', '1.4%', '2.8%', '+€11,400/mes'],
+                    ['2.1%', '1.9%', '2.4%', '2.8%', '2.4%', '1.9%', '1.6%', '1.3%', '1.1%', '0.9%', '1.8%', '+€3,900/mes']
+                ]
+            },
+            tiktok: {
+                campaigns: ['TT_Spark_Ads_Viral', 'TT_In_Feed_Youth', 'TT_Brand_Takeover', 'TT_TopView_Premium'],
+                data: [
+                    ['2.8%', '3.1%', '3.4%', '3.6%', '3.2%', '2.6%', '2.2%', '1.9%', '1.5%', '1.2%', '2.6%', '+€6,800/mes'],
+                    ['2.1%', '2.4%', '2.7%', '2.9%', '2.6%', '2.1%', '1.8%', '1.5%', '1.2%', '1.0%', '2.0%', '+€4,200/mes'],
+                    ['1.6%', '1.8%', '2.1%', '2.3%', '2.1%', '1.7%', '1.4%', '1.2%', '0.9%', '0.7%', '1.6%', '+€2,400/mes'],
+                    ['1.2%', '1.4%', '1.6%', '1.8%', '1.6%', '1.3%', '1.1%', '0.9%', '0.7%', '0.5%', '1.2%', '+€1,800/mes']
+                ]
+            },
+            email: {
+                campaigns: ['Email_Abandoned_Cart', 'Email_Newsletter_VIP', 'Email_Reactivation', 'Email_New_Products'],
+                data: [
+                    ['4.8%', '5.2%', '5.6%', '5.9%', '5.7%', '5.2%', '4.8%', '4.4%', '3.9%', '3.4%', '4.9%', '+€24,600/mes'],
+                    ['3.4%', '3.8%', '4.2%', '4.5%', '4.3%', '3.9%', '3.6%', '3.2%', '2.8%', '2.4%', '3.6%', '+€16,200/mes'],
+                    ['2.8%', '3.1%', '3.4%', '3.7%', '3.5%', '3.2%', '2.9%', '2.6%', '2.2%', '1.9%', '2.9%', '+€9,800/mes'],
+                    ['2.1%', '2.4%', '2.7%', '3.0%', '2.8%', '2.5%', '2.2%', '1.9%', '1.6%', '1.3%', '2.3%', '+€7,400/mes']
+                ]
+            }
+        };
+
+        function updateMatrix() {
+            const selectedAttribute = document.getElementById('attributeSelector').value;
+            const data = matrixData[selectedAttribute];
+            const table = document.getElementById('interactiveMatrix');
+            
+            // Update headers
+            const headerRow = table.querySelector('thead tr');
+            headerRow.innerHTML = '<th style="background: #2d3748; color: white;">Canal / ' + 
+                selectedAttribute.charAt(0).toUpperCase() + selectedAttribute.slice(1) + '</th>';
+            
+            data.headers.forEach(header => {
+                headerRow.innerHTML += '<th>' + header + '</th>';
+            });
+            headerRow.innerHTML += '<th style="background: #e2e8f0;">Media Canal</th>';
+            
+            // Update body
+            const tbody = table.querySelector('tbody');
+            const channels = [
+                {name: 'Facebook Ads', key: 'facebook', class: 'f0f8ff'},
+                {name: 'Google Shopping', key: 'google', class: 'fff5f5'},
+                {name: 'Instagram', key: 'instagram', class: 'fef5f8'},
+                {name: 'TikTok Ads', key: 'tiktok', class: 'f7fafc'},
+                {name: 'Google Ads', key: 'googleads', class: 'f0fff4'},
+                {name: 'Email Marketing', key: 'email', class: 'fffbeb'}
+            ];
+            
+            tbody.innerHTML = '';
+            
+            channels.forEach(channel => {
+                const row = document.createElement('tr');
+                row.style.background = '#' + channel.class;
+                row.innerHTML = '<td><strong>' + channel.name + '</strong></td>';
+                
+                data[channel.key].forEach((value, index) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    
+                    // Highlight best performers
+                    const numValue = parseFloat(value);
+                    const avgValue = parseFloat(data.averages[index]);
+                    if (numValue > avgValue * 1.2) {
+                        cell.style.color = '#48bb78';
+                        cell.style.fontWeight = 'bold';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Calculate channel average
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#e2e8f0';
+                avgCell.style.fontWeight = 'bold';
+                const channelAvg = data[channel.key].reduce((sum, val) => sum + parseFloat(val), 0) / data[channel.key].length;
+                avgCell.textContent = channelAvg.toFixed(1) + '%';
+                row.appendChild(avgCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add site average row
+            const avgRow = document.createElement('tr');
+            avgRow.style.background = '#f4f4f5';
+            avgRow.style.fontWeight = 'bold';
+            avgRow.innerHTML = '<td style="background: #2d3748; color: white;"><strong>MEDIA SITE</strong></td>';
+            
+            data.averages.forEach(avg => {
+                avgRow.innerHTML += '<td>' + avg + '</td>';
+            });
+            
+            const totalAvg = data.averages.reduce((sum, val) => sum + parseFloat(val), 0) / data.averages.length;
+            avgRow.innerHTML += '<td style="background: #4a5568; color: white;"><strong>' + totalAvg.toFixed(1) + '%</strong></td>';
+            
+            tbody.appendChild(avgRow);
+            
+            // Update insights
+            updateInsights(selectedAttribute);
+        }
+        
+        function updateInsights(attribute) {
+            const insights = {
+                sizes: 'Google Shopping domina tallas grandes (40-42), Instagram mejor en pequeñas (35-38). Optimizar targeting por talla = +€45,600/mes',
+                prices: 'Email Marketing lidera productos premium (€200+), TikTok mejor en low-cost (€0-50). Segmentar por precio = +€38,900/mes',
+                colors: 'Negro y Marrón mejor performance general. Google Shopping domina colores premium. Focus strategy = +€29,400/mes',
+                materials: 'Cuero y Ante mejor conversión en todos los canales. Google + Email ideales para premium materials = +€41,200/mes'
+            };
+            
+            document.getElementById('matrixInsights').innerHTML = 
+                '<h4>📈 Insights - ' + attribute.charAt(0).toUpperCase() + attribute.slice(1) + '</h4><p>' + 
+                insights[attribute] + '</p>';
+        }
+        
+        function updateCampaignMatrix() {
+            const selectedChannel = document.getElementById('channelSelector').value;
+            const data = campaignData[selectedChannel];
+            const tbody = document.getElementById('campaignTableBody');
+            
+            tbody.innerHTML = '';
+            
+            data.campaigns.forEach((campaign, index) => {
+                const row = document.createElement('tr');
+                const campaignRowData = data.data[index];
+                
+                row.innerHTML = '<td><strong>' + campaign + '</strong></td>';
+                
+                // Add conversion rates (exclude last element which is revenue potential)
+                campaignRowData.slice(0, -2).forEach((rate, rateIndex) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = rate;
+                    
+                    // Highlight best performers (>4% conversion)
+                    const numValue = parseFloat(rate);
+                    if (numValue > 4.0) {
+                        cell.style.color = '#48bb78';
+                        cell.style.fontWeight = 'bold';
+                    } else if (numValue < 2.0) {
+                        cell.style.color = '#f56565';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Add campaign average (second to last element)
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#e2e8f0';
+                avgCell.style.fontWeight = 'bold';
+                avgCell.textContent = campaignRowData[campaignRowData.length - 2];
+                row.appendChild(avgCell);
+                
+                // Add revenue potential (last element)
+                const potentialCell = document.createElement('td');
+                potentialCell.style.background = '#e6fffa';
+                potentialCell.style.color = '#2c7a7b';
+                potentialCell.style.fontWeight = 'bold';
+                potentialCell.textContent = campaignRowData[campaignRowData.length - 1];
+                row.appendChild(potentialCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Update campaign insights
+            updateCampaignInsights(selectedChannel);
+        }
+        
+        function updateCampaignInsights(channel) {
+            const insights = {
+                facebook: 'FB_Retargeting_Premium lidera con 4.4% average. Tallas 39-40 son sweet spot. Scale retargeting budget +40% = +€18,900/mes',
+                google: 'Google Shopping Premium domina tallas grandes (6.1% talla 41). Focus premium products en large sizes = +€22,400/mes',
+                instagram: 'IG Stories Premium mejor performer en tallas pequeñas. Increase Stories budget para 35-38 = +€14,200/mes',
+                tiktok: 'TT Spark Ads Viral mejor ROI. Focus en contenido viral para audiencias jóvenes = +€6,800/mes optimization',
+                email: 'Email Abandoned Cart líder absoluto (4.9% average). Expand cart recovery sequences = +€24,600/mes'
+            };
+            
+            const channelNames = {
+                facebook: 'Facebook Ads',
+                google: 'Google Ads', 
+                instagram: 'Instagram Ads',
+                tiktok: 'TikTok Ads',
+                email: 'Email Marketing'
+            };
+            
+            document.getElementById('campaignInsights').innerHTML = 
+                '<h4>🚀 ' + channelNames[channel] + ' - Campaign Insights</h4><p>' + 
+                insights[channel] + '</p>';
+        }
+        
+        // Initialize with default values when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMatrix();
+            updateCampaignMatrix();
+        });
+    </script>                    <tbody>
+                        <tr>
+                            <td><strong>€0-50</strong></td>
+                            <td>45,234</td>
+                            <td>4.2%</td>
+                            <td>3.1%</td>
+                            <td>€52,340</td>
+                            <td>TikTok (56%)</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">Scale opportunity</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>€51-100</strong></td>
+                            <td>67,891</td>
+                            <td>3.8%</td>
+                            <td>3.4%</td>
+                            <td>€178,450</td>
+                            <td>Facebook (43%)</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">High volume potential</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>€101-150</strong></td>
+                            <td>34,567</td>
+                            <td>3.1%</td>
+                            <td>3.6%</td>
+                            <td>€154,230</td>
+                            <td>Google Shop (52%)</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">Premium focus</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>€151-200</strong></td>
+                            <td>18,234</td>
+                            <td>2.4%</td>
+                            <td>3.8%</td>
+                            <td>€119,670</td>
+                            <td>Google Shop (67%)</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">Conversion leader</span></td>
+                        </tr>
+                        <tr style="background: #fef5e7;">
+                            <td><strong>€200+</strong></td>
+                            <td>8,945</td>
+                            <td>1.8%</td>
+                            <td>4.2%</td>
+                            <td>€98,450</td>
+                            <td>Email (45%)</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">Premium strategy</span></td>
+                        </tr><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sealmetrics Dashboard - E-commerce Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .date-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .date-filter select {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value.positive { color: #48bb78; }
+        .metric-value.negative { color: #f56565; }
+        .metric-value.neutral { color: #4299e1; }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+        
+        .metric-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+        
+        .metric-change.up {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .metric-change.down {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .alert {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .alert-list {
+            list-style: none;
+        }
+        
+        .alert-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .alert-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .chart-container {
+            height: 300px;
+            background: linear-gradient(45deg, #f7fafc, #edf2f7);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-style: italic;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            transition: width 0.3s ease;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .tag.high { background: #c6f6d5; color: #22543d; }
+        .tag.medium { background: #fef5e7; color: #744210; }
+        .tag.low { background: #fed7d7; color: #742a2a; }
+        
+        .recommendation {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .recommendation h4 {
+            color: #22543d;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        .recommendation p {
+            color: #2f855a;
+            font-size: 0.9rem;
+        }
+        
+        .channel-card {
+            border-left: 4px solid;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .facebook { border-color: #1877f2; background: #f0f8ff; }
+        .google { border-color: #ea4335; background: #fff5f5; }
+        .instagram { border-color: #e4405f; background: #fef5f8; }
+        .tiktok { border-color: #000000; background: #f7fafc; }
+        
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <h1><span class="live-indicator"></span>E-commerce Dashboard - Live Data</h1>
+            <div class="date-filter">
+                <select>
+                    <option>Últimas 24h</option>
+                    <option>Última semana</option>
+                    <option>Último mes</option>
+                    <option>Último trimestre</option>
+                </select>
+                <select>
+                    <option>Todos los canales</option>
+                    <option>Solo paid</option>
+                    <option>Solo organic</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Executive KPIs -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">100%</div>
+                <div class="metric-label">Data Completeness</div>
+                <div class="metric-change up">vs 60% GA4 = +€78,400/mes revenue visibility</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">€47,382</div>
+                <div class="metric-label">Revenue Visibility</div>
+                <div class="metric-change up">+40% vs GA4 = +€18,953/mes optimization potential</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value positive">234,567</div>
+                <div class="metric-label">Total Hits Today</div>
+                <div class="metric-change up">+12% vs ayer = +€5,670/día revenue potential</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">€0.23</div>
+                <div class="metric-label">Cost per Hit</div>
+                <div class="metric-change down">-8% vs semana = +€3,200/mes savings</div>
+            </div>
+        </div>
+
+        <!-- Channel Performance -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>📈 Channel Performance Ranking</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Canal</th>
+                            <th>Hits</th>
+                            <th>Top Product</th>
+                            <th>ROI Score</th>
+                            <th>Revenue Potential</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag high">Facebook Ads</span></td>
+                            <td>45,623</td>
+                            <td>Nike Air Max 90</td>
+                            <td>9.2/10</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">+€15,600/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag high">Google Shopping</span></td>
+                            <td>38,912</td>
+                            <td>UGG Classic Boot</td>
+                            <td>8.7/10</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">+€12,400/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Instagram</span></td>
+                            <td>29,456</td>
+                            <td>Converse Chuck 70</td>
+                            <td>7.3/10</td>
+                            <td><span style="color: #ecc94b; font-weight: bold;">+€8,900/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">TikTok Ads</span></td>
+                            <td>18,234</td>
+                            <td>Vans Old Skool</td>
+                            <td>6.8/10</td>
+                            <td><span style="color: #f56565; font-weight: bold;">-€4,200/mes*</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">💡 Channel Performance Insights</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Facebook and Google Shopping show strongest performance with clear product affinities. Focus budget allocation on high-performing channel-product combinations.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🏆 Top Products by Channel</h3>
+                
+                <div class="channel-card facebook">
+                    <strong>Facebook Ads</strong> <span style="color: #48bb78; font-size: 0.9em;">(scale opportunity)</span><br>
+                    1. Nike Air Max 90 (2,847 hits) - <em>High performance product</em><br>
+                    2. Adidas Stan Smith (2,156 hits) - <em>Growth potential</em><br>
+                    3. UGG Tasman (1,923 hits) - <em>Premium focus</em>
+                </div>
+                
+                <div class="channel-card google">
+                    <strong>Google Shopping</strong> <span style="color: #48bb78; font-size: 0.9em;">(premium focus)</span><br>
+                    1. UGG Classic Boot (3,245 hits) - <em>Top performer</em><br>
+                    2. Timberland 6" Boot (2,834 hits) - <em>Consistent growth</em><br>
+                    3. Dr. Martens 1460 (2,467 hits) - <em>Optimization opportunity</em>
+                </div>
+                
+                <div class="channel-card instagram">
+                    <strong>Instagram</strong> <span style="color: #ecc94b; font-size: 0.9em;">(optimization potential)</span><br>
+                    1. Converse Chuck 70 (1,867 hits) - <em>Engagement leader</em><br>
+                    2. Vans Old Skool (1,645 hits) - <em>Youth appeal</em><br>
+                    3. Golden Goose Superstar (1,234 hits) - <em>Premium segment</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Intelligence -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🎯 Product Performance Intelligence</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Hits Totales</th>
+                            <th>Best Channel</th>
+                            <th>Conversion Rate</th>
+                            <th>Revenue Impact</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Nike Air Max 90 White</strong></td>
+                            <td>8,945</td>
+                            <td>Facebook (65%)</td>
+                            <td>3.2%</td>
+                            <td>€18,450</td>
+                            <td><span class="tag high">Amplify FB (+€8,900/mes)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>UGG Classic Boot Chestnut</strong></td>
+                            <td>7,234</td>
+                            <td>Google Shopping (78%)</td>
+                            <td>4.1%</td>
+                            <td>€24,680</td>
+                            <td><span class="tag high">Increase Budget (+€7,200/mes)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Converse Chuck 70 Black</strong></td>
+                            <td>5,678</td>
+                            <td>Instagram (82%)</td>
+                            <td>2.8%</td>
+                            <td>€11,230</td>
+                            <td><span class="tag medium">Test TikTok (+€3,400/mes)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dr. Martens 1460 Black</strong></td>
+                            <td>4,123</td>
+                            <td>Google Ads (45%)</td>
+                            <td>2.1%</td>
+                            <td>€9,870</td>
+                            <td><span class="tag low">Optimize Keywords (+€2,100/mes)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Time-based Insights -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>⏰ Optimal Timing Intelligence</h3>
+                <div class="chart-container">
+                    <canvas id="timingChart" width="400" height="200" style="background: white; border-radius: 8px;"></canvas>
+                </div>
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">⏰ Timing Insights</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Facebook and Instagram show clear peak performance windows, while Google maintains consistent performance throughout the day. Optimize posting schedules accordingly.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📱 Device & Location Insights</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Channel</th>
+                            <th>Mobile %</th>
+                            <th>Top City</th>
+                            <th>Revenue/Hit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Facebook</td>
+                            <td>87%</td>
+                            <td>Madrid</td>
+                            <td>€2.34</td>
+                        </tr>
+                        <tr>
+                            <td>Instagram</td>
+                            <td>94%</td>
+                            <td>Barcelona</td>
+                            <td>€1.89</td>
+                        </tr>
+                        <tr>
+                            <td>Google Shopping</td>
+                            <td>76%</td>
+                            <td>Valencia</td>
+                            <td>€3.45</td>
+                        </tr>
+                        <tr>
+                            <td>TikTok</td>
+                            <td>98%</td>
+                            <td>Sevilla</td>
+                            <td>€1.23</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Cart Abandonment Intelligence -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🛒 Cart Abandonment Analysis</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Añadido al Carrito</th>
+                            <th>Abandonado</th>
+                            <th>Abandono %</th>
+                            <th>Revenue Perdido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Precio >€200</strong></td>
+                            <td>1,247</td>
+                            <td>892</td>
+                            <td><span class="tag high">71.5%</span></td>
+                            <td>€89,450</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Talla 41-42</strong></td>
+                            <td>2,156</td>
+                            <td>1,234</td>
+                            <td><span class="tag medium">57.2%</span></td>
+                            <td>€67,320</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Color Negro</strong></td>
+                            <td>3,045</td>
+                            <td>1,523</td>
+                            <td><span class="tag medium">50.0%</span></td>
+                            <td>€45,690</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cuero/Piel</strong></td>
+                            <td>987</td>
+                            <td>456</td>
+                            <td><span class="tag low">46.2%</span></td>
+                            <td>€34,560</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Talla 36-37</strong></td>
+                            <td>1,789</td>
+                            <td>712</td>
+                            <td><span class="tag low">39.8%</span></td>
+                            <td>€28,450</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">💡 Cart Recovery Insights</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Premium products show highest abandonment rates but also highest recovery potential. Focus automated email sequences on €200+ products and size-specific targeting for 41-42.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💰 Sales Performance Matrix</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Top Performers</th>
+                            <th>Ventas</th>
+                            <th>Revenue</th>
+                            <th>Avg. Ticket</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Negro, 39, €80-120</strong></td>
+                            <td>456</td>
+                            <td>€45,600</td>
+                            <td>€100</td>
+                            <td>Facebook</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Marrón, 42, €150-200</strong></td>
+                            <td>287</td>
+                            <td>€50,225</td>
+                            <td>€175</td>
+                            <td>Google Shop</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Blanco, 38, €60-100</strong></td>
+                            <td>398</td>
+                            <td>€31,840</td>
+                            <td>€80</td>
+                            <td>Instagram</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ante, 41, €120-180</strong></td>
+                            <td>234</td>
+                            <td>€35,100</td>
+                            <td>€150</td>
+                            <td>Google Ads</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add to Cart Matrix by Channel vs Size -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🛒 Add to Cart Rate Matrix: Canales vs Tallas</h3>
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="background: #2d3748; color: white;">Canal / Talla</th>
+                                <th>35</th>
+                                <th>36</th>
+                                <th>37</th>
+                                <th>38</th>
+                                <th>39</th>
+                                <th>40</th>
+                                <th>41</th>
+                                <th>42</th>
+                                <th>43</th>
+                                <th>44</th>
+                                <th style="background: #e2e8f0;">Media Canal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #f0f8ff;">
+                                <td><strong>Facebook Ads</strong></td>
+                                <td>4.2%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">5.8%</span></td>
+                                <td>5.2%</td>
+                                <td>5.5%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">6.2%</span></td>
+                                <td>4.9%</td>
+                                <td>4.7%</td>
+                                <td>4.4%</td>
+                                <td>3.9%</td>
+                                <td>3.6%</td>
+                                <td style="background: #e2e8f0;"><strong>4.8%</strong></td>
+                            </tr>
+                            <tr style="background: #fff5f5;">
+                                <td><strong>Google Shopping</strong></td>
+                                <td>3.8%</td>
+                                <td>4.9%</td>
+                                <td>5.1%</td>
+                                <td>5.3%</td>
+                                <td>5.6%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">6.1%</span></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">6.5%</span></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">6.2%</span></td>
+                                <td>5.8%</td>
+                                <td>5.2%</td>
+                                <td style="background: #e2e8f0;"><strong>5.4%</strong></td>
+                            </tr>
+                            <tr style="background: #fef5f8;">
+                                <td><strong>Instagram</strong></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.8%</span></td>
+                                <td>4.6%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">5.4%</span></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">5.7%</span></td>
+                                <td>5.1%</td>
+                                <td>4.5%</td>
+                                <td>4.1%</td>
+                                <td>3.8%</td>
+                                <td>3.5%</td>
+                                <td>3.2%</td>
+                                <td style="background: #e2e8f0;"><strong>4.5%</strong></td>
+                            </tr>
+                            <tr style="background: #f7fafc;">
+                                <td><strong>TikTok Ads</strong></td>
+                                <td>3.9%</td>
+                                <td>4.1%</td>
+                                <td>4.4%</td>
+                                <td>4.6%</td>
+                                <td>4.3%</td>
+                                <td>3.9%</td>
+                                <td>3.6%</td>
+                                <td>3.4%</td>
+                                <td>3.1%</td>
+                                <td>2.9%</td>
+                                <td style="background: #e2e8f0;"><strong>3.8%</strong></td>
+                            </tr>
+                            <tr style="background: #f0fff4;">
+                                <td><strong>Google Ads</strong></td>
+                                <td>3.6%</td>
+                                <td>4.3%</td>
+                                <td>4.7%</td>
+                                <td>4.9%</td>
+                                <td>5.2%</td>
+                                <td>5.5%</td>
+                                <td>5.8%</td>
+                                <td>5.6%</td>
+                                <td>5.1%</td>
+                                <td>4.8%</td>
+                                <td style="background: #e2e8f0;"><strong>4.9%</strong></td>
+                            </tr>
+                            <tr style="background: #fffbeb;">
+                                <td><strong>Email Marketing</strong></td>
+                                <td>5.1%</td>
+                                <td>5.4%</td>
+                                <td>5.8%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">6.1%</span></td>
+                                <td>5.9%</td>
+                                <td>5.6%</td>
+                                <td>5.2%</td>
+                                <td>4.9%</td>
+                                <td>4.5%</td>
+                                <td>4.1%</td>
+                                <td style="background: #e2e8f0;"><strong>5.3%</strong></td>
+                            </tr>
+                            <tr style="background: #f4f4f5; font-weight: bold;">
+                                <td style="background: #2d3748; color: white;"><strong>MEDIA SITE</strong></td>
+                                <td>4.2%</td>
+                                <td>4.8%</td>
+                                <td>5.1%</td>
+                                <td>5.4%</td>
+                                <td>5.4%</td>
+                                <td>5.1%</td>
+                                <td>4.9%</td>
+                                <td>4.7%</td>
+                                <td>4.3%</td>
+                                <td>4.0%</td>
+                                <td style="background: #4a5568; color: white;"><strong>4.8%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">🛒 Add to Cart Insights</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Add to cart rates are consistently higher than final conversion rates across all channels. Focus on optimizing the checkout funnel to bridge this gap and increase revenue.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Conversion Rate Matrix -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>📊 Interactive Conversion Matrix: Canales vs Atributos</h3>
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600; margin-right: 15px;">Seleccionar Atributo:</label>
+                    <select id="attributeSelector" style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; margin-right: 20px;">
+                        <option value="sizes">Tallas</option>
+                        <option value="prices">Precios</option>
+                        <option value="colors">Colores</option>
+                        <option value="materials">Materiales</option>
+                    </select>
+                    <button onclick="updateMatrix()" style="padding: 8px 16px; background: #4299e1; color: white; border: none; border-radius: 6px; cursor: pointer;">Actualizar Matrix</button>
+                </div>
+                
+                <div id="matrixContainer" style="overflow-x: auto;">
+                    <!-- Matrix will be populated by JavaScript -->
+                    <table class="table" id="interactiveMatrix">
+                        <thead>
+                            <tr>
+                                <th style="background: #2d3748; color: white;">Canal / Talla</th>
+                                <th>35</th>
+                                <th>36</th>
+                                <th>37</th>
+                                <th>38</th>
+                                <th>39</th>
+                                <th>40</th>
+                                <th>41</th>
+                                <th>42</th>
+                                <th>43</th>
+                                <th>44</th>
+                                <th style="background: #e2e8f0;">Media Canal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Content populated by updateMatrix() function -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="recommendation" id="matrixInsights">
+                    <h4>📈 Insights Dinámicos</h4>
+                    <p>Selecciona diferentes atributos para ver oportunidades de optimización específicas por canal.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaign Drill-Down Matrix -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🎯 Campaign Performance Matrix por Fuente</h3>
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600; margin-right: 15px;">Seleccionar Canal:</label>
+                    <select id="channelSelector" style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; margin-right: 20px;">
+                        <option value="facebook">Facebook Ads</option>
+                        <option value="google">Google Ads</option>
+                        <option value="instagram">Instagram Ads</option>
+                        <option value="tiktok">TikTok Ads</option>
+                        <option value="email">Email Marketing</option>
+                    </select>
+                    <button onclick="updateCampaignMatrix()" style="padding: 8px 16px; background: #48bb78; color: white; border: none; border-radius: 6px; cursor: pointer;">Ver Campañas</button>
+                </div>
+                
+                <div id="campaignMatrixContainer" style="overflow-x: auto;">
+                    <table class="table" id="campaignMatrix">
+                        <thead>
+                            <tr>
+                                <th style="background: #2d3748; color: white;">Campaña / Talla</th>
+                                <th>35</th>
+                                <th>36</th>
+                                <th>37</th>
+                                <th>38</th>
+                                <th>39</th>
+                                <th>40</th>
+                                <th>41</th>
+                                <th>42</th>
+                                <th>43</th>
+                                <th>44</th>
+                                <th style="background: #e2e8f0;">Media Campaña</th>
+                                <th style="background: #e6fffa;">Revenue Potential</th>
+                            </tr>
+                        </thead>
+                        <tbody id="campaignTableBody">
+                            <!-- Content populated by updateCampaignMatrix() function -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="recommendation" id="campaignInsights">
+                    <h4>🚀 Campaign Optimization Insights</h4>
+                    <p>Selecciona un canal para ver el performance detallado por campaña y identificar oportunidades específicas de optimización.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conversion Rate Matrix by Channel vs Size -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>📊 Conversion Rate Matrix: Canales vs Tallas</h3>
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="background: #2d3748; color: white;">Canal / Talla</th>
+                                <th>35</th>
+                                <th>36</th>
+                                <th>37</th>
+                                <th>38</th>
+                                <th>39</th>
+                                <th>40</th>
+                                <th>41</th>
+                                <th>42</th>
+                                <th>43</th>
+                                <th>44</th>
+                                <th style="background: #e2e8f0;">Media Canal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #f0f8ff;">
+                                <td><strong>Facebook Ads</strong></td>
+                                <td>2.1%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">3.8%</span></td>
+                                <td>3.2%</td>
+                                <td>3.5%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.2%</span></td>
+                                <td>2.9%</td>
+                                <td>2.7%</td>
+                                <td>2.4%</td>
+                                <td>1.9%</td>
+                                <td>1.6%</td>
+                                <td style="background: #e2e8f0;"><strong>2.8%</strong></td>
+                            </tr>
+                            <tr style="background: #fff5f5;">
+                                <td><strong>Google Shopping</strong></td>
+                                <td>1.8%</td>
+                                <td>2.9%</td>
+                                <td>3.1%</td>
+                                <td>3.3%</td>
+                                <td>3.6%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.1%</span></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.5%</span></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.2%</span></td>
+                                <td>3.8%</td>
+                                <td>3.2%</td>
+                                <td style="background: #e2e8f0;"><strong>3.4%</strong></td>
+                            </tr>
+                            <tr style="background: #fef5f8;">
+                                <td><strong>Instagram</strong></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">2.8%</span></td>
+                                <td>2.6%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">3.4%</span></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">3.7%</span></td>
+                                <td>3.1%</td>
+                                <td>2.5%</td>
+                                <td>2.1%</td>
+                                <td>1.8%</td>
+                                <td>1.5%</td>
+                                <td>1.2%</td>
+                                <td style="background: #e2e8f0;"><strong>2.5%</strong></td>
+                            </tr>
+                            <tr style="background: #f7fafc;">
+                                <td><strong>TikTok Ads</strong></td>
+                                <td>1.9%</td>
+                                <td>2.1%</td>
+                                <td>2.4%</td>
+                                <td>2.6%</td>
+                                <td>2.3%</td>
+                                <td>1.9%</td>
+                                <td>1.6%</td>
+                                <td>1.4%</td>
+                                <td>1.1%</td>
+                                <td>0.9%</td>
+                                <td style="background: #e2e8f0;"><strong>1.8%</strong></td>
+                            </tr>
+                            <tr style="background: #f0fff4;">
+                                <td><strong>Google Ads</strong></td>
+                                <td>1.6%</td>
+                                <td>2.3%</td>
+                                <td>2.7%</td>
+                                <td>2.9%</td>
+                                <td>3.2%</td>
+                                <td>3.5%</td>
+                                <td>3.8%</td>
+                                <td>3.6%</td>
+                                <td>3.1%</td>
+                                <td>2.8%</td>
+                                <td style="background: #e2e8f0;"><strong>2.9%</strong></td>
+                            </tr>
+                            <tr style="background: #fffbeb;">
+                                <td><strong>Email Marketing</strong></td>
+                                <td>3.1%</td>
+                                <td>3.4%</td>
+                                <td>3.8%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.1%</span></td>
+                                <td>3.9%</td>
+                                <td>3.6%</td>
+                                <td>3.2%</td>
+                                <td>2.9%</td>
+                                <td>2.5%</td>
+                                <td>2.1%</td>
+                                <td style="background: #e2e8f0;"><strong>3.3%</strong></td>
+                            </tr>
+                            <tr style="background: #f4f4f5; font-weight: bold;">
+                                <td style="background: #2d3748; color: white;"><strong>MEDIA SITE</strong></td>
+                                <td>2.2%</td>
+                                <td>2.8%</td>
+                                <td>3.1%</td>
+                                <td>3.4%</td>
+                                <td>3.4%</td>
+                                <td>3.1%</td>
+                                <td>2.9%</td>
+                                <td>2.7%</td>
+                                <td>2.3%</td>
+                                <td>2.0%</td>
+                                <td style="background: #4a5568; color: white;"><strong>2.8%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                                                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">📈 Conversion Matrix Insights</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Google Shopping excels with larger sizes (40-42), while Instagram performs better with smaller sizes (35-38). Channel-size segmentation shows significant optimization potential.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Product Analytics -->
+        <div class="grid grid-3">
+            <div class="card">
+                <h3>🎨 Performance por Color</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Color</th>
+                            <th>Hits</th>
+                            <th>Conversión</th>
+                            <th>Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🖤 Negro</td>
+                            <td>45,623</td>
+                            <td>3.2%</td>
+                            <td>€124,560</td>
+                            <td><span style="color: #48bb78;">Scale opportunity</span></td>
+                        </tr>
+                        <tr>
+                            <td>🤍 Blanco</td>
+                            <td>32,145</td>
+                            <td>2.8%</td>
+                            <td>€87,340</td>
+                            <td><span style="color: #48bb78;">Optimization potential</span></td>
+                        </tr>
+                        <tr>
+                            <td>🤎 Marrón</td>
+                            <td>28,967</td>
+                            <td>3.5%</td>
+                            <td>€98,450</td>
+                            <td><span style="color: #48bb78;">Premium positioning</span></td>
+                        </tr>
+                        <tr>
+                            <td>🔴 Rojo</td>
+                            <td>12,456</td>
+                            <td>2.1%</td>
+                            <td>€23,670</td>
+                            <td><span style="color: #ecc94b;">Test expansion</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>📏 Performance por Talla</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Talla</th>
+                            <th>Hits</th>
+                            <th>Conversión</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>39</td>
+                            <td>18,945</td>
+                            <td><span class="tag high">3.4%</span></td>
+                            <td>Facebook (scale opportunity)</td>
+                        </tr>
+                        <tr>
+                            <td>40</td>
+                            <td>16,723</td>
+                            <td><span class="tag high">3.1%</span></td>
+                            <td>Google Shop (scale potential)</td>
+                        </tr>
+                        <tr>
+                            <td>38</td>
+                            <td>15,234</td>
+                            <td><span class="tag high">3.4%</span></td>
+                            <td>Instagram (scale opportunity)</td>
+                        </tr>
+                        <tr>
+                            <td>41</td>
+                            <td>14,567</td>
+                            <td><span class="tag medium">2.9%</span></td>
+                            <td>Google Shop (optimization needed)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🧵 Performance por Material</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>AOV</th>
+                            <th>Conversión</th>
+                            <th>Margen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cuero</td>
+                            <td>€145</td>
+                            <td>3.8%</td>
+                            <td>42% (premium focus opportunity)</td>
+                        </tr>
+                        <tr>
+                            <td>Ante</td>
+                            <td>€128</td>
+                            <td>3.2%</td>
+                            <td>38% (scale potential)</td>
+                        </tr>
+                        <tr>
+                            <td>Sintético</td>
+                            <td>€67</td>
+                            <td>2.4%</td>
+                            <td>28% (optimization needed)</td>
+                        </tr>
+                        <tr>
+                            <td>Textil</td>
+                            <td>€89</td>
+                            <td>2.9%</td>
+                            <td>35% (volume opportunity)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Price Range Analysis -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>💶 Analysis por Franja de Precio</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Precio Range</th>
+                            <th>Hits Totales</th>
+                            <th>Add to Cart</th>
+                            <th>Conversión</th>
+                            <th>Revenue</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>€0-50</strong></td>
+                            <td>45,234</td>
+                            <td>4.2%</td>
+                            <td>3.1%</td>
+                            <td>€52,340</td>
+                            <td>TikTok (56%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>€51-100</strong></td>
+                            <td>67,891</td>
+                            <td>3.8%</td>
+                            <td>3.4%</td>
+                            <td>€178,450</td>
+                            <td>Facebook (43%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>€101-150</strong></td>
+                            <td>34,567</td>
+                            <td>3.1%</td>
+                            <td>3.6%</td>
+                            <td>€154,230</td>
+                            <td>Google Shop (52%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>€151-200</strong></td>
+                            <td>18,234</td>
+                            <td>2.4%</td>
+                            <td>3.8%</td>
+                            <td>€119,670</td>
+                            <td>Google Shop (67%)</td>
+                        </tr>
+                        <tr style="background: #fef5e7;">
+                            <td><strong>€200+</strong></td>
+                            <td>8,945</td>
+                            <td>1.8%</td>
+                            <td>4.2%</td>
+                            <td>€98,450</td>
+                            <td>Email (45%)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">💡 Price Insights</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Mid-range products (€51-100) generate highest volume with good conversion. Premium products (€200+) show best conversion rates but lower traffic. Opportunity to scale mid-range on Facebook and premium on Email channels.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔄 Cart Abandonment por Atributos</h3>
+                <div class="chart-container">
+                    <div style="text-align: left; padding: 20px;">
+                        <div style="margin-bottom: 15px;">
+                            <strong>Precio €200+:</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 71.5%; background: #f56565;"></div>
+                            </div>
+                            71.5% abandono - €89,450 perdidos <span style="color: #48bb78; font-weight: bold;">(Recovery opportunity)</span>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>Talla 41-42:</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 57.2%; background: #ed8936;"></div>
+                            </div>
+                            57.2% abandono - €67,320 perdidos <span style="color: #48bb78; font-weight: bold;">(Email targeting opportunity)</span>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>Color Negro:</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 50%; background: #ecc94b;"></div>
+                            </div>
+                            50.0% abandono - €45,690 perdidos <span style="color: #48bb78; font-weight: bold;">(Remarketing potential)</span>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>Material Cuero:</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 46.2%; background: #48bb78;"></div>
+                            </div>
+                            46.2% abandono - €34,560 perdidos <span style="color: #48bb78; font-weight: bold;">(Premium recovery focus)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategic Recommendations -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🧠 AI-Powered Strategic Recommendations</h3>
+                
+                <div class="recommendation">
+                    <h4>1. Size-Based Channel Optimization</h4>
+                    <p>Google Shopping domina tallas 40-42 (4.5% vs 2.8% media). Instagram mejor en 35-38 (3.7% vs 2.8%). Segmentar campaigns por talla = +€45,600/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>2. Premium Price Recovery</h4>
+                    <p>Productos €200+ tienen 71.5% abandono carrito. Implementar email automático con descuento 5% tras 24h. Recovery estimado: €26,835/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>3. Color Strategy by Channel</h4>
+                    <p>Negro domina Facebook (€124K revenue). Marrón mejor margen en Google Shopping (42%). Optimizar creative por color/canal = +€18,400/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>4. Material-Based Targeting</h4>
+                    <p>Cuero: AOV €145, margen 42%. Ante: AOV €128, margen 38%. Focus premium materials en Google Shopping + Email para maximizar margin.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
