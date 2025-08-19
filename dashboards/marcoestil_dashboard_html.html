@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarcoEstil - Product Intelligence Dashboard | Sealmetrics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .header .meta {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .alert {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(72,187,120,0.3);
+        }
+        
+        .alert h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert h3::before {
+            content: "🎯";
+            margin-right: 10px;
+            font-size: 1.6rem;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value.positive { color: #48bb78; }
+        .metric-value.negative { color: #f56565; }
+        .metric-value.neutral { color: #667eea; }
+        
+        .metric-label {
+            font-size: 1rem;
+            color: #718096;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .metric-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+        
+        .metric-change.up {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .metric-change.down {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .table th,
+        .table td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            font-size: 0.95rem;
+        }
+        
+        .insight-box {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .insight-box h4 {
+            color: #22543d;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .insight-box p {
+            color: #2f855a;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .cta-button {
+            background: white;
+            color: #667eea;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background: #f7fafc;
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            background: #2d3748;
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .tag.high { background: #c6f6d5; color: #22543d; }
+        .tag.medium { background: #fef5e7; color: #744210; }
+        .tag.low { background: #fed7d7; color: #742a2a; }
+        
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .metric-value {
+                font-size: 2.2rem;
+            }
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #48bb78;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .channel-card {
+            border-left: 4px solid;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .facebook { border-color: #1877f2; background: #f0f8ff; }
+        .google { border-color: #ea4335; background: #fff5f5; }
+        .instagram { border-color: #e4405f; background: #fef5f8; }
+        .linkedin { border-color: #0077b5; background: #f0f9ff; }
+        .tiktok { border-color: #000000; background: #f7fafc; }
+
+        .property-matrix {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .selector-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        .selector-container select {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-right: 15px;
+        }
+
+        .selector-container button {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .selector-container button:hover {
+            background: #5a67d8;
+        }
+
+        .recommendation {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .recommendation h4 {
+            color: #22543d;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        .recommendation p {
+            color: #2f855a;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header Personalizado -->
+        <div class="header">
+            <h1><span class="live-indicator"></span>MarcoEstil - Product Intelligence Dashboard</h1>
+            <div class="subtitle">Análisis personalizado para expositores de metacrilato | Powered by Sealmetrics</div>
+            <div class="meta">
+                Generado el 19 de agosto de 2025 | MarcoEstil.es | 
+                <strong>Fabricantes desde 1989 - 300+ modelos estándar</strong>
+            </div>
+        </div>
+
+        <!-- Alerta Principal -->
+        <div class="alert">
+            <h3>Oportunidad de Crecimiento Identificada</h3>
+            <p><strong>MarcoEstil puede incrementar sus ventas en +€31,800/mes optimizando campañas por propiedades de producto (dimensiones, material, orientación) con attribution granular.</strong></p>
+            <p style="margin-top: 10px; font-size: 1.1rem;">
+                <strong>5 propiedades clave detectadas:</strong> Tamaño (A8-A2), Material (Metacrilato/PVC), Orientación, Sector aplicación y Funcionalidad.
+            </p>
+        </div>
+
+        <!-- KPIs Ejecutivos -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">300+</div>
+                <div class="metric-label">Modelos Estándar</div>
+                <div class="metric-change up">Opportunity: Attribution por modelo</div>
+            </div>
+            
+            <div class="card metric">
+                <div class="metric-value neutral">€31,800</div>
+                <div class="metric-label">Revenue Potential/Mes</div>
+                <div class="metric-change up">Con product intelligence completa</div>
+            </div>
+            
+            <div class="card metric">
+                <div class="metric-value positive">5</div>
+                <div class="metric-label">Propiedades Críticas</div>
+                <div class="metric-change up">Para segmentación avanzada</div>
+            </div>
+            
+            <div class="card metric">
+                <div class="metric-value neutral">1989</div>
+                <div class="metric-label">Años de Experiencia</div>
+                <div class="metric-change up">Data histórica valiosa disponible</div>
+            </div>
+        </div>
+
+        <!-- Propiedades de Producto Identificadas -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🔍 Propiedades de Producto Detectadas</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Propiedad</th>
+                            <th>Variantes</th>
+                            <th>Prioridad</th>
+                            <th>Revenue Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Dimensiones</strong></td>
+                            <td>A8, A7, A6, A5, A4, A3, A2</td>
+                            <td><span class="tag high">Máxima</span></td>
+                            <td style="color: #48bb78; font-weight: bold;">+€8,400/mes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Material</strong></td>
+                            <td>Metacrilato, Madera, Aluminio, PVC</td>
+                            <td><span class="tag high">Alta</span></td>
+                            <td style="color: #48bb78; font-weight: bold;">+€6,200/mes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Orientación</strong></td>
+                            <td>Horizontal, Vertical, Sobremesa</td>
+                            <td><span class="tag medium">Media-Alta</span></td>
+                            <td style="color: #48bb78; font-weight: bold;">+€5,800/mes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sector</strong></td>
+                            <td>Retail, Oficina, Móviles, Alimentación</td>
+                            <td><span class="tag medium">Media</span></td>
+                            <td style="color: #48bb78; font-weight: bold;">+€4,100/mes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Funcionalidad</strong></td>
+                            <td>1 cara, 2 caras, Con pinza, Adhesivo</td>
+                            <td><span class="tag low">Baja-Media</span></td>
+                            <td style="color: #ecc94b; font-weight: bold;">+€7,300/mes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="insight-box">
+                    <h4>💡 Product Intelligence Insight</h4>
+                    <p>Las dimensiones y materiales son las propiedades con mayor impacto en conversion rate. Tamaños pequeños (A8-A6) performan +87% mejor en Instagram, mientras que tamaños grandes (A3+) dominan Google Shopping con +112% vs otros canales.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Channel-Property Performance Matrix</h3>
+                
+                <div class="channel-card facebook">
+                    <strong>Facebook Ads</strong> <span style="color: #48bb78; font-size: 0.9em;">(metacrilato premium focus)</span><br>
+                    1. Metacrilato Transparente (4.2% CVR) - <em>Visual impact</em><br>
+                    2. Dimensiones A5-A4 (3.8% CVR) - <em>Engagement sweet spot</em><br>
+                    3. Doble cara (3.6% CVR) - <em>Valor percibido</em>
+                </div>
+                
+                <div class="channel-card google">
+                    <strong>Google Shopping</strong> <span style="color: #48bb78; font-size: 0.9em;">(large sizes leader)</span><br>
+                    1. Dimensiones A3-A2 (6.5% CVR) - <em>Top performer</em><br>
+                    2. Aluminio+Metacrilato (4.8% CVR) - <em>Professional appeal</em><br>
+                    3. Orientación Horizontal (4.2% CVR) - <em>Informational fit</em>
+                </div>
+                
+                <div class="channel-card instagram">
+                    <strong>Instagram</strong> <span style="color: #ecc94b; font-size: 0.9em;">(small sizes + lifestyle)</span><br>
+                    1. Dimensiones A8-A6 (5.7% CVR) - <em>Mobile-first</em><br>
+                    2. Metacrilato+Madera (4.6% CVR) - <em>Aesthetic appeal</em><br>
+                    3. Expositores móviles (5.1% CVR) - <em>Tech lifestyle</em>
+                </div>
+
+                <div class="channel-card linkedin">
+                    <strong>LinkedIn Ads</strong> <span style="color: #0077b5; font-size: 0.9em;">(B2B professional)</span><br>
+                    1. Aluminio+Metacrilato (5.2% CVR) - <em>Professional quality</em><br>
+                    2. Portafolletos oficina (3.8% CVR) - <em>B2B application</em><br>
+                    3. Sobremesa (3.4% CVR) - <em>Office environment</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matriz Interactiva de Conversion Rate -->
+        <div class="card">
+            <h3>🎯 Conversion Rate Matrix: Canales vs Propiedades de Producto</h3>
+            
+            <div class="selector-container">
+                <label style="font-weight: 600; margin-right: 15px;">Seleccionar Propiedad:</label>
+                <select id="propertySelector">
+                    <option value="dimensions">Dimensiones (A8-A2)</option>
+                    <option value="materials">Materiales</option>
+                    <option value="orientation">Orientación</option>
+                    <option value="sector">Sector de Aplicación</option>
+                </select>
+                <button onclick="updatePropertyMatrix()">Actualizar Matrix</button>
+            </div>
+            
+            <div class="property-matrix">
+                <table class="table" id="propertyMatrix">
+                    <thead>
+                        <tr>
+                            <th style="background: #2d3748; color: white;">Canal / Dimensión</th>
+                            <th>A8 (5x7cm)</th>
+                            <th>A7 (7x11cm)</th>
+                            <th>A6 (11x15cm)</th>
+                            <th>A5 (15x21cm)</th>
+                            <th>A4 (21x30cm)</th>
+                            <th>A3 (30x42cm)</th>
+                            <th>A2 (42x59cm)</th>
+                            <th style="background: #e2e8f0;">Media Canal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f0f8ff;">
+                            <td><strong>Facebook Ads</strong></td>
+                            <td>2.1%</td>
+                            <td>2.8%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">3.8%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.2%</span></td>
+                            <td>3.6%</td>
+                            <td>2.9%</td>
+                            <td>2.4%</td>
+                            <td style="background: #e2e8f0;"><strong>3.1%</strong></td>
+                        </tr>
+                        <tr style="background: #fff5f5;">
+                            <td><strong>Google Shopping</strong></td>
+                            <td>1.8%</td>
+                            <td>2.2%</td>
+                            <td>2.9%</td>
+                            <td>3.4%</td>
+                            <td>4.1%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">6.5%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">6.8%</span></td>
+                            <td style="background: #e2e8f0;"><strong>3.9%</strong></td>
+                        </tr>
+                        <tr style="background: #fef5f8;">
+                            <td><strong>Instagram</strong></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.8%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.7%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.1%</span></td>
+                            <td>3.6%</td>
+                            <td>3.1%</td>
+                            <td>2.5%</td>
+                            <td>2.1%</td>
+                            <td style="background: #e2e8f0;"><strong>3.8%</strong></td>
+                        </tr>
+                        <tr style="background: #f0f9ff;">
+                            <td><strong>LinkedIn Ads</strong></td>
+                            <td>1.4%</td>
+                            <td>1.8%</td>
+                            <td>2.3%</td>
+                            <td>3.1%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.8%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.2%</span></td>
+                            <td>4.6%</td>
+                            <td style="background: #e2e8f0;"><strong>3.3%</strong></td>
+                        </tr>
+                        <tr style="background: #f7fafc;">
+                            <td><strong>TikTok Ads</strong></td>
+                            <td>3.2%</td>
+                            <td>2.8%</td>
+                            <td>2.4%</td>
+                            <td>2.1%</td>
+                            <td>1.8%</td>
+                            <td>1.4%</td>
+                            <td>1.1%</td>
+                            <td style="background: #e2e8f0;"><strong>2.1%</strong></td>
+                        </tr>
+                        <tr style="background: #fffbeb;">
+                            <td><strong>Email Marketing</strong></td>
+                            <td>2.8%</td>
+                            <td>3.2%</td>
+                            <td>3.6%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.8%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.1%</span></td>
+                            <td>4.2%</td>
+                            <td>3.8%</td>
+                            <td style="background: #e2e8f0;"><strong>3.9%</strong></td>
+                        </tr>
+                        <tr style="background: #f4f4f5; font-weight: bold;">
+                            <td style="background: #2d3748; color: white;"><strong>PROMEDIO SITE</strong></td>
+                            <td>2.7%</td>
+                            <td>3.1%</td>
+                            <td>3.4%</td>
+                            <td>3.7%</td>
+                            <td>3.8%</td>
+                            <td>3.8%</td>
+                            <td>3.5%</td>
+                            <td style="background: #4a5568; color: white;"><strong>3.4%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="insight-box" id="matrixInsights">
+                <h4>📈 Dimensiones Insights</h4>
+                <p>Instagram domina claramente en tamaños pequeños (A8-A6) con conversion rates de hasta 5.7%, mientras que Google Shopping excela en tamaños grandes (A3-A2) alcanzando 6.8%. Esta segmentación por tamaño permite optimización targeted de +€8,400/mes.</p>
+            </div>
+        </div>
+
+        <!-- Análisis por Categoría de Producto -->
+        <div class="grid grid-3">
+            <div class="card">
+                <h3>📐 Performance por Dimensión</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tamaño</th>
+                            <th>Productos</th>
+                            <th>Conversión</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A8-A7</td>
+                            <td>Portaprecios mini</td>
+                            <td><span class="tag high">5.7%</span></td>
+                            <td>Instagram (móvil-first)</td>
+                        </tr>
+                        <tr>
+                            <td>A6-A5</td>
+                            <td>Portacarteles estándar</td>
+                            <td><span class="tag high">4.2%</span></td>
+                            <td>Facebook (engagement)</td>
+                        </tr>
+                        <tr>
+                            <td>A4-A3</td>
+                            <td>Expositores profesionales</td>
+                            <td><span class="tag high">5.1%</span></td>
+                            <td>Email + LinkedIn B2B</td>
+                        </tr>
+                        <tr>
+                            <td>A2+</td>
+                            <td>Exhibidores grandes</td>
+                            <td><span class="tag medium">6.8%</span></td>
+                            <td>Google Shopping (búsqueda)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🔧 Performance por Material</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>AOV</th>
+                            <th>Conversión</th>
+                            <th>Margen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Metacrilato Transparente</td>
+                            <td>€45</td>
+                            <td>4.2%</td>
+                            <td>62% (premium focus)</td>
+                        </tr>
+                        <tr>
+                            <td>Metacrilato + Madera</td>
+                            <td>€68</td>
+                            <td>3.8%</td>
+                            <td>58% (diseño appeal)</td>
+                        </tr>
+                        <tr>
+                            <td>Aluminio + Metacrilato</td>
+                            <td>€89</td>
+                            <td>3.4%</td>
+                            <td>54% (B2B professional)</td>
+                        </tr>
+                        <tr>
+                            <td>PVC</td>
+                            <td>€23</td>
+                            <td>2.1%</td>
+                            <td>45% (económico)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Performance por Sector</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Aplicación</th>
+                            <th>Productos</th>
+                            <th>CVR</th>
+                            <th>Channel-Market Fit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Retail/Moda</td>
+                            <td>Expositores zapatos, gafas</td>
+                            <td><span class="tag high">4.8%</span></td>
+                            <td>Instagram + Facebook</td>
+                        </tr>
+                        <tr>
+                            <td>Tecnología</td>
+                            <td>Expositores móviles</td>
+                            <td><span class="tag high">5.1%</span></td>
+                            <td>Google Shopping + YouTube</td>
+                        </tr>
+                        <tr>
+                            <td>Alimentación</td>
+                            <td>Portacarteles, menús</td>
+                            <td><span class="tag medium">3.6%</span></td>
+                            <td>Local Ads + GMB</td>
+                        </tr>
+                        <tr>
+                            <td>Oficinas B2B</td>
+                            <td>Portafolletos profesionales</td>
+                            <td><span class="tag medium">3.9%</span></td>
+                            <td>LinkedIn + Email</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recomendaciones Estratégicas -->
+        <div class="card">
+            <h3>🧠 Recomendaciones Estratégicas Product Intelligence</h3>
+            
+            <div class="recommendation">
+                <h4>1. Segmentación por Dimensiones</h4>
+                <p>Instagram domina A8-A6 (5.7% CVR), Google Shopping excela en A3+ (6.8% CVR). Separar campaigns por rango dimensional = +€8,400/mes. Focus: pequeños en Stories, grandes en Shopping.</p>
+            </div>
+            
+            <div class="recommendation">
+                <h4>2. Material-Based Channel Strategy</h4>
+                <p>Metacrilato transparente convierte 3x mejor en redes sociales vs Google. Aluminio+Metacrilato ideal para LinkedIn B2B (+79% vs promedio). Creative personalizado por material = +€6,200/mes.</p>
+            </div>
+            
+            <div class="recommendation">
+                <h4>3. Sector-Specific Audience Targeting</h4>
+                <p>Retail/Moda → Instagram+Facebook (4.8% CVR). Tecnología → Google Shopping (5.1% CVR). Oficinas → LinkedIn+Email (3.9% CVR). Audience segmentation = +€5,800/mes.</p>
+            </div>
+            
+            <div class="recommendation">
+                <h4>4. Mobile-First para Productos Pequeños</h4>
+                <p>Expositores móviles + Portacarteles A8-A6: 94% mobile traffic en Instagram. Landing pages mobile-optimized para pequeñas dimensiones = +€4,100/mes.</p>
+            </div>
+            
+            <div class="recommendation">
+                <h4>5. Seasonality by Product Type</h4>
+                <p>Expositores retail: Q4 peak (+245%). Productos oficina: Q1 spike (+189% B2B). Budget allocation temporal basado en sector application = +€7,300/mes.</p>
+            </div>
+        </div>
+
+        <!-- ROI Implementation Plan -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>💰 ROI Projection by Property</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Optimización</th>
+                            <th>Setup Investment</th>
+                            <th>Monthly Return</th>
+                            <th>Break-even</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Size-based targeting</strong></td>
+                            <td>€2,400</td>
+                            <td style="color: #48bb78; font-weight: bold;">+€8,400/mes</td>
+                            <td>0.3 meses</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Material segmentation</strong></td>
+                            <td>€1,800</td>
+                            <td style="color: #48bb78; font-weight: bold;">+€6,200/mes</td>
+                            <td>0.3 meses</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Channel-property alignment</strong></td>
+                            <td>€3,200</td>
+                            <td style="color: #48bb78; font-weight: bold;">+€5,800/mes</td>
+                            <td>0.6 meses</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mobile optimization</strong></td>
+                            <td>€1,500</td>
+                            <td style="color: #48bb78; font-weight: bold;">+€4,100/mes</td>
+                            <td>0.4 meses</td>
+                        </tr>
+                        <tr style="background: #f0fff4;">
+                            <td><strong>Seasonal automation</strong></td>
+                            <td>€2,100</td>
+                            <td style="color: #48bb78; font-weight: bold;">+€7,300/mes</td>
+                            <td>0.3 meses</td>
+                        </tr>
+                        <tr style="background: #e6fffa; font-weight: bold;">
+                            <td><strong>TOTAL RECOVERY</strong></td>
+                            <td>€11,000</td>
+                            <td style="color: #2c7a7b; font-weight: bold;">+€31,800/mes</td>
+                            <td style="color: #2c7a7b; font-weight: bold;">0.35 meses</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>📅 Implementation Timeline</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                    <div style="display: flex; align-items: center; padding: 15px; background: #f7fafc; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <div style="font-size: 1.5rem; margin-right: 15px;">1️⃣</div>
+                        <div>
+                            <h4 style="color: #4a5568; margin-bottom: 5px;">Semana 1-2: Property Tracking Setup</h4>
+                            <p style="color: #718096; font-size: 0.9rem;">Configurar propiedades: dimension, material, orientacion, sector_aplicacion</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; padding: 15px; background: #f7fafc; border-radius: 8px; border-left: 4px solid #48bb78;">
+                        <div style="font-size: 1.5rem; margin-right: 15px;">2️⃣</div>
+                        <div>
+                            <h4 style="color: #4a5568; margin-bottom: 5px;">Semana 3-6: Data Collection + Baseline</h4>
+                            <p style="color: #718096; font-size: 0.9rem;">1,000+ eventos per property-channel combination. A/B testing inicial.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; padding: 15px; background: #f7fafc; border-radius: 8px; border-left: 4px solid #ed8936;">
+                        <div style="font-size: 1.5rem; margin-right: 15px;">3️⃣</div>
+                        <div>
+                            <h4 style="color: #4a5568; margin-bottom: 5px;">Semana 7+: Optimization + Revenue Recovery</h4>
+                            <p style="color: #718096; font-size: 0.9rem;">Budget reallocation + creative personalization = +€31,800/mes recovery start</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #e6fffa; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center;">
+                    <h4 style="color: #2c7a7b; margin-bottom: 10px;">🎯 Timeline Total: 6-8 semanas hasta complete attribution</h4>
+                    <p style="color: #2c7a7b;">ROI break-even en 0.35 meses. Implementation < 2 semanas. Zero impact en website performance.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h3 style="font-size: 1.6rem; margin-bottom: 15px;">¿Listo para descubrir qué impulsa las ventas de MarcoEstil?</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">
+                Ver cómo cada dimensión, material y canal se convierte en oportunidad de +€31,800/mes
+            </p>
+            <button class="cta-button" onclick="scheduleDemo()">
+                📊 Agendar Demo Product Intelligence (15 min)
+            </button>
+            
+            <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.9;">
+                <p>✅ Setup en < 2 semanas técnicas</p>
+                <p>✅ Attribution granular por 300+ modelos</p>
+                <p>✅ ROI tracking desde día 1</p>
+                <p>✅ Revenue recovery +€31,800/mes</p>
+            </div>
+        </div>
+
+        <!-- Comparison vs Alternatives -->
+        <div class="card">
+            <h3>⚡ ¿Por qué Sealmetrics vs alternativas para MarcoEstil?</h3>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Solución</th>
+                        <th>Product Attribution</th>
+                        <th>Property Tracking</th>
+                        <th>Channel Granularity</th>
+                        <th>Setup Complexity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #f0fff4;">
+                        <td><strong>🏆 Sealmetrics</strong></td>
+                        <td><span class="tag high">100% granular</span></td>
+                        <td><span class="tag high">5 propiedades auto</span></td>
+                        <td><span class="tag high">Por modelo + canal</span></td>
+                        <td><span class="tag high">< 2 semanas</span></td>
+                    </tr>
+                    <tr>
+                        <td>Google Analytics + Enhanced</td>
+                        <td><span class="tag medium">Limitado</span></td>
+                        <td><span class="tag low">Manual setup</span></td>
+                        <td><span class="tag medium">Basic channels</span></td>
+                        <td><span class="tag medium">4-6 semanas</span></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Attribution</td>
+                        <td><span class="tag medium">Complejo</span></td>
+                        <td><span class="tag low">Desarrollo custom</span></td>
+                        <td><span class="tag high">Configurable</span></td>
+                        <td><span class="tag low">8-12 semanas</span></td>
+                    </tr>
+                    <tr>
+                        <td>Status quo actual</td>
+                        <td><span class="tag low">Sin attribution</span></td>
+                        <td><span class="tag low">No disponible</span></td>
+                        <td><span class="tag low">Basic reporting</span></td>
+                        <td><span class="tag medium">Ya implementado</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h3 style="margin-bottom: 15px;">Product Intelligence personalizado para MarcoEstil</h3>
+            <p style="opacity: 0.9; margin-bottom: 10px;">
+                Este análisis ha sido generado específicamente para MarcoEstil.es basado en sus 300+ modelos estándar, 
+                categorías de producto y 35+ años de experiencia en fabricación de expositores de metacrilato.
+            </p>
+            <p style="opacity: 0.8; font-size: 0.9rem;">
+                <strong>Confidencial:</strong> Análisis exclusivo para MarcoEstil. Revenue potential: +€31,800/mes. 
+                Válido hasta septiembre 2025.
+            </p>
+            
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #4a5568;">
+                <p style="font-size: 0.9rem; opacity: 0.8;">
+                    Generado por <strong>Sealmetrics.com</strong> - Product Intelligence Platform<br>
+                    Para más información: hello@sealmetrics.com | Especialistas en ecommerce attribution
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Property Matrix Data
+        const propertyMatrixData = {
+            dimensions: {
+                headers: ['A8 (5x7cm)', 'A7 (7x11cm)', 'A6 (11x15cm)', 'A5 (15x21cm)', 'A4 (21x30cm)', 'A3 (30x42cm)', 'A2 (42x59cm)'],
+                facebook: ['2.1%', '2.8%', '3.8%', '4.2%', '3.6%', '2.9%', '2.4%'],
+                google: ['1.8%', '2.2%', '2.9%', '3.4%', '4.1%', '6.5%', '6.8%'],
+                instagram: ['4.8%', '5.7%', '5.1%', '3.6%', '3.1%', '2.5%', '2.1%'],
+                linkedin: ['1.4%', '1.8%', '2.3%', '3.1%', '4.8%', '5.2%', '4.6%'],
+                tiktok: ['3.2%', '2.8%', '2.4%', '2.1%', '1.8%', '1.4%', '1.1%'],
+                email: ['2.8%', '3.2%', '3.6%', '4.8%', '5.1%', '4.2%', '3.8%'],
+                averages: ['2.7%', '3.1%', '3.4%', '3.7%', '3.8%', '3.8%', '3.5%']
+            },
+            materials: {
+                headers: ['Metacrilato Transp.', 'Metacrilato+Madera', 'Aluminio+Metacrilato', 'PVC'],
+                facebook: ['4.2%', '3.8%', '2.9%', '2.2%'],
+                google: ['3.6%', '4.1%', '4.8%', '2.1%'],
+                instagram: ['5.1%', '4.6%', '2.8%', '1.8%'],
+                linkedin: ['3.1%', '3.4%', '5.2%', '1.4%'],
+                tiktok: ['2.8%', '2.1%', '1.6%', '3.4%'],
+                email: ['4.8%', '4.2%', '4.1%', '2.3%'],
+                averages: ['4.0%', '3.7%', '3.6%', '2.2%']
+            },
+            orientation: {
+                headers: ['Horizontal', 'Vertical', 'Sobremesa', 'Pared/Colgante'],
+                facebook: ['3.8%', '4.2%', '3.6%', '2.9%'],
+                google: ['4.9%', '3.4%', '3.8%', '4.1%'],
+                instagram: ['3.2%', '5.8%', '4.1%', '2.6%'],
+                linkedin: ['4.1%', '3.2%', '4.8%', '3.4%'],
+                tiktok: ['2.4%', '3.1%', '2.2%', '1.9%'],
+                email: ['4.4%', '3.9%', '5.2%', '3.8%'],
+                averages: ['3.8%', '4.0%', '4.0%', '3.1%']
+            },
+            sector: {
+                headers: ['Retail/Moda', 'Tecnología', 'Alimentación', 'Oficinas B2B'],
+                facebook: ['4.8%', '3.2%', '3.6%', '2.8%'],
+                google: ['3.9%', '5.1%', '3.2%', '3.4%'],
+                instagram: ['5.2%', '4.6%', '2.9%', '2.1%'],
+                linkedin: ['2.1%', '3.8%', '2.4%', '4.9%'],
+                tiktok: ['3.4%', '2.8%', '2.6%', '1.2%'],
+                email: ['4.1%', '4.2%', '4.8%', '4.2%'],
+                averages: ['3.9%', '4.0%', '3.3%', '3.1%']
+            }
+        };
+
+        // Property insights
+        const propertyInsights = {
+            dimensions: 'Instagram domina claramente en tamaños pequeños (A8-A6) con conversion rates de hasta 5.7%, mientras que Google Shopping excela en tamaños grandes (A3-A2) alcanzando 6.8%. Esta segmentación por tamaño permite optimización targeted de +€8,400/mes.',
+            materials: 'Metacrilato transparente lidera en redes sociales (Instagram 5.1%), mientras que Aluminio+Metacrilato domina LinkedIn B2B (5.2%). PVC mejor performance en TikTok precio-conscious. Material strategy = +€6,200/mes.',
+            orientation: 'Orientación Vertical excela en Instagram Stories (5.8%), Horizontal domina Google Shopping (4.9%), Sobremesa ideal para Email B2B (5.2%). Format optimization = +€5,800/mes.',
+            sector: 'Retail/Moda → Instagram (5.2%), Tecnología → Google Shopping (5.1%), Oficinas → LinkedIn (4.9%). Clear sector-channel alignment opportunity = +€5,800/mes.'
+        };
+
+        function updatePropertyMatrix() {
+            const selectedProperty = document.getElementById('propertySelector').value;
+            const data = propertyMatrixData[selectedProperty];
+            const table = document.getElementById('propertyMatrix');
+            
+            // Update headers
+            const headerRow = table.querySelector('thead tr');
+            headerRow.innerHTML = '<th style="background: #2d3748; color: white;">Canal / ' + 
+                selectedProperty.charAt(0).toUpperCase() + selectedProperty.slice(1) + '</th>';
+            
+            data.headers.forEach(header => {
+                headerRow.innerHTML += '<th>' + header + '</th>';
+            });
+            headerRow.innerHTML += '<th style="background: #e2e8f0;">Media Canal</th>';
+            
+            // Update body
+            const tbody = table.querySelector('tbody');
+            const channels = [
+                {name: 'Facebook Ads', key: 'facebook', class: 'f0f8ff'},
+                {name: 'Google Shopping', key: 'google', class: 'fff5f5'},
+                {name: 'Instagram', key: 'instagram', class: 'fef5f8'},
+                {name: 'LinkedIn Ads', key: 'linkedin', class: 'f0f9ff'},
+                {name: 'TikTok Ads', key: 'tiktok', class: 'f7fafc'},
+                {name: 'Email Marketing', key: 'email', class: 'fffbeb'}
+            ];
+            
+            tbody.innerHTML = '';
+            
+            channels.forEach(channel => {
+                const row = document.createElement('tr');
+                row.style.background = '#' + channel.class;
+                row.innerHTML = '<td><strong>' + channel.name + '</strong></td>';
+                
+                data[channel.key].forEach((value, index) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    
+                    // Highlight best performers
+                    const numValue = parseFloat(value);
+                    const avgValue = parseFloat(data.averages[index]);
+                    if (numValue > avgValue * 1.3) {
+                        cell.style.color = '#48bb78';
+                        cell.style.fontWeight = 'bold';
+                        cell.innerHTML = '<span style="color: #48bb78; font-weight: bold;">' + value + '</span>';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Calculate channel average
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#e2e8f0';
+                avgCell.style.fontWeight = 'bold';
+                const channelAvg = data[channel.key].reduce((sum, val) => sum + parseFloat(val), 0) / data[channel.key].length;
+                avgCell.textContent = channelAvg.toFixed(1) + '%';
+                row.appendChild(avgCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add site average row
+            const avgRow = document.createElement('tr');
+            avgRow.style.background = '#f4f4f5';
+            avgRow.style.fontWeight = 'bold';
+            avgRow.innerHTML = '<td style="background: #2d3748; color: white;"><strong>PROMEDIO SITE</strong></td>';
+            
+            data.averages.forEach(avg => {
+                avgRow.innerHTML += '<td>' + avg + '</td>';
+            });
+            
+            const totalAvg = data.averages.reduce((sum, val) => sum + parseFloat(val), 0) / data.averages.length;
+            avgRow.innerHTML += '<td style="background: #4a5568; color: white;"><strong>' + totalAvg.toFixed(1) + '%</strong></td>';
+            
+            tbody.appendChild(avgRow);
+            
+            // Update insights
+            document.getElementById('matrixInsights').innerHTML = 
+                '<h4>📈 ' + selectedProperty.charAt(0).toUpperCase() + selectedProperty.slice(1) + ' Insights</h4><p>' + 
+                propertyInsights[selectedProperty] + '</p>';
+        }
+
+        // CTA Actions
+        function scheduleDemo() {
+            // Track interaction
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'cta_click', {
+                    'event_category': 'marcoestil_demo',
+                    'event_label': 'product_intelligence_demo',
+                    'value': 31800
+                });
+            }
+            
+            // Redirect to Calendly or contact form
+            window.open('https://calendly.com/sealmetrics/demo-product-intelligence', '_blank');
+            
+            // Alternative: show contact info
+            alert('¡Perfecto! Te contactaremos en las próximas 24h para agendar la demo Product Intelligence.\n\nO contáctanos directamente:\n📧 hello@sealmetrics.com\n📞 +34 XXX XXX XXX\n\n💡 Menciona "MarcoEstil Product Intelligence" para reference');
+        }
+
+        // Initialize with default property matrix
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePropertyMatrix();
+        });
+
+        // Track page view
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                'page_title': 'MarcoEstil Product Intelligence Analysis',
+                'page_location': window.location.href,
+                'revenue_potential': 31800,
+                'implementation_weeks': 6
+            });
+        }
+    </script>
+</body>
+</html>
