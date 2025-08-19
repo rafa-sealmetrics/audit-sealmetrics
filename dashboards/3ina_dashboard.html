@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3INA Cosmetics Dashboard - Sealmetrics Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .date-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .date-filter select {
+            padding: 8px 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value.positive { color: #ff6b9d; }
+        .metric-value.negative { color: #f56565; }
+        .metric-value.neutral { color: #667eea; }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+        
+        .metric-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+        
+        .metric-change.up {
+            background: #fce7f3;
+            color: #be185d;
+        }
+        
+        .metric-change.down {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .alert {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            font-size: 0.9rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .tag.high { background: #fce7f3; color: #be185d; }
+        .tag.medium { background: #fef5e7; color: #744210; }
+        .tag.low { background: #fed7d7; color: #742a2a; }
+        
+        .recommendation {
+            background: #f0fff4;
+            border-left: 4px solid #ff6b9d;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .recommendation h4 {
+            color: #be185d;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        .recommendation p {
+            color: #2f855a;
+            font-size: 0.9rem;
+        }
+        
+        .channel-card {
+            border-left: 4px solid;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .facebook { border-color: #1877f2; background: #f0f8ff; }
+        .instagram { border-color: #e4405f; background: #fef5f8; }
+        .google { border-color: #ea4335; background: #fff5f5; }
+        .tiktok { border-color: #000000; background: #f7fafc; }
+        
+        .color-code-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin: 2px;
+        }
+        
+        .code-503 { background: #fce7f3; color: #be185d; }
+        .code-850 { background: #dbeafe; color: #1e40af; }
+        .code-312 { background: #fef3c7; color: #d97706; }
+        .code-575 { background: #d1fae5; color: #059669; }
+        .code-172 { background: #f3e8ff; color: #7c3aed; }
+        
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                text-align: center;
+            }
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #ff6b9d;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .interactive-controls {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .interactive-controls select {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-right: 15px;
+        }
+        
+        .interactive-controls button {
+            padding: 8px 16px;
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .interactive-controls button:hover {
+            background: #e91e63;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <h1><span class="live-indicator"></span>3INA Cosmetics Analytics Dashboard</h1>
+            <div class="subtitle">Color Beauty Analytics - Gen Z Performance Intelligence | Made in Europe, Loved Worldwide</div>
+            <div class="date-filter">
+                <select>
+                    <option>Últimas 24h</option>
+                    <option>Última semana</option>
+                    <option>Último mes</option>
+                    <option>Último trimestre</option>
+                </select>
+                <select>
+                    <option>Todos los canales</option>
+                    <option>Solo paid social</option>
+                    <option>Solo organic</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Executive KPIs -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">100%</div>
+                <div class="metric-label">Color Code Tracking</div>
+                <div class="metric-change up">vs 45% GA4 = +€47,800/mes revenue visibility</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">€89,340</div>
+                <div class="metric-label">Gen Z Revenue/Mes</div>
+                <div class="metric-change up">+52% vs tradicional = +€31,200/mes optimization</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value positive">187,432</div>
+                <div class="metric-label">Multitasking Product Hits</div>
+                <div class="metric-change up">+28% vs single-use = +€12,800/día revenue</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">€0.34</div>
+                <div class="metric-label">Cost per Color Code Hit</div>
+                <div class="metric-change down">-15% vs industry = +€8,900/mes savings</div>
+            </div>
+        </div>
+
+        <!-- Color Intelligence Alert -->
+        <div class="alert">
+            <h3>🎨 Color Intelligence Opportunities</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 8px 0;">• Color Code 503 (nude pink) domina Instagram con 18% más conversión que otros códigos</li>
+                <li style="padding: 8px 0;">• Color Code 850 (electric blue) tiene 34% mejor performance en TikTok vs otros canales</li>
+                <li style="padding: 8px 0;">• Productos multitasking 3-en-1 generan 42% más AOV en mobile que desktop</li>
+                <li style="padding: 8px 0;">• Acabados Shimmer/Metálicos tienen 25% más engagement en Stories vs Feed</li>
+            </ul>
+        </div>
+
+        <!-- Channel Performance -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>💄 Channel Performance by Color Intelligence</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Canal</th>
+                            <th>Hits</th>
+                            <th>Top Color Code</th>
+                            <th>ROI Score</th>
+                            <th>Revenue Potential</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag high">Instagram</span></td>
+                            <td>78,923</td>
+                            <td><span class="code-503">503</span> (Nude Pink)</td>
+                            <td>9.4/10</td>
+                            <td><span style="color: #ff6b9d; font-weight: bold;">+€23,400/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag high">TikTok Ads</span></td>
+                            <td>52,167</td>
+                            <td><span class="code-850">850</span> (Electric Blue)</td>
+                            <td>8.9/10</td>
+                            <td><span style="color: #ff6b9d; font-weight: bold;">+€18,700/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Facebook Ads</span></td>
+                            <td>41,234</td>
+                            <td><span class="code-312">312</span> (Golden Glow)</td>
+                            <td>7.8/10</td>
+                            <td><span style="color: #ecc94b; font-weight: bold;">+€14,200/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Google Shopping</span></td>
+                            <td>29,891</td>
+                            <td><span class="code-172">172</span> (Classic Red)</td>
+                            <td>7.2/10</td>
+                            <td><span style="color: #f56565; font-weight: bold;">+€8,900/mes</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">🎯 Color Intelligence Insights</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Instagram domina con color codes de alta pigmentación. TikTok responde mejor a colores audaces. Optimizar creative strategy por color code = +€65,200/mes de potential.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🌈 Top Color Codes by Channel</h3>
+                
+                <div class="channel-card instagram">
+                    <strong>Instagram</strong> <span style="color: #ff6b9d; font-size: 0.9em;">(Gen Z magnet)</span><br>
+                    1. <span class="code-503">503 Nude Pink</span> (4,847 hits) - <em>Everyday glam favorite</em><br>
+                    2. <span class="code-575">575 Coral Pop</span> (3,234 hits) - <em>Summer vibes champion</em><br>
+                    3. <span class="code-312">312 Golden Glow</span> (2,891 hits) - <em>Highlight superstar</em>
+                </div>
+                
+                <div class="channel-card tiktok">
+                    <strong>TikTok Ads</strong> <span style="color: #ff6b9d; font-size: 0.9em;">(bold color wins)</span><br>
+                    1. <span class="code-850">850 Electric Blue</span> (3,567 hits) - <em>Viral challenger</em><br>
+                    2. <span class="code-172">172 Classic Red</span> (2,445 hits) - <em>Statement maker</em><br>
+                    3. <span class="code-503">503 Nude Pink</span> (2,123 hits) - <em>Versatile crossover</em>
+                </div>
+                
+                <div class="channel-card facebook">
+                    <strong>Facebook Ads</strong> <span style="color: #ff6b9d; font-size: 0.9em;">(multi-age appeal)</span><br>
+                    1. <span class="code-312">312 Golden Glow</span> (2,987 hits) - <em>Universal favorite</em><br>
+                    2. <span class="code-503">503 Nude Pink</span> (2,567 hits) - <em>Safe bestseller</em><br>
+                    3. <span class="code-575">575 Coral Pop</span> (1,834 hits) - <em>Seasonal performer</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Matrix Controls -->
+        <div class="interactive-controls">
+            <label style="font-weight: 600; margin-right: 15px;">Análisis Dinámico:</label>
+            <select id="attributeSelector">
+                <option value="colorCodes">Color Codes</option>
+                <option value="finishes">Acabados (Matte/Shimmer)</option>
+                <option value="duration">Duración (24H/12H/5H)</option>
+                <option value="categories">Categorías (Eyes/Lips/Face)</option>
+            </select>
+            <button onclick="updateMatrix()">Actualizar Análisis</button>
+        </div>
+
+        <!-- Interactive Conversion Matrix -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🔢 Color Code Performance Matrix: Canales vs Números Icónicos</h3>
+                <div style="overflow-x: auto;">
+                    <table class="table" id="conversionMatrix">
+                        <thead>
+                            <tr>
+                                <th style="background: #ff6b9d; color: white;">Canal / Color Code</th>
+                                <th>503</th>
+                                <th>850</th>
+                                <th>312</th>
+                                <th>575</th>
+                                <th>172</th>
+                                <th>677</th>
+                                <th style="background: #e2e8f0;">Media Canal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #fff5f5;">
+                                <td><strong>Google Shopping</strong></td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.5%</span></td>
+                                <td>2.8%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.0%</span></td>
+                                <td>3.2%</td>
+                                <td>2.9%</td>
+                                <td style="background: #e2e8f0;"><strong>3.5%</strong></td>
+                            </tr>
+                            <tr style="background: #fffbeb;">
+                                <td><strong>Email Marketing</strong></td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.7%</span></td>
+                                <td>4.1%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.9%</span></td>
+                                <td>4.3%</td>
+                                <td>4.2%</td>
+                                <td style="background: #e2e8f0;"><strong>4.4%</strong></td>
+                            </tr>
+                            <tr style="background: #f4f4f5; font-weight: bold;">
+                                <td style="background: #ff6b9d; color: white;"><strong>MEDIA SITE</strong></td>
+                                <td>4.0%</td>
+                                <td>4.4%</td>
+                                <td>4.1%</td>
+                                <td>4.0%</td>
+                                <td>4.6%</td>
+                                <td style="background: #4a5568; color: white;"><strong>4.2%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>✨ Finish Strategy Insights</h4>
+                    <p>Shimmer y Metallic dominan en Instagram/TikTok (audiencias Gen Z). Matte y Semi-matte mejor en Facebook/Google (audiencias más maduras). Creative strategy por finish = +€28,900/mes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Performance -->
+        <div class="grid grid-3">
+            <div class="card">
+                <h3>👁️ Eyes Category Performance</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Hits</th>
+                            <th>Conv. Rate</th>
+                            <th>Top Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Color Mascara 850</td>
+                            <td>8,945</td>
+                            <td><span class="tag high">6.2%</span></td>
+                            <td>TikTok (viral)</td>
+                        </tr>
+                        <tr>
+                            <td>24H Eyeliner 503</td>
+                            <td>7,234</td>
+                            <td><span class="tag high">5.8%</span></td>
+                            <td>Instagram</td>
+                        </tr>
+                        <tr>
+                            <td>Eyeshadow Palette</td>
+                            <td>5,678</td>
+                            <td><span class="tag medium">4.1%</span></td>
+                            <td>YouTube</td>
+                        </tr>
+                        <tr>
+                            <td>No-Rules Stick 312</td>
+                            <td>4,567</td>
+                            <td><span class="tag medium">4.7%</span></td>
+                            <td>Instagram</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>💋 Lips Category Performance</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Hits</th>
+                            <th>Conv. Rate</th>
+                            <th>Top Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>The Lipstick 503</td>
+                            <td>12,345</td>
+                            <td><span class="tag high">5.9%</span></td>
+                            <td>Instagram</td>
+                        </tr>
+                        <tr>
+                            <td>Longwear Lipstick</td>
+                            <td>9,876</td>
+                            <td><span class="tag high">5.2%</span></td>
+                            <td>Email</td>
+                        </tr>
+                        <tr>
+                            <td>Lip Pencil 850</td>
+                            <td>6,234</td>
+                            <td><span class="tag medium">4.3%</span></td>
+                            <td>TikTok</td>
+                        </tr>
+                        <tr>
+                            <td>Glossy Lip 575</td>
+                            <td>5,432</td>
+                            <td><span class="tag medium">4.8%</span></td>
+                            <td>Instagram</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🌟 Face Category Performance</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Hits</th>
+                            <th>Conv. Rate</th>
+                            <th>Top Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>3-in-1 Foundation</td>
+                            <td>8,765</td>
+                            <td><span class="tag high">5.5%</span></td>
+                            <td>Instagram</td>
+                        </tr>
+                        <tr>
+                            <td>Matte Face Palette</td>
+                            <td>6,543</td>
+                            <td><span class="tag medium">4.9%</span></td>
+                            <td>YouTube</td>
+                        </tr>
+                        <tr>
+                            <td>Blush 503</td>
+                            <td>5,234</td>
+                            <td><span class="tag medium">4.2%</span></td>
+                            <td>Facebook</td>
+                        </tr>
+                        <tr>
+                            <td>Highlighter 312</td>
+                            <td>4,321</td>
+                            <td><span class="tag high">5.1%</span></td>
+                            <td>Instagram</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Cart Abandonment by Color Code -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🛒 Cart Abandonment por Color Code</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Color Code</th>
+                            <th>Añadido al Carrito</th>
+                            <th>Abandonado</th>
+                            <th>Abandono %</th>
+                            <th>Revenue Perdido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-850">850 Electric Blue</span></td>
+                            <td>2,847</td>
+                            <td>1,923</td>
+                            <td><span class="tag high">67.5%</span></td>
+                            <td>€58,430</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-503">503 Nude Pink</span></td>
+                            <td>3,456</td>
+                            <td>1,847</td>
+                            <td><span class="tag medium">53.4%</span></td>
+                            <td>€42,890</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-312">312 Golden Glow</span></td>
+                            <td>2,234</td>
+                            <td>1,123</td>
+                            <td><span class="tag medium">50.3%</span></td>
+                            <td>€31,670</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-575">575 Coral Pop</span></td>
+                            <td>1,987</td>
+                            <td>894</td>
+                            <td><span class="tag low">45.0%</span></td>
+                            <td>€24,580</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-172">172 Classic Red</span></td>
+                            <td>1,789</td>
+                            <td>716</td>
+                            <td><span class="tag low">40.0%</span></td>
+                            <td>€19,450</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">💡 Cart Recovery Insights</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Color 850 (Electric Blue) tiene highest abandonment pero también highest value. Implementar urgency campaigns para colores audaces = +€35,200/mes recovery.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Demographic Performance</h3>
+                <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #fef5f8; border-radius: 8px;">
+                        <div>
+                            <h4 style="color: #be185d; margin-bottom: 5px;">Gen Z (16-24)</h4>
+                            <p style="color: #be185d; font-size: 0.9rem;">67% de traffic, AMV €28.90</p>
+                        </div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #ff6b9d;">+€31,200</div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f0f8ff; border-radius: 8px;">
+                        <div>
+                            <h4 style="color: #1e40af; margin-bottom: 5px;">Millennials (25-40)</h4>
+                            <p style="color: #1e40af; font-size: 0.9rem;">28% de traffic, AMV €42.10</p>
+                        </div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #667eea;">+€18,700</div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #fef3c7; border-radius: 8px;">
+                        <div>
+                            <h4 style="color: #d97706; margin-bottom: 5px;">Gen X+ (40+)</h4>
+                            <p style="color: #d97706; font-size: 0.9rem;">5% de traffic, AMV €51.30</p>
+                        </div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #f59e0b;">+€4,800</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategic Recommendations -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🧠 AI-Powered Strategic Recommendations for 3INA</h3>
+                
+                <div class="recommendation">
+                    <h4>1. Color Code Channel Optimization</h4>
+                    <p>Color 503 domina Instagram (5.2% vs 3.8% media). Color 850 lidera TikTok (6.1% vs 3.6%). Segmentar campaigns por color code específico = +€42,300/mes revenue potential.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>2. Multitasking Product Strategy</h4>
+                    <p>Productos 3-en-1 generan 42% más AOV (€34.50 vs €24.20). Focus en Gen Z que valora versatilidad. Scale multitasking portfolio = +€28,900/mes.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>3. Finish-Based Creative Strategy</h4>
+                    <p>Shimmer/Metallic dominan Stories (6.1% conversion vs 4.0% matte). Matte mejor en Google Shopping. Optimizar creative por finish/channel = +€31,200/mes.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>4. Cart Recovery por Color Intensity</h4>
+                    <p>Colores audaces (850, 172) tienen 67% abandonment pero highest value. Implementar urgency retargeting para bold colors = +€35,200/mes recovery.</p>
+                </div>
+
+                <div class="recommendation">
+                    <h4>5. Demographic Color Preferences</h4>
+                    <p>Gen Z prefiere colores audaces en TikTok/Instagram. Millennials compran classics en Facebook/Email. Segmentar color portfolio por demo = +€24,800/mes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer CTA -->
+        <div style="background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%); color: white; border-radius: 12px; padding: 30px; text-align: center; margin-top: 30px;">
+            <h3 style="font-size: 1.6rem; margin-bottom: 15px;">¿Listo para revolucionar tu Color Intelligence?</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 20px; opacity: 0.9;">
+                Descubre cómo 3INA puede optimizar cada Color Code, acabado y categoría con Sealmetrics
+            </p>
+            <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.9;">
+                <p>✨ 100% Color Code tracking visibility</p>
+                <p>🎨 Finish & Category attribution completa</p>
+                <p>🚀 Multitasking product intelligence</p>
+                <p>💄 Gen Z behavior insights</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive Matrix Data for 3INA
+        const matrixData = {
+            colorCodes: {
+                headers: ['503', '850', '312', '575', '172', '677'],
+                instagram: ['5.2%', '3.8%', '4.7%', '4.3%', '3.9%', '3.4%'],
+                tiktok: ['3.4%', '6.1%', '2.9%', '3.2%', '4.8%', '2.7%'],
+                facebook: ['4.1%', '2.8%', '4.9%', '3.7%', '3.5%', '3.1%'],
+                google: ['3.2%', '2.1%', '3.8%', '2.9%', '4.2%', '3.6%'],
+                email: ['4.8%', '3.1%', '4.2%', '4.6%', '3.8%', '3.9%'],
+                averages: ['4.1%', '3.6%', '4.1%', '3.7%', '4.0%', '3.3%']
+            },
+            finishes: {
+                headers: ['Matte', 'Shimmer', 'Semi-matte', 'Glossy', 'Metallic'],
+                instagram: ['3.8%', '5.9%', '4.2%', '4.7%', '6.1%'],
+                tiktok: ['2.9%', '5.4%', '3.1%', '4.2%', '5.8%'],
+                facebook: ['4.2%', '3.6%', '4.1%', '3.8%', '3.9%'],
+                google: ['4.5%', '2.8%', '4.0%', '3.2%', '2.9%'],
+                email: ['4.7%', '4.1%', '4.9%', '4.3%', '4.2%'],
+                averages: ['4.0%', '4.4%', '4.1%', '4.0%', '4.6%']
+            },
+            duration: {
+                headers: ['24H', '12H', '5H', 'Waterproof', 'Standard'],
+                instagram: ['4.9%', '4.2%', '3.8%', '5.8%', '3.5%'],
+                tiktok: ['3.8%', '4.6%', '4.1%', '4.2%', '3.9%'],
+                facebook: ['5.2%', '3.9%', '3.6%', '4.1%', '3.7%'],
+                google: ['4.1%', '3.4%', '3.2%', '3.8%', '3.5%'],
+                email: ['5.6%', '4.7%', '4.2%', '5.1%', '4.3%'],
+                averages: ['4.7%', '4.2%', '3.8%', '4.6%', '3.8%']
+            },
+            categories: {
+                headers: ['Eyes', 'Lips', 'Face', 'Tools', 'Multitasking'],
+                instagram: ['5.8%', '5.2%', '4.1%', '2.9%', '6.1%'],
+                tiktok: ['6.2%', '4.3%', '3.8%', '2.1%', '5.4%'],
+                facebook: ['4.2%', '4.9%', '4.6%', '3.2%', '4.8%'],
+                google: ['3.8%', '4.1%', '4.2%', '3.8%', '3.9%'],
+                email: ['4.6%', '5.8%', '5.1%', '3.6%', '5.2%'],
+                averages: ['4.9%', '4.9%', '4.4%', '3.1%', '5.1%']
+            }
+        };
+
+        function updateMatrix() {
+            const selectedAttribute = document.getElementById('attributeSelector').value;
+            const data = matrixData[selectedAttribute];
+            const table = document.getElementById('conversionMatrix');
+            
+            // Update headers
+            const headerRow = table.querySelector('thead tr');
+            headerRow.innerHTML = '<th style="background: #ff6b9d; color: white;">Canal / ' + 
+                selectedAttribute.charAt(0).toUpperCase() + selectedAttribute.slice(1) + '</th>';
+            
+            data.headers.forEach(header => {
+                headerRow.innerHTML += '<th>' + header + '</th>';
+            });
+            headerRow.innerHTML += '<th style="background: #e2e8f0;">Media Canal</th>';
+            
+            // Update body
+            const tbody = table.querySelector('tbody');
+            const channels = [
+                {name: 'Instagram', key: 'instagram', class: 'fef5f8'},
+                {name: 'TikTok Ads', key: 'tiktok', class: 'f7fafc'},
+                {name: 'Facebook Ads', key: 'facebook', class: 'f0f8ff'},
+                {name: 'Google Shopping', key: 'google', class: 'fff5f5'},
+                {name: 'Email Marketing', key: 'email', class: 'fffbeb'}
+            ];
+            
+            tbody.innerHTML = '';
+            
+            channels.forEach(channel => {
+                const row = document.createElement('tr');
+                row.style.background = '#' + channel.class;
+                row.innerHTML = '<td><strong>' + channel.name + '</strong></td>';
+                
+                data[channel.key].forEach((value, index) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    
+                    // Highlight best performers
+                    const numValue = parseFloat(value);
+                    const avgValue = parseFloat(data.averages[index]);
+                    if (numValue > avgValue * 1.3) {
+                        cell.style.color = '#ff6b9d';
+                        cell.style.fontWeight = 'bold';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Calculate channel average
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#e2e8f0';
+                avgCell.style.fontWeight = 'bold';
+                const channelAvg = data[channel.key].reduce((sum, val) => sum + parseFloat(val), 0) / data[channel.key].length;
+                avgCell.textContent = channelAvg.toFixed(1) + '%';
+                row.appendChild(avgCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add site average row
+            const avgRow = document.createElement('tr');
+            avgRow.style.background = '#f4f4f5';
+            avgRow.style.fontWeight = 'bold';
+            avgRow.innerHTML = '<td style="background: #ff6b9d; color: white;"><strong>MEDIA SITE</strong></td>';
+            
+            data.averages.forEach(avg => {
+                avgRow.innerHTML += '<td>' + avg + '</td>';
+            });
+            
+            const totalAvg = data.averages.reduce((sum, val) => sum + parseFloat(val), 0) / data.averages.length;
+            avgRow.innerHTML += '<td style="background: #4a5568; color: white;"><strong>' + totalAvg.toFixed(1) + '%</strong></td>';
+            
+            tbody.appendChild(avgRow);
+        }
+
+        // Simulate real-time color code tracking
+        function updateColorCodeMetrics() {
+            const metrics = document.querySelectorAll('.metric-value');
+            metrics.forEach(metric => {
+                if (metric.textContent.includes('%')) {
+                    let current = parseFloat(metric.textContent.replace('%', ''));
+                    current += (Math.random() - 0.5) * 0.1;
+                    metric.textContent = current.toFixed(1) + '%';
+                }
+            });
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMatrix();
+            setInterval(updateColorCodeMetrics, 5000);
+        });
+    </script>
+</body>
+</html>background: #fef5f8;">
+                                <td><strong>Instagram</strong></td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">5.2%</span></td>
+                                <td>3.8%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.7%</span></td>
+                                <td>4.3%</td>
+                                <td>3.9%</td>
+                                <td>3.4%</td>
+                                <td style="background: #e2e8f0;"><strong>4.2%</strong></td>
+                            </tr>
+                            <tr style="background: #f7fafc;">
+                                <td><strong>TikTok Ads</strong></td>
+                                <td>3.4%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">6.1%</span></td>
+                                <td>2.9%</td>
+                                <td>3.2%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.8%</span></td>
+                                <td>2.7%</td>
+                                <td style="background: #e2e8f0;"><strong>3.9%</strong></td>
+                            </tr>
+                            <tr style="background: #f0f8ff;">
+                                <td><strong>Facebook Ads</strong></td>
+                                <td>4.1%</td>
+                                <td>2.8%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.9%</span></td>
+                                <td>3.7%</td>
+                                <td>3.5%</td>
+                                <td>3.1%</td>
+                                <td style="background: #e2e8f0;"><strong>3.7%</strong></td>
+                            </tr>
+                            <tr style="background: #fff5f5;">
+                                <td><strong>Google Shopping</strong></td>
+                                <td>3.2%</td>
+                                <td>2.1%</td>
+                                <td>3.8%</td>
+                                <td>2.9%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.2%</span></td>
+                                <td>3.6%</td>
+                                <td style="background: #e2e8f0;"><strong>3.3%</strong></td>
+                            </tr>
+                            <tr style="background: #fffbeb;">
+                                <td><strong>Email Marketing</strong></td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.8%</span></td>
+                                <td>3.1%</td>
+                                <td>4.2%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.6%</span></td>
+                                <td>3.8%</td>
+                                <td>3.9%</td>
+                                <td style="background: #e2e8f0;"><strong>4.1%</strong></td>
+                            </tr>
+                            <tr style="background: #f4f4f5; font-weight: bold;">
+                                <td style="background: #ff6b9d; color: white;"><strong>MEDIA SITE</strong></td>
+                                <td>4.1%</td>
+                                <td>3.6%</td>
+                                <td>4.1%</td>
+                                <td>3.7%</td>
+                                <td>4.0%</td>
+                                <td>3.3%</td>
+                                <td style="background: #4a5568; color: white;"><strong>3.8%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>💡 Color Code Intelligence</h4>
+                    <p>Color 503 (Nude Pink) domina Instagram y Email Marketing. Color 850 (Electric Blue) lidera TikTok con 6.1% conversion. Segmentar campaigns por color code específico = +€42,300/mes potential.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multitasking Products Performance -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>✨ Multitasking 3-in-1 Performance</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto 3-en-1</th>
+                            <th>Hits Totales</th>
+                            <th>Best Channel</th>
+                            <th>Conversion</th>
+                            <th>AOV</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>3-in-1 Color 503</strong></td>
+                            <td>12,847</td>
+                            <td>Instagram (67%)</td>
+                            <td>5.8%</td>
+                            <td>€34.50</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-in-1 Color 850</strong></td>
+                            <td>9,234</td>
+                            <td>TikTok (73%)</td>
+                            <td>6.2%</td>
+                            <td>€31.20</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-in-1 Color 312</strong></td>
+                            <td>8,567</td>
+                            <td>Facebook (58%)</td>
+                            <td>4.9%</td>
+                            <td>€29.80</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-in-1 Color 575</strong></td>
+                            <td>7,123</td>
+                            <td>Instagram (62%)</td>
+                            <td>5.1%</td>
+                            <td>€32.10</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background: #f0fff4; border: 1px solid #38a169; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #22543d; margin-bottom: 10px;">🚀 Multitasking Advantage</h4>
+                    <p style="color: #2f855a; font-size: 0.9rem;">Productos 3-en-1 generan 42% más AOV que productos individuales. Ideal para Gen Z que busca versatilidad y value-for-money.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⏰ Durabilidad vs Performance</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Duración</th>
+                            <th>Productos</th>
+                            <th>Conversion Rate</th>
+                            <th>AOV</th>
+                            <th>Target Demo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fef5e7;">
+                            <td><strong>24H Performance</strong></td>
+                            <td>147</td>
+                            <td><span class="tag high">4.8%</span></td>
+                            <td>€38.90</td>
+                            <td>Working Millennials</td>
+                        </tr>
+                        <tr>
+                            <td><strong>12H Lasting</strong></td>
+                            <td>89</td>
+                            <td><span class="tag medium">3.9%</span></td>
+                            <td>€31.20</td>
+                            <td>Gen Z Students</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5H Standard</strong></td>
+                            <td>234</td>
+                            <td><span class="tag medium">3.4%</span></td>
+                            <td>€24.80</td>
+                            <td>Price-conscious</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Waterproof</strong></td>
+                            <td>112</td>
+                            <td><span class="tag high">5.2%</span></td>
+                            <td>€42.10</td>
+                            <td>Active Lifestyle</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Finish Performance Analysis -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🎨 Acabado Performance Matrix: Canales vs Finish Type</h3>
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="background: #ff6b9d; color: white;">Canal / Acabado</th>
+                                <th>Matte</th>
+                                <th>Shimmer</th>
+                                <th>Semi-matte</th>
+                                <th>Glossy</th>
+                                <th>Metallic</th>
+                                <th style="background: #e2e8f0;">Media Canal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #fef5f8;">
+                                <td><strong>Instagram</strong></td>
+                                <td>3.8%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">5.9%</span></td>
+                                <td>4.2%</td>
+                                <td>4.7%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">6.1%</span></td>
+                                <td style="background: #e2e8f0;"><strong>4.9%</strong></td>
+                            </tr>
+                            <tr style="background: #f7fafc;">
+                                <td><strong>TikTok Ads</strong></td>
+                                <td>2.9%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">5.4%</span></td>
+                                <td>3.1%</td>
+                                <td>4.2%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">5.8%</span></td>
+                                <td style="background: #e2e8f0;"><strong>4.3%</strong></td>
+                            </tr>
+                            <tr style="background: #f0f8ff;">
+                                <td><strong>Facebook Ads</strong></td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.2%</span></td>
+                                <td>3.6%</td>
+                                <td><span style="color: #ff6b9d; font-weight: bold;">4.1%</span></td>
+                                <td>3.8%</td>
+                                <td>3.9%</td>
+                                <td style="background: #e2e8f0;"><strong>3.9%</strong></td>
+                            </tr>
+                            <tr style="
