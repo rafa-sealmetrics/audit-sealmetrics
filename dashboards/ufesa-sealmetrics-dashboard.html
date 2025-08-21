@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <script>
-/* SealMetrics Tracker Code */
-(function() {
-var options = {
-   account: '68a4a04603963e02af56487f',
-   event: 'pageview',
-   use_session: 1,
-};
-var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var script=document.createElement("script");script.src=url;script.async=true;script.onload=function(){if(typeof callback==="function"){callback();}};script.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(script);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}});
-})();
-/* End SealMetrics Tracker Code */
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ufesa - Dashboard Sealmetrics | Product Intelligence</title>
@@ -278,7 +266,7 @@ var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var
         }
 
         .ufesa-brand {
-            color: #FF6B35;
+            color: white;
             font-weight: 700;
         }
     </style>
@@ -1058,6 +1046,20 @@ var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var
             updateMatrix();
             setInterval(updateCounter, 3000);
         });
+    </script>
+
+    <!-- SealMetrics Tracking Pixel -->
+    <script>
+    /* SealMetrics Tracker Code */
+    (function() {
+    var options = {
+       account: '68a4a04603963e02af56487f',
+       event: 'pageview',
+       use_session: 1,
+    };
+    var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var script=document.createElement("script");script.src=url;script.async=true;script.onload=function(){if(typeof callback==="function"){callback();}};script.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(script);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}});
+    })();
+    /* End SealMetrics Tracker Code */
     </script>
 </body>
 </html>
