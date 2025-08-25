@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Informe de Ventas — J</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  :root {
+    --color-primary: #2563eb;
+    --color-primary-dark: #1e40af;
+    --color-secondary: #4f46e5;
+    --color-bg-light: #f3f4f6;
+    --color-text-primary: #111827;
+    --color-text-secondary: #475569;
+    --color-success: #16a34a;
+    --color-warning: #facc15;
+  }
+  body {
+    margin: 0; padding: 24px; font-family: 'Inter', sans-serif; background-color: var(--color-bg-light); color: var(--color-text-primary);
+  }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
+    padding: 32px 40px;
+  }
+  h1 {
+    margin: 0 0 8px 0;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--color-primary-dark);
+  }
+  p.summary {
+    margin: 0 0 30px 0;
+    font-weight: 500;
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+  }
+  section {
+    margin-bottom: 36px;
+  }
+  /* Tabla métricas */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-weight: 500;
+    margin-top: 16px;
+  }
+  th, td {
+    border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+    padding: 12px 14px;
+    font-size: 1rem;
+    color: var(--color-text-primary);
+  }
+  th {
+    background: #f9fafb;
+    font-weight: 600;
+  }
+  /* Gráficos */
+  .charts {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .chart {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 22px 26px;
+    flex: 1 1 45%;
+    min-width: 280px;
+    box-shadow: inset 0 0 5px rgb(0 0 0 / 0.03);
+  }
+  .chart h3 {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 1.175rem;
+    color: var(--color-secondary);
+    margin-bottom: 16px;
+  }
+  /* Barras para tasa de conversión */
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--color-text-primary);
+  }
+  .bar-wrapper {
+    background: #e0e7ff;
+    border-radius: 12px;
+    height: 16px;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.6s ease;
+  }
+  .bar-facebook {
+    background-color: #2563eb;
+  }
+  .bar-google {
+    background-color: #4f46e5;
+  }
+  .bar-email {
+    background-color: #4338ca;
+  }
+  /* Pie chart legend */
+  .legend {
+    margin-top: 14px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
+  }
+  .legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 14px;
+  }
+  .legend-black { background: #1f2937; }
+  .legend-white { background: #f9fafb; border: 1.5px solid #6b7280; }
+  .legend-gray { background: #6b7280; }
+  /* Insights */
+  ul.insights {
+    padding-left: 20px;
+    list-style-type: disc;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  /* Conclusión */
+  .conclusion {
+    font-weight: 700;
+    font-size: 1.125rem;
+    text-align: center;
+    color: var(--color-success);
+    margin-top: 48px;
+  }
+  @media(max-width: 650px){
+    .charts {
+      flex-direction: column;
+    }
+    .chart {
+      flex-basis: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <main role="main" aria-label="Informe personalizado de ventas para J">
+    <h1>Informe de Ventas — J</h1>
+    <p class="summary">Con Sealmetrics, J puede identificar los atributos de producto y canales que generan mayor conversión, permitiendo optimizar campañas y aumentar ventas efectivamente.</p>
+    <section aria-labelledby="metricas-title">
+      <h2 id="metricas-title" style="font-weight:600; font-size:1.3rem; color:#4f46e5;">Métricas Clave</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Canal</th>
+            <th>Conversiones</th>
+            <th>Tasa de Conversión</th>
+            <th>Color más vendido</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Facebook Ads</td>
+            <td>120</td>
+            <td>4.2%</td>
+            <td>Negro</td>
+          </tr>
+          <tr>
+            <td>Google Ads</td>
+            <td>85</td>
+            <td>5.1%</td>
+            <td>Blanco</td>
+          </tr>
+          <tr>
+            <td>Email Marketing</td>
+            <td>50</td>
+            <td>6.0%</td>
+            <td>Gris</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section aria-labelledby="visualizaciones-title">
+      <h2 id="visualizaciones-title" style="font-weight:600; font-size:1.3rem; color:#4f46e5; margin-bottom:20px;">Visualizaciones Sugeridas</h2>
+      <div class="charts">
+        <div class="chart" role="img" aria-label="Gráfico de barras sobre tasa de conversión por canal">
+          <h3>Tasa de Conversión por Canal</h3>
+          <div>
+            <div class="bar-label"><span>Email Marketing</span><span>6.0%</span></div>
+            <div class="bar-wrapper"><div class="bar-fill bar-email" style="width:60%;"></div></div>
+            <div class="bar-label"><span>Google Ads</span><span>5.1%</span></div>
+            <div class="bar-wrapper"><div class="bar-fill bar-google" style="width:51%;"></div></div>
+            <div class="bar-label"><span>Facebook Ads</span><span>4.2%</span></div>
+            <div class="bar-wrapper"><div class="bar-fill bar-facebook" style="width:42%;"></div></div>
+          </div>
+        </div>
+        <div class="chart" role="img" aria-label="Gráfico circular mostrando distribución de conversiones por color de producto">
+          <h3>Distribución de Conversiones por Color</h3>
+          <svg viewBox="0 0 120 120" width="100%" height="180" aria-hidden="true" focusable="false" style="display:block; margin:auto;">
+            <circle r="60" cx="60" cy="60" fill="#f9fafb" />
+            <path d="M60 0 A60 60 0 0 1 106 72 L60 60 Z" fill="#1f2937" />
+            <path d="M106 72 A60 60 0 0 1 56 118 L60 60 Z" fill="#6b7280" />
+            <path d="M56 118 A60 60 0 0 1 60 0 L60 60 Z" fill="#f9fafb" />
+          </svg>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-color legend-black"></div>Negro - 45%</div>
+            <div class="legend-item"><div class="legend-color legend-gray"></div>Gris - 23%</div>
+            <div class="legend-item"><div class="legend-color legend-white"></div>Blanco - 32%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section aria-labelledby="insights-title">
+      <h2 id="insights-title" style="font-weight:600; font-size:1.3rem; color:#4f46e5; margin-bottom:20px;">Insights Clave y Recomendaciones</h2>
+      <ul class="insights">
+        <li>Facebook Ads genera el mayor volumen de conversiones con alta preferencia en productos negro → Recomendamos potenciar campañas con destacados visuales en negro para aumentar alcance y ventas.</li>
+        <li>Google Ads presenta la tasa de conversión más alta (5.1%) enfocada en productos blancos → Optimizar keywords y segmentación en Google centradas en esta propiedad para maximizar ROI.</li>
+        <li>Email Marketing tiene la mejor tasa relativa (6.0%) con foco en productos grises → Potenciar segmentación por comportamiento para personalizar newsletters y mejorar engagement.</li>
+        <li>Incluir análisis de propiedades adicionales como material (ej. algodón vs poliéster) y uso (casual, oficina, deportivo) permitirá identificar combinaciones ganadoras y orientar mejor inventarios y promociones.</li>
+        <li>Implementar segmentación continua mediante Sealmetrics optimiza presupuesto, mejora resultados por canal y facilita la detección temprana de tendencias en producto.</li>
+      </ul>
+    </section>
+    <section aria-label="Conclusión">
+      <p class="conclusion">Con Sealmetrics, cada dato se convierte en una oportunidad real para hacer crecer tus ventas.</p>
+    </section>
+  </main>
+</body>
+</html>
