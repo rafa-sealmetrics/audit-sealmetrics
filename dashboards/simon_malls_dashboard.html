@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon Malls - Marketing Intelligence Dashboard | Sealmetrics</title>
+    <script>
+    /* SealMetrics Tracker Code */
+    (function() {
+    var options = {
+       account: '68a4a04603963e02af56487f',
+       event: 'pageview',
+       content_grouping: 'custom-name',
+       use_session: 1,
+    };
+    var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var script=document.createElement("script");script.src=url;script.async=true;script.onload=function(){if(typeof callback==="function"){callback();}};script.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(script);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}});
+    })();
+    /* End SealMetrics Tracker Code */
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .date-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .date-filter select {
+            padding: 8px 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value.positive { color: #48bb78; }
+        .metric-value.negative { color: #f56565; }
+        .metric-value.neutral { color: #4299e1; }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+        
+        .metric-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+        
+        .metric-change.up {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .metric-change.down {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .alert {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .alert-list {
+            list-style: none;
+        }
+        
+        .alert-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .alert-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            font-size: 0.9rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .tag.high { background: #c6f6d5; color: #22543d; }
+        .tag.medium { background: #fef5e7; color: #744210; }
+        .tag.low { background: #fed7d7; color: #742a2a; }
+        
+        .recommendation {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .recommendation h4 {
+            color: #22543d;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        .recommendation p {
+            color: #2f855a;
+            font-size: 0.9rem;
+        }
+        
+        .channel-card {
+            border-left: 4px solid;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .google { border-color: #ea4335; background: #fff5f5; }
+        .facebook { border-color: #1877f2; background: #f0f8ff; }
+        .instagram { border-color: #e4405f; background: #fef5f8; }
+        .email { border-color: #805ad5; background: #faf5ff; }
+        .local { border-color: #38a169; background: #f0fff4; }
+        
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            transition: width 0.3s ease;
+        }
+        
+        .insight-box {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .insight-box h4 {
+            color: #22543d;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .insight-box p {
+            color: #2f855a;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <h1><span class="live-indicator"></span>Simon Malls - Marketing Intelligence Dashboard</h1>
+            <div class="subtitle">Advanced retail real estate analytics for premium shopping destinations</div>
+            <div class="date-filter">
+                <select>
+                    <option>Last 30 Days</option>
+                    <option>Last Quarter</option>
+                    <option>Holiday Season</option>
+                    <option>Back-to-School Period</option>
+                </select>
+                <select>
+                    <option>All Properties</option>
+                    <option>Premium Malls</option>
+                    <option>Premium Outlets</option>
+                    <option>Lifestyle Centers</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Executive KPIs -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">100%</div>
+                <div class="metric-label">Property Analytics Visibility</div>
+                <div class="metric-change up">vs 65% traditional analytics = +$284,500/month revenue visibility</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">$1.2M</div>
+                <div class="metric-label">Monthly Marketing Spend Visibility</div>
+                <div class="metric-change up">+35% campaign optimization potential = +$420K/month ROI</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value positive">847,234</div>
+                <div class="metric-label">Total Property Visits Tracked</div>
+                <div class="metric-change up">+18% vs last period = +$156,700/month footfall revenue</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">$1.42</div>
+                <div class="metric-label">Cost per Qualified Visit</div>
+                <div class="metric-change down">-12% optimization = +$98,400/month savings</div>
+            </div>
+        </div>
+
+        <!-- Strategic Alert -->
+        <div class="alert">
+            <h3>🎯 Premium Mall Performance Opportunity Detected</h3>
+            <ul class="alert-list">
+                <li><strong>Lifestyle Centers</strong> showing 34% higher conversion on Instagram vs Google Ads</li>
+                <li><strong>Premium Outlets</strong> underperforming on email marketing during seasonal campaigns</li>
+                <li><strong>Metro Tier 1</strong> malls have 28% better ROI on weekend-focused campaigns</li>
+                <li><strong>Holiday Season</strong> attribution gaps costing estimated $180K in optimization potential</li>
+            </ul>
+        </div>
+
+        <!-- Channel Performance by Property Type -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🏢 Channel Performance by Property Type</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Channel</th>
+                            <th>Property Visits</th>
+                            <th>Best Property Type</th>
+                            <th>Conversion Rate</th>
+                            <th>Revenue Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag high">Google Ads</span></td>
+                            <td>234,567</td>
+                            <td>Premium Malls</td>
+                            <td>4.2%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">+$89,400/month</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag high">Facebook/Meta</span></td>
+                            <td>189,234</td>
+                            <td>Lifestyle Centers</td>
+                            <td>3.8%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">+$76,200/month</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Instagram</span></td>
+                            <td>156,789</td>
+                            <td>Premium Outlets</td>
+                            <td>3.4%</td>
+                            <td><span style="color: #ecc94b; font-weight: bold;">+$52,800/month</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Email Marketing</span></td>
+                            <td>98,456</td>
+                            <td>Traditional Malls</td>
+                            <td>5.1%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">+$45,600/month</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag high">Local Search</span></td>
+                            <td>167,892</td>
+                            <td>Tourist Destinations</td>
+                            <td>4.7%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">+$67,900/month</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Top Performing Property-Channel Combinations</h3>
+                
+                <div class="channel-card google">
+                    <strong>Google Ads + Premium Malls</strong> <span style="color: #48bb78; font-size: 0.9em;">(scale opportunity)</span><br>
+                    1. Tysons Corner Center (8,947 visits) - <em>Luxury targeting excellence</em><br>
+                    2. King of Prussia (7,234 visits) - <em>High-income demographics</em><br>
+                    3. South Coast Plaza (6,156 visits) - <em>Premium brand affinity</em>
+                </div>
+                
+                <div class="channel-card facebook">
+                    <strong>Meta + Lifestyle Centers</strong> <span style="color: #48bb78; font-size: 0.9em;">(engagement leader)</span><br>
+                    1. Santana Row (5,678 visits) - <em>Social media hotspot</em><br>
+                    2. The Grove LA (4,892 visits) - <em>Entertainment destination</em><br>
+                    3. Legacy West (4,156 visits) - <em>Mixed-use performance</em>
+                </div>
+                
+                <div class="channel-card local">
+                    <strong>Local Search + Tourist Destinations</strong> <span style="color: #48bb78; font-size: 0.9em;">(conversion champion)</span><br>
+                    1. Fashion Island (6,234 visits) - <em>Vacation shopping</em><br>
+                    2. International Plaza (5,567 visits) - <em>Business traveler target</em><br>
+                    3. Town Square Vegas (4,890 visits) - <em>Tourism optimization</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Property Intelligence Matrix -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🏬 Property Performance Intelligence Matrix</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Property Type</th>
+                            <th>Total Visits</th>
+                            <th>Best Channel</th>
+                            <th>Avg. Visit Value</th>
+                            <th>Seasonal Performance</th>
+                            <th>Optimization Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Tysons Corner Center</strong></td>
+                            <td>Premium Mall</td>
+                            <td>45,892</td>
+                            <td>Google Ads (68%)</td>
+                            <td>$284</td>
+                            <td>Holiday Peak</td>
+                            <td><span class="tag high">Scale Google Budget (+$34K/month)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Woodbury Common</strong></td>
+                            <td>Premium Outlets</td>
+                            <td>67,234</td>
+                            <td>Instagram (72%)</td>
+                            <td>$156</td>
+                            <td>Tourist Season</td>
+                            <td><span class="tag high">Amplify Social (+$28K/month)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Santana Row</strong></td>
+                            <td>Lifestyle Center</td>
+                            <td>38,567</td>
+                            <td>Meta (78%)</td>
+                            <td>$198</td>
+                            <td>Year-round</td>
+                            <td><span class="tag medium">Test TikTok Ads (+$15K/month)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fashion Island</strong></td>
+                            <td>Tourist Destination</td>
+                            <td>29,445</td>
+                            <td>Local Search (65%)</td>
+                            <td>$267</td>
+                            <td>Summer Peak</td>
+                            <td><span class="tag high">Optimize Local SEO (+$22K/month)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="insight-box">
+                    <h4>💡 Property Intelligence Insights</h4>
+                    <p>Premium Malls excel with luxury-focused Google campaigns, while Lifestyle Centers dominate social media engagement. Tourist destinations show highest conversion through local search optimization. Property-specific channel allocation could increase overall portfolio ROI by 31%.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visitor Intent & Demographics Analysis -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>👥 Visitor Intent & Demographics Matrix</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Visit Intent</th>
+                            <th>Primary Demographics</th>
+                            <th>Best Channel</th>
+                            <th>Conversion Rate</th>
+                            <th>Avg. Spend per Visit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Planned Shopping</strong></td>
+                            <td>High Income, 25-45</td>
+                            <td>Google Search</td>
+                            <td><span class="tag high">5.8%</span></td>
+                            <td>$342</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Browse Entertainment</strong></td>
+                            <td>Mixed Income, 18-35</td>
+                            <td>Social Media</td>
+                            <td><span class="tag medium">3.2%</span></td>
+                            <td>$158</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dining Social</strong></td>
+                            <td>Middle Income, 25-55</td>
+                            <td>Local Search</td>
+                            <td><span class="tag high">4.7%</span></td>
+                            <td>$89</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Convenience Shopping</strong></td>
+                            <td>Local Residents</td>
+                            <td>Email/Direct</td>
+                            <td><span class="tag medium">3.9%</span></td>
+                            <td>$67</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>📅 Seasonal Performance Analysis</h3>
+                <div style="text-align: left; padding: 20px;">
+                    <div style="margin-bottom: 15px;">
+                        <strong>Holiday Season (Nov-Dec):</strong>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 89%; background: #48bb78;"></div>
+                        </div>
+                        89% of annual peak performance - <strong>$456K additional revenue</strong>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>Back-to-School (Aug-Sep):</strong>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 72%; background: #4299e1;"></div>
+                        </div>
+                        72% performance - <strong>$234K opportunity</strong> in teen/family targeting
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>Spring Fashion (Mar-May):</strong>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%; background: #ed8936;"></div>
+                        </div>
+                        65% performance - <strong>Instagram/Pinterest optimization</strong> potential
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>Summer Events (Jun-Aug):</strong>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 58%; background: #38a169;"></div>
+                        </div>
+                        58% performance - <strong>Event-driven marketing</strong> focus needed
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Property Analytics -->
+        <div class="grid grid-3">
+            <div class="card">
+                <h3>🎨 Property Category Performance</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Visits</th>
+                            <th>Conversion</th>
+                            <th>Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>🛍️ Fashion</strong></td>
+                            <td>234,567</td>
+                            <td>4.2%</td>
+                            <td>$892,340</td>
+                        </tr>
+                        <tr>
+                            <td><strong>💄 Beauty</strong></td>
+                            <td>156,789</td>
+                            <td>3.8%</td>
+                            <td>$567,230</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🍽️ Dining</strong></td>
+                            <td>189,234</td>
+                            <td>5.1%</td>
+                            <td>$445,670</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🎬 Entertainment</strong></td>
+                            <td>98,456</td>
+                            <td>3.4%</td>
+                            <td>$234,560</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>📍 Geographic Performance</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Market Tier</th>
+                            <th>Properties</th>
+                            <th>Avg. ROI</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Metro Tier 1</strong></td>
+                            <td>45</td>
+                            <td><span class="tag high">278%</span></td>
+                            <td>Google Ads</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Suburban Tier 2</strong></td>
+                            <td>89</td>
+                            <td><span class="tag medium">186%</span></td>
+                            <td>Facebook</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tourist Destinations</strong></td>
+                            <td>23</td>
+                            <td><span class="tag high">245%</span></td>
+                            <td>Local Search</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Regional Hubs</strong></td>
+                            <td>67</td>
+                            <td><span class="tag medium">167%</span></td>
+                            <td>Email Marketing</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>⏰ Peak Performance Windows</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Time Window</th>
+                            <th>Conversion</th>
+                            <th>Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Weekend Evenings</strong></td>
+                            <td>6.8%</td>
+                            <td>Social Media</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Weekday Lunch</strong></td>
+                            <td>4.2%</td>
+                            <td>Local Search</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Holiday Weekends</strong></td>
+                            <td>8.9%</td>
+                            <td>All Channels</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Back-to-School</strong></td>
+                            <td>5.4%</td>
+                            <td>Google Ads</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Strategic Recommendations -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🧠 AI-Powered Strategic Recommendations for Simon Malls</h3>
+                
+                <div class="recommendation">
+                    <h4>1. Property-Type Channel Optimization</h4>
+                    <p>Premium Malls excel with Google Ads (4.2% conversion), while Lifestyle Centers dominate Meta (3.8%). Reallocate 25% of underperforming budgets to optimal channel-property combinations = +$156,700/month revenue increase.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>2. Geographic Market Prioritization</h4>
+                    <p>Metro Tier 1 properties generate 278% ROI vs 167% in Regional Hubs. Focus 40% more budget on high-density urban markets during peak seasons = +$89,400/month optimization opportunity.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>3. Seasonal Campaign Timing</h4>
+                    <p>Holiday Season drives 89% of peak performance, but Back-to-School (72%) is underutilized. Implement early August family-focused campaigns across Premium Outlets = +$67,200/month seasonal boost.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>4. Visitor Intent Targeting</h4>
+                    <p>Planned Shopping intent shows 5.8% conversion with $342 avg. spend. Create intent-specific landing pages and ad copy for high-value visitor segments = +$124,500/month revenue optimization.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>5. Cross-Property Attribution</h4>
+                    <p>Visitors often research Premium Malls but convert at Outlets. Implement cross-property customer journey tracking to optimize full-funnel attribution = +$78,900/month in recovered revenue attribution.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROI Impact Summary -->
+        <div class="card">
+            <h3>💰 Total Revenue Impact with Sealmetrics Advanced Attribution</h3>
+            
+            <div class="grid grid-4" style="margin-top: 20px;">
+                <div style="text-align: center; padding: 20px; background: #f7fafc; border-radius: 8px;">
+                    <div style="font-size: 2rem; font-weight: bold; color: #48bb78;">$517K</div>
+                    <div style="color: #718096;">Monthly Revenue Optimization</div>
+                </div>
+                
+                <div style="text-align: center; padding: 20px; background: #f7fafc; border-radius: 8px;">
+                    <div style="font-size: 2rem; font-weight: bold; color: #4299e1;">224</div>
+                    <div style="color: #718096;">Properties Optimized</div>
+                </div>
+                
+                <div style="text-align: center; padding: 20px; background: #f7fafc; border-radius: 8px;">
+                    <div style="font-size: 2rem; font-weight: bold; color: #ed8936;">31%</div>
+                    <div style="color: #718096;">Portfolio ROI Increase</div>
+                </div>
+                
+                <div style="text-align: center; padding: 20px; background: #f7fafc; border-radius: 8px;">
+                    <div style="font-size: 2rem; font-weight: bold; color: #805ad5;">100%</div>
+                    <div style="color: #718096;">Attribution Accuracy</div>
+                </div>
+            </div>
+
+            <div style="background: #e6fffa; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center;">
+                <h4 style="color: #2c7a7b; margin-bottom: 10px;">🎯 Bottom Line: $6.2M Annual Revenue Optimization</h4>
+                <p style="color: #2c7a7b;">Complete property portfolio optimization with granular attribution data. ROI improvement across 224 properties through channel-property-demographic optimization.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulate real-time counter updates
+        function updateCounters() {
+            const visitCounter = document.querySelector('.metric-value.positive');
+            if (visitCounter && visitCounter.textContent.includes('847,234')) {
+                let current = parseInt(visitCounter.textContent.replace(/,/g, ''));
+                current += Math.floor(Math.random() * 50) + 10;
+                visitCounter.textContent = current.toLocaleString();
+            }
+        }
+        
+        setInterval(updateCounters, 3000);
+
+        // Property performance tracking
+        function trackPropertyInteraction(property, channel, action) {
+            if (window.sm) {
+                const instance = new window.sm({
+                    account: '68a4a04603963e02af56487f',
+                    event: 'property_interaction',
+                    content_grouping: 'simon-malls-dashboard',
+                    use_session: 1
+                });
+                
+                instance.track('property_interaction', {
+                    property: property,
+                    channel: channel,
+                    action: action,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+
+        // Add interaction tracking to table rows
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    const propertyName = this.querySelector('td strong')?.textContent || 'unknown';
+                    const channelName = this.querySelectorAll('td')[2]?.textContent || 'unknown';
+                    trackPropertyInteraction(propertyName, channelName, 'row_click');
+                });
+            });
+        });
+
+        // Simon Malls specific analytics
+        if (window.sm) {
+            const simonInstance = new window.sm({
+                account: '68a4a04603963e02af56487f',
+                event: 'dashboard_view',
+                content_grouping: 'simon-malls-portfolio',
+                use_session: 1,
+                custom_properties: {
+                    dashboard_type: 'property_portfolio',
+                    client: 'simon_malls',
+                    properties_count: 224,
+                    total_monthly_revenue: 517000
+                }
+            });
+            
+            simonInstance.track('dashboard_view');
+        }
+    </script>
+</body>
+</html>
