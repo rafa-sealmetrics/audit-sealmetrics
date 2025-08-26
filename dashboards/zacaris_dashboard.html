@@ -420,11 +420,23 @@
         <!-- Product Intelligence Matrix -->
         <div class="grid grid-1">
             <div class="card">
-                <h3>🎯 Conversion Rate Matrix: Canales vs Tallas (Zapatos Mujer)</h3>
-                <div style="overflow-x: auto;">
-                    <table class="table">
+                <h3>🎯 Interactive Conversion Matrix: Canales vs Atributos de Producto</h3>
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600; margin-right: 15px;">Seleccionar Atributo de Producto:</label>
+                    <select id="zacarisAttributeSelector" style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; margin-right: 20px;" onchange="updateZacarisMatrix()">
+                        <option value="tallas">Tallas (Zapatos Mujer)</option>
+                        <option value="tipos_producto">Familia de Producto</option>
+                        <option value="colores">Colores</option>
+                        <option value="tipos_calzado">Tipo de Calzado</option>
+                        <option value="marcas">Marcas Premium</option>
+                    </select>
+                    <button onclick="updateZacarisMatrix()" style="padding: 8px 16px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer;">Actualizar Matrix</button>
+                </div>
+                
+                <div id="zacarisMatrixContainer" style="overflow-x: auto;">
+                    <table class="table" id="zacarisInteractiveMatrix">
                         <thead>
-                            <tr>
+                            <tr id="zacarisMatrixHeader">
                                 <th style="background: #667eea; color: white;">Canal / Talla</th>
                                 <th>35</th>
                                 <th>36</th>
@@ -437,7 +449,7 @@
                                 <th style="background: #e2e8f0;">Media Canal</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="zacarisMatrixBody">
                             <tr style="background: #f0f8ff;">
                                 <td><strong>Google Shopping</strong></td>
                                 <td>2.1%</td>
@@ -514,9 +526,9 @@
                     </table>
                 </div>
                 
-                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                    <h4 style="color: #4a5568; margin-bottom: 10px;">📈 Talla Matrix Insights</h4>
-                    <p style="color: #718096; font-size: 0.9rem;">Instagram domina tallas pequeñas (35-37) - target femenino joven. Google Shopping lidera tallas grandes (40-42) - búsquedas específicas. Email Marketing consistent across sizes. Optimización por canal-talla = +€31,200/mes.</p>
+                <div class="recommendation" id="zacarisMatrixInsights">
+                    <h4>📈 Insights Dinámicos - Tallas</h4>
+                    <p>Instagram domina tallas pequeñas (35-37) - target femenino joven. Google Shopping lidera tallas grandes (40-42) - búsquedas específicas. Email Marketing consistent across sizes. Optimización por canal-talla = +€31,200/mes.</p>
                 </div>
             </div>
         </div>
@@ -790,6 +802,171 @@
             console.log('Zacaris Demo Interaction:', zacarisData);
         }
 
+        // Interactive Matrix Data for Zacaris
+        const zacarisMatrixData = {
+            tallas: {
+                headers: ['35', '36', '37', '38', '39', '40', '41', '42'],
+                google: ['2.1%', '3.2%', '3.8%', '4.7%', '4.2%', '4.9%', '5.1%', '4.3%'],
+                instagram: ['3.9%', '4.2%', '4.6%', '3.8%', '3.4%', '2.9%', '2.3%', '2.1%'],
+                facebook: ['2.8%', '3.4%', '3.7%', '4.1%', '4.4%', '3.9%', '3.6%', '3.2%'],
+                tiktok: ['3.2%', '3.6%', '3.1%', '2.9%', '2.4%', '2.1%', '1.8%', '1.6%'],
+                email: ['4.2%', '4.8%', '5.1%', '5.6%', '5.3%', '4.9%', '4.4%', '4.1%'],
+                averages: ['3.2%', '3.8%', '4.1%', '4.2%', '3.9%', '3.7%', '3.4%', '3.1%']
+            },
+            tipos_producto: {
+                headers: ['Zapatos', 'Ropa', 'Complementos', 'Deportivas', 'Botas'],
+                google: ['4.2%', '2.8%', '3.1%', '4.8%', '3.9%'],
+                instagram: ['3.4%', '4.7%', '4.2%', '3.9%', '2.8%'],
+                facebook: ['3.8%', '3.9%', '3.6%', '3.2%', '3.4%'],
+                tiktok: ['2.9%', '3.8%', '3.2%', '3.6%', '2.1%'],
+                email: ['4.6%', '4.1%', '4.8%', '4.2%', '4.3%'],
+                averages: ['3.8%', '3.9%', '3.8%', '4.1%', '3.3%']
+            },
+            colores: {
+                headers: ['Negro', 'Blanco', 'Marrón', 'Azul', 'Rosa', 'Beige'],
+                google: ['4.8%', '3.6%', '4.2%', '3.4%', '2.9%', '3.1%'],
+                instagram: ['3.9%', '4.4%', '3.1%', '3.7%', '4.6%', '3.2%'],
+                facebook: ['4.1%', '3.8%', '4.0%', '3.9%', '3.4%', '3.6%'],
+                tiktok: ['2.8%', '3.2%', '2.4%', '2.9%', '3.8%', '2.6%'],
+                email: ['5.2%', '4.3%', '5.1%', '4.0%', '3.7%', '4.4%'],
+                averages: ['4.2%', '3.9%', '3.8%', '3.6%', '3.7%', '3.4%']
+            },
+            tipos_calzado: {
+                headers: ['Deportivas', 'Botas', 'Sandalias', 'Mocasines', 'Salones', 'Botines'],
+                google: ['4.8%', '4.2%', '2.8%', '3.9%', '3.4%', '3.7%'],
+                instagram: ['3.9%', '2.6%', '4.7%', '2.8%', '3.2%', '3.4%'],
+                facebook: ['3.6%', '3.8%', '3.4%', '4.1%', '3.7%', '3.9%'],
+                tiktok: ['4.2%', '2.1%', '3.6%', '2.4%', '2.9%', '2.8%'],
+                email: ['4.2%', '4.9%', '3.8%', '4.6%', '4.8%', '4.4%'],
+                averages: ['4.1%', '3.5%', '3.7%', '3.6%', '3.6%', '3.6%']
+            },
+            marcas: {
+                headers: ['Nike', 'Adidas', 'Converse', 'Geox', 'Clarks', 'Vans'],
+                google: ['4.7%', '4.1%', '3.8%', '4.2%', '4.6%', '3.4%'],
+                instagram: ['4.2%', '3.6%', '4.8%', '2.9%', '2.8%', '4.1%'],
+                facebook: ['3.9%', '4.3%', '3.4%', '3.7%', '3.9%', '3.6%'],
+                tiktok: ['3.4%', '2.8%', '3.9%', '2.1%', '2.4%', '4.2%'],
+                email: ['4.4%', '4.7%', '4.1%', '5.1%', '4.8%', '3.7%'],
+                averages: ['4.1%', '3.9%', '4.0%', '3.6%', '3.7%', '3.8%']
+            }
+        };
+
+        function updateZacarisMatrix() {
+            const selectedAttribute = document.getElementById('zacarisAttributeSelector').value;
+            const data = zacarisMatrixData[selectedAttribute];
+            const table = document.getElementById('zacarisInteractiveMatrix');
+            
+            // Track interaction
+            trackZacarisInteraction('matrix_update', selectedAttribute, {
+                matrix_type: 'product_attribute_analysis'
+            });
+            
+            // Update headers
+            const headerRow = document.getElementById('zacarisMatrixHeader');
+            headerRow.innerHTML = '<th style="background: #667eea; color: white;">Canal / ' + 
+                getAttributeDisplayName(selectedAttribute) + '</th>';
+            
+            data.headers.forEach(header => {
+                headerRow.innerHTML += '<th>' + header + '</th>';
+            });
+            headerRow.innerHTML += '<th style="background: #e2e8f0;">Media Canal</th>';
+            
+            // Update body
+            const tbody = document.getElementById('zacarisMatrixBody');
+            const channels = [
+                {name: 'Google Shopping', key: 'google', class: 'f0f8ff'},
+                {name: 'Instagram Ads', key: 'instagram', class: 'fef5f8'},
+                {name: 'Facebook Ads', key: 'facebook', class: 'f0f8ff'},
+                {name: 'TikTok Ads', key: 'tiktok', class: 'f7fafc'},
+                {name: 'Email Marketing', key: 'email', class: 'fffbeb'}
+            ];
+            
+            tbody.innerHTML = '';
+            
+            channels.forEach(channel => {
+                const row = document.createElement('tr');
+                row.style.background = '#' + channel.class;
+                row.innerHTML = '<td><strong>' + channel.name + '</strong></td>';
+                
+                data[channel.key].forEach((value, index) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    
+                    // Highlight best performers
+                    const numValue = parseFloat(value);
+                    const avgValue = parseFloat(data.averages[index]);
+                    if (numValue > avgValue * 1.2) {
+                        cell.style.color = '#48bb78';
+                        cell.style.fontWeight = 'bold';
+                    } else if (numValue < avgValue * 0.8) {
+                        cell.style.color = '#f56565';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Calculate channel average
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#e2e8f0';
+                avgCell.style.fontWeight = 'bold';
+                const channelAvg = data[channel.key].reduce((sum, val) => sum + parseFloat(val), 0) / data[channel.key].length;
+                avgCell.textContent = channelAvg.toFixed(1) + '%';
+                row.appendChild(avgCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add site average row
+            const avgRow = document.createElement('tr');
+            avgRow.style.background = '#f4f4f5';
+            avgRow.style.fontWeight = 'bold';
+            avgRow.innerHTML = '<td style="background: #667eea; color: white;"><strong>MEDIA ZACARIS</strong></td>';
+            
+            data.averages.forEach(avg => {
+                avgRow.innerHTML += '<td>' + avg + '</td>';
+            });
+            
+            const totalAvg = data.averages.reduce((sum, val) => sum + parseFloat(val), 0) / data.averages.length;
+            avgRow.innerHTML += '<td style="background: #4a5568; color: white;"><strong>' + totalAvg.toFixed(1) + '%</strong></td>';
+            
+            tbody.appendChild(avgRow);
+            
+            // Update insights
+            updateZacarisInsights(selectedAttribute);
+        }
+
+        function getAttributeDisplayName(attribute) {
+            const names = {
+                'tallas': 'Tallas',
+                'tipos_producto': 'Familia Producto',
+                'colores': 'Colores',
+                'tipos_calzado': 'Tipo Calzado',
+                'marcas': 'Marcas'
+            };
+            return names[attribute] || attribute;
+        }
+        
+        function updateZacarisInsights(attribute) {
+            const insights = {
+                tallas: 'Instagram domina tallas pequeñas (35-37) - target femenino joven. Google Shopping lidera tallas grandes (40-42) - búsquedas específicas. Email Marketing consistent across sizes. Optimización por canal-talla = +€31,200/mes.',
+                tipos_producto: 'Ropa e Instagram perfect match (4.7% CR). Google Shopping domina Deportivas búsquedas (4.8%). Email lidera Complementos premium (4.8%). Cross-category optimization = +€28,900/mes.',
+                colores: 'Negro universal leader - scale across channels (4.2% avg). Rosa trending en Instagram (4.6%). Email domina colores premium Negro+Marrón. Color-channel alignment = +€22,800/mes.',
+                tipos_calzado: 'Deportivas consistent performer across channels (4.1% avg). Sandalias + Instagram summer strategy (4.7%). Email + Botas perfect for autumn campaigns (4.9%). Seasonal optimization = +€26,400/mes.',
+                marcas: 'Nike + Google Shopping intent-based leader (4.7%). Converse + Instagram lifestyle perfect match (4.8%). Geox + Email premium targeting (5.1%). Brand-channel attribution = +€35,600/mes.'
+            };
+            
+            const revenueOpportunities = {
+                tallas: '31,200',
+                tipos_producto: '28,900',
+                colores: '22,800',
+                tipos_calzado: '26,400',
+                marcas: '35,600'
+            };
+            
+            document.getElementById('zacarisMatrixInsights').innerHTML = 
+                '<h4>📈 Insights Dinámicos - ' + getAttributeDisplayName(attribute) + '</h4><p>' + 
+                insights[attribute] + '</p>';
+        }
+
         // CTA Actions
         function scheduleDemo() {
             trackZacarisInteraction('cta_click', 'schedule_demo', {
@@ -807,6 +984,9 @@
                 top_optimization: 'size_channel_segmentation',
                 product_attributes: 8
             });
+            
+            // Initialize matrix with default view
+            updateZacarisMatrix();
         });
 
         // Hover tracking on key metrics
