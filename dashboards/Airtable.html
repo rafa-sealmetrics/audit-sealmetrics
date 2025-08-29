@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airtable - SealMetrics Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 15px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
+            overflow: hidden; 
+        }
+        .header { 
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%); 
+            color: white; 
+            padding: 40px 30px; 
+            text-align: center; 
+        }
+        .header h1 { 
+            font-size: 2.8em; 
+            margin-bottom: 10px; 
+            font-weight: 700;
+        }
+        .header h2 { 
+            font-size: 1.6em; 
+            opacity: 0.9; 
+            font-weight: 400;
+        }
+        .header p {
+            margin-top: 15px;
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+        .metrics-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; 
+            padding: 40px 30px; 
+            background: #f8fafc;
+        }
+        .metric-card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            text-align: center; 
+            border-left: 5px solid #667eea; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+        .metric-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .metric-value { 
+            font-size: 2.8em; 
+            font-weight: 800; 
+            color: #2d3748; 
+            margin-bottom: 12px; 
+            line-height: 1;
+        }
+        .metric-label { 
+            font-size: 1.1em; 
+            color: #718096; 
+            text-transform: uppercase; 
+            letter-spacing: 1.2px; 
+            font-weight: 600;
+        }
+        .interactive-section { 
+            padding: 40px 30px; 
+            border-top: 2px solid #e2e8f0; 
+        }
+        .section-title { 
+            font-size: 2em; 
+            color: #2d3748; 
+            margin-bottom: 30px; 
+            text-align: center; 
+            font-weight: 700;
+        }
+        .selector-container { 
+            text-align: center; 
+            margin-bottom: 35px; 
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .selector-container label {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #4a5568;
+            margin-right: 15px;
+        }
+        .selector { 
+            padding: 15px 30px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 10px; 
+            font-size: 1.1em; 
+            background: white; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            min-width: 200px;
+            font-weight: 500;
+        }
+        .selector:hover { 
+            border-color: #667eea; 
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); 
+        }
+        .matrix-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 35px; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            background: white;
+        }
+        .matrix-table th { 
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%); 
+            color: white; 
+            padding: 18px 15px; 
+            text-align: center; 
+            font-weight: 600; 
+            font-size: 0.95em; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .matrix-table td { 
+            padding: 16px 12px; 
+            text-align: center; 
+            border-bottom: 1px solid #e2e8f0; 
+            transition: all 0.3s ease; 
+            font-weight: 500;
+        }
+        .matrix-table tr:hover { 
+            background: #f7fafc !important; 
+            transform: scale(1.01);
+        }
+        .channel-cell { 
+            font-weight: 700 !important; 
+            text-align: left !important; 
+            padding-left: 25px !important; 
+            font-size: 1.05em;
+        }
+        .best-performer { 
+            color: #38a169 !important; 
+            font-weight: 700 !important; 
+            background: rgba(56, 161, 105, 0.1) !important; 
+            position: relative;
+        }
+        .best-performer::after {
+            content: '🏆';
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8em;
+        }
+        .average-cell { 
+            background: #edf2f7 !important; 
+            font-weight: 700 !important; 
+            color: #4a5568 !important;
+        }
+        .site-average-row { 
+            background: #f1f5f9 !important; 
+            font-weight: 700 !important; 
+        }
+        .site-average-header { 
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%) !important; 
+            color: white !important; 
+        }
+        .total-average { 
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important; 
+            color: white !important; 
+        }
+        .insights-box { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            margin-top: 25px; 
+            animation: fadeIn 0.6s ease-in-out; 
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+        .insights-box h4 { 
+            font-size: 1.4em; 
+            margin-bottom: 15px; 
+            font-weight: 600;
+        }
+        .insights-box p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        .footer { 
+            text-align: center; 
+            padding: 25px; 
+            color: #718096; 
+            border-top: 1px solid #e2e8f0; 
+            background: #f8fafc;
+        }
+        .footer p {
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+        .footer strong {
+            color: #4a5568;
+        }
+        .live-counter { 
+            color: #38a169; 
+            font-weight: 800; 
+            animation: pulse 2s infinite;
+        }
+        .loading { 
+            opacity: 0.6; 
+            pointer-events: none; 
+            filter: blur(2px);
+        }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .property-tag {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 0 5px;
+        }
+        @media (max-width: 768px) {
+            .metrics-grid { 
+                grid-template-columns: 1fr; 
+                padding: 20px;
+            }
+            .header h1 { font-size: 2.2em; }
+            .metric-value { font-size: 2.2em; }
+            .matrix-table { font-size: 0.85em; }
+            .matrix-table th, .matrix-table td { padding: 10px 6px; }
+            .interactive-section { padding: 20px 15px; }
+            .selector-container { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 SealMetrics Dashboard</h1>
+            <h2>Airtable</h2>
+            <p>Análisis Avanzado de Conversiones por Propiedades de Producto</p>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">€87.142</div>
+                <div class="metric-label">Revenue Mensual</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">3.4%</div>
+                <div class="metric-label">Conversion Rate</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value"><span class="live-counter">156.789</span></div>
+                <div class="metric-label">Total Hits (Live)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">+€63.421</div>
+                <div class="metric-label">Potencial Mensual</div>
+            </div>
+        </div>
+        
+        <div class="interactive-section">
+            <h3 class="section-title">📊 Matriz Interactiva de Conversiones</h3>
+            
+            <div class="selector-container">
+                <label for="attributeSelector">Analizar por Propiedad:</label>
+                <select id="attributeSelector" class="selector" onchange="updateMatrix()">
+                    <option value="platform_features">Características de Plataforma</option>
+                    <option value="ai_capabilities">Capacidades de IA</option>
+                    <option value="integrations">Integraciones</option>
+                </select>
+            </div>
+            
+            <table class="matrix-table" id="interactiveMatrix">
+                <thead>
+                    <tr id="matrixHeader">
+                        <th>Canal / Características de Plataforma</th>
+                        <th>Automatizaciones</th>
+                        <th>Bases de datos</th>
+                        <th>Interfaces</th>
+                        <th>Visualizaciones</th>
+                        <th>Gobernanza</th>
+                        <th>Media Canal</th>
+                    </tr>
+                </thead>
+                <tbody id="matrixBody">
+                    <tr style="background: #f0fff4;">
+                        <td class="channel-cell"><strong>SEO</strong></td>
+                        <td>2.1%</td>
+                        <td class="best-performer">2.8%</td>
+                        <td>3.2%</td>
+                        <td>2.9%</td>
+                        <td>2.6%</td>
+                        <td class="average-cell">2.7%</td>
+                    </tr>
+                    <tr style="background: #fff5f5;">
+                        <td class="channel-cell"><strong>Google Ads</strong></td>
+                        <td>1.8%</td>
+                        <td>2.9%</td>
+                        <td class="best-performer">3.6%</td>
+                        <td class="best-performer">4.2%</td>
+                        <td class="best-performer">3.8%</td>
+                        <td class="average-cell">3.3%</td>
+                    </tr>
+                    <tr style="background: #fef5f8;">
+                        <td class="channel-cell"><strong>Instagram Ads</strong></td>
+                        <td class="best-performer">3.4%</td>
+                        <td>2.6%</td>
+                        <td>3.1%</td>
+                        <td>2.5%</td>
+                        <td>2.8%</td>
+                        <td class="average-cell">2.9%</td>
+                    </tr>
+                    <tr style="background: #fffbeb;">
+                        <td class="channel-cell"><strong>Newsletter</strong></td>
+                        <td class="best-performer">3.8%</td>
+                        <td class="best-performer">4.1%</td>
+                        <td class="best-performer">3.9%</td>
+                        <td class="best-performer">3.6%</td>
+                        <td>3.2%</td>
+                        <td class="average-cell">3.7%</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td class="channel-cell"><strong>TikTok</strong></td>
+                        <td>2.4%</td>
+                        <td>2.6%</td>
+                        <td>2.3%</td>
+                        <td>1.9%</td>
+                        <td>1.6%</td>
+                        <td class="average-cell">2.2%</td>
+                    </tr>
+                    <tr style="background: #fef2f2;">
+                        <td class="channel-cell"><strong>Youtube</strong></td>
+                        <td>1.6%</td>
+                        <td>2.3%</td>
+                        <td>2.7%</td>
+                        <td>3.2%</td>
+                        <td class="best-performer">3.5%</td>
+                        <td class="average-cell">2.7%</td>
+                    </tr>
+                    <tr class="site-average-row">
+                        <td class="site-average-header"><strong>MEDIA SITE</strong></td>
+                        <td>2.5%</td>
+                        <td>2.9%</td>
+                        <td>3.1%</td>
+                        <td>3.1%</td>
+                        <td>2.9%</td>
+                        <td class="total-average"><strong>2.9%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="insights-box" id="matrixInsights">
+                <h4>📈 Insights - Características de Plataforma</h4>
+                <p><strong>Newsletter domina</strong> con 3.7% de conversión promedio, especialmente en <span class="property-tag">Automatizaciones</span> y <span class="property-tag">Bases de datos</span>. <strong>Google Ads</strong> muestra excelente performance en <span class="property-tag">Visualizaciones</span> y <span class="property-tag">Gobernanza</span>. Optimizar targeting por características de plataforma puede generar <strong>+€32.400/mes adicionales</strong>.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Dashboard generado:</strong> 28/08/2025, 15:23:42</p>
+            <p><strong>Propiedades analizadas:</strong> Características de Plataforma, Capacidades de IA, Integraciones</p>
+            <p>Powered by <strong>SealMetrics</strong> - Product Intelligence Platform</p>
+        </div>
+    </div>
+
+    <script>
+        // Interactive matrix data
+        const matrixData = {
+        "product_sizes": {
+                "name": "Product Sizes",
+                "headers": [
+                        "Small",
+                        "Medium",
+                        "Large",
+                        "XL",
+                        "XXL"
+                ],
+                "channels": [
+                        {
+                                "name": "SEO Organic",
+                                "color": "#f0fff4",
+                                "data": [
+                                        "3.9",
+                                        "3.3",
+                                        "3.4",
+                                        "5.2",
+                                        "4.0"
+                                ]
+                        },
+                        {
+                                "name": "Google Ads",
+                                "color": "#fff5f5",
+                                "data": [
+                                        "2.7",
+                                        "5.2",
+                                        "2.6",
+                                        "5.0",
+                                        "3.3"
+                                ]
+                        },
+                        {
+                                "name": "Instagram Ads",
+                                "color": "#fef5f8",
+                                "data": [
+                                        "2.9",
+                                        "4.6",
+                                        "4.3",
+                                        "4.0",
+                                        "4.0"
+                                ]
+                        },
+                        {
+                                "name": "Email Marketing",
+                                "color": "#fffbeb",
+                                "data": [
+                                        "3.0",
+                                        "4.2",
+                                        "4.4",
+                                        "3.1",
+                                        "3.3"
+                                ]
+                        },
+                        {
+                                "name": "TikTok Ads",
+                                "color": "#f7fafc",
+                                "data": [
+                                        "5.1",
+                                        "3.7",
+                                        "5.8",
+                                        "4.9",
+                                        "4.7"
+                                ]
+                        },
+                        {
+                                "name": "Facebook Ads",
+                                "color": "#fef2f2",
+                                "data": [
+                                        "3.9",
+                                        "4.2",
+                                        "3.0",
+                                        "5.1",
+                                        "5.0"
+                                ]
+                        }
+                ],
+                "insights": "Email Marketing dominates with highest conversion rates across sizes. Small and XL sizes show premium performance. Size-based targeting can generate +$32,400/month additional revenue."
+        },
+        "product_colors": {
+                "name": "Product Colors",
+                "headers": [
+                        "Black",
+                        "White",
+                        "Blue",
+                        "Red",
+                        "Green"
+                ],
+                "channels": [
+                        {
+                                "name": "SEO Organic",
+                                "color": "#f0fff4",
+                                "data": [
+                                        "4.8",
+                                        "4.8",
+                                        "3.9",
+                                        "6.3",
+                                        "4.0"
+                                ]
+                        },
+                        {
+                                "name": "Google Ads",
+                                "color": "#fff5f5",
+                                "data": [
+                                        "2.9",
+                                        "4.7",
+                                        "2.8",
+                                        "4.5",
+                                        "4.0"
+                                ]
+                        },
+                        {
+                                "name": "Instagram Ads",
+                                "color": "#fef5f8",
+                                "data": [
+                                        "6.0",
+                                        "4.2",
+                                        "6.1",
+                                        "5.6",
+                                        "3.5"
+                                ]
+                        },
+                        {
+                                "name": "Email Marketing",
+                                "color": "#fffbeb",
+                                "data": [
+                                        "3.7",
+                                        "4.3",
+                                        "5.0",
+                                        "4.1",
+                                        "5.2"
+                                ]
+                        },
+                        {
+                                "name": "TikTok Ads",
+                                "color": "#f7fafc",
+                                "data": [
+                                        "5.7",
+                                        "3.9",
+                                        "4.8",
+                                        "5.3",
+                                        "4.2"
+                                ]
+                        },
+                        {
+                                "name": "Facebook Ads",
+                                "color": "#fef2f2",
+                                "data": [
+                                        "5.5",
+                                        "5.3",
+                                        "4.7",
+                                        "3.7",
+                                        "5.5"
+                                ]
+                        }
+                ],
+                "insights": "Google Ads leads in red and blue products. Email Marketing maintains consistency across all colors. Color segmentation strategy can generate +$28,600/month additional revenue."
+        },
+        "price_ranges": {
+                "name": "Price Ranges",
+                "headers": [
+                        "$0-50",
+                        "$51-100",
+                        "$101-200",
+                        "$201-300",
+                        "$300+"
+                ],
+                "channels": [
+                        {
+                                "name": "SEO Organic",
+                                "color": "#f0fff4",
+                                "data": [
+                                        "5.1",
+                                        "5.2",
+                                        "4.8",
+                                        "6.5",
+                                        "6.2"
+                                ]
+                        },
+                        {
+                                "name": "Google Ads",
+                                "color": "#fff5f5",
+                                "data": [
+                                        "2.3",
+                                        "4.5",
+                                        "3.3",
+                                        "4.0",
+                                        "2.1"
+                                ]
+                        },
+                        {
+                                "name": "Instagram Ads",
+                                "color": "#fef5f8",
+                                "data": [
+                                        "5.9",
+                                        "5.4",
+                                        "6.3",
+                                        "6.2",
+                                        "6.4"
+                                ]
+                        },
+                        {
+                                "name": "Email Marketing",
+                                "color": "#fffbeb",
+                                "data": [
+                                        "4.3",
+                                        "2.9",
+                                        "5.4",
+                                        "3.5",
+                                        "3.5"
+                                ]
+                        },
+                        {
+                                "name": "TikTok Ads",
+                                "color": "#f7fafc",
+                                "data": [
+                                        "3.4",
+                                        "4.6",
+                                        "4.6",
+                                        "3.3",
+                                        "4.9"
+                                ]
+                        },
+                        {
+                                "name": "Facebook Ads",
+                                "color": "#fef2f2",
+                                "data": [
+                                        "1.8",
+                                        "3.2",
+                                        "3.7",
+                                        "2.1",
+                                        "2.0"
+                                ]
+                        }
+                ],
+                "insights": "Premium pricing ($300+) shows exceptional conversions across channels. Email Marketing excels in luxury segments. Premium strategy can generate +$35,200/month additional revenue."
+        },
+        "product_materials": {
+                "name": "Product Materials",
+                "headers": [
+                        "Cotton",
+                        "Polyester",
+                        "Leather",
+                        "Denim",
+                        "Wool"
+                ],
+                "channels": [
+                        {
+                                "name": "SEO Organic",
+                                "color": "#f0fff4",
+                                "data": [
+                                        "5.8",
+                                        "6.5",
+                                        "4.4",
+                                        "6.6",
+                                        "5.3"
+                                ]
+                        },
+                        {
+                                "name": "Google Ads",
+                                "color": "#fff5f5",
+                                "data": [
+                                        "3.1",
+                                        "2.5",
+                                        "4.8",
+                                        "2.5",
+                                        "4.6"
+                                ]
+                        },
+                        {
+                                "name": "Instagram Ads",
+                                "color": "#fef5f8",
+                                "data": [
+                                        "4.5",
+                                        "4.4",
+                                        "3.6",
+                                        "4.2",
+                                        "3.6"
+                                ]
+                        },
+                        {
+                                "name": "Email Marketing",
+                                "color": "#fffbeb",
+                                "data": [
+                                        "3.3",
+                                        "3.1",
+                                        "4.1",
+                                        "3.9",
+                                        "3.0"
+                                ]
+                        },
+                        {
+                                "name": "TikTok Ads",
+                                "color": "#f7fafc",
+                                "data": [
+                                        "4.0",
+                                        "5.7",
+                                        "5.7",
+                                        "5.5",
+                                        "5.4"
+                                ]
+                        },
+                        {
+                                "name": "Facebook Ads",
+                                "color": "#fef2f2",
+                                "data": [
+                                        "2.9",
+                                        "4.9",
+                                        "5.5",
+                                        "4.7",
+                                        "4.5"
+                                ]
+                        }
+                ],
+                "insights": "Leather and premium materials drive highest conversions. Email Marketing and Google Ads dominate luxury materials. Material-based targeting can generate +$41,200/month additional revenue."
+        }
+};
+
+        // Update live counter
+        function updateCounter() {
+            const counter = document.getElementById('hitCounter');
+            if (counter) {
+                let current = parseInt(counter.textContent.replace(/[.,]/g, ''));
+                current += Math.floor(Math.random() * 8) + 3;
+                counter.textContent = current.toLocaleString('en-US');
+            }
+        }
+
+        // Update matrix display
+        function updateMatrix() {
+            const selectedAttribute = document.getElementById('attributeSelector').value;
+            const data = matrixData[selectedAttribute];
+            
+            if (!data) {
+                console.error('No data found for:', selectedAttribute);
+                return;
+            }
+
+            const table = document.getElementById('interactiveMatrix');
+            table.classList.add('loading');
+
+            setTimeout(() => {
+                updateHeaders(data);
+                updateTableBody(data);
+                updateInsights(selectedAttribute, data);
+                updateMetrics();
+                table.classList.remove('loading');
+            }, 300);
+        }
+
+        function updateHeaders(data) {
+            const headerRow = document.getElementById('matrixHeader');
+            headerRow.innerHTML = '<th>Channel / ' + data.name + '</th>';
+            
+            data.headers.forEach(header => {
+                headerRow.innerHTML += '<th>' + header + '</th>';
+            });
+            headerRow.innerHTML += '<th>Channel Average</th>';
+        }
+
+        function updateTableBody(data) {
+            const tbody = document.getElementById('matrixBody');
+            tbody.innerHTML = '';
+            
+            const columnAverages = calculateColumnAverages(data);
+            
+            data.channels.forEach(channel => {
+                const row = createChannelRow(channel, data.headers, columnAverages);
+                tbody.appendChild(row);
+            });
+            
+            const avgRow = createSiteAverageRow(data.headers, columnAverages);
+            tbody.appendChild(avgRow);
+        }
+
+        function calculateColumnAverages(data) {
+            const columnAverages = [];
+            for (let i = 0; i < data.headers.length; i++) {
+                let sum = 0;
+                data.channels.forEach(channel => {
+                    sum += parseFloat(channel.data[i]);
+                });
+                columnAverages.push(sum / data.channels.length);
+            }
+            return columnAverages;
+        }
+
+        function createChannelRow(channel, headers, columnAverages) {
+            const row = document.createElement('tr');
+            row.style.background = channel.color;
+            
+            const nameCell = document.createElement('td');
+            nameCell.innerHTML = '<strong>' + channel.name + '</strong>';
+            nameCell.className = 'channel-cell';
+            row.appendChild(nameCell);
+            
+            channel.data.forEach((value, index) => {
+                const cell = document.createElement('td');
+                cell.textContent = parseFloat(value).toFixed(1) + '%';
+                
+                if (parseFloat(value) > columnAverages[index] * 1.2) {
+                    cell.className = 'best-performer';
+                }
+                
+                row.appendChild(cell);
+            });
+            
+            const channelAvg = channel.data.reduce((sum, val) => sum + parseFloat(val), 0) / channel.data.length;
+            const avgCell = document.createElement('td');
+            avgCell.textContent = channelAvg.toFixed(1) + '%';
+            avgCell.className = 'average-cell';
+            row.appendChild(avgCell);
+            
+            return row;
+        }
+
+        function createSiteAverageRow(headers, columnAverages) {
+            const avgRow = document.createElement('tr');
+            avgRow.className = 'site-average-row';
+            
+            const titleCell = document.createElement('td');
+            titleCell.innerHTML = '<strong>SITE AVERAGE</strong>';
+            titleCell.className = 'site-average-header';
+            avgRow.appendChild(titleCell);
+            
+            columnAverages.forEach(avg => {
+                const cell = document.createElement('td');
+                cell.textContent = avg.toFixed(1) + '%';
+                avgRow.appendChild(cell);
+            });
+            
+            const totalAvg = columnAverages.reduce((sum, val) => sum + val, 0) / columnAverages.length;
+            const totalCell = document.createElement('td');
+            totalCell.innerHTML = '<strong>' + totalAvg.toFixed(1) + '%</strong>';
+            totalCell.className = 'total-average';
+            avgRow.appendChild(totalCell);
+            
+            return avgRow;
+        }
+
+        function updateInsights(attribute, data) {
+            const insightsBox = document.getElementById('matrixInsights');
+            insightsBox.innerHTML = '<h4>📈 Insights - ' + data.name + '</h4><p>' + data.insights + '</p>';
+        }
+
+        function updateMetrics() {
+            const selectedAttribute = document.getElementById('attributeSelector').value;
+            const data = matrixData[selectedAttribute];
+            if (!data) return;
+            
+            const avgConversion = data.channels.reduce((sum, channel) => {
+                return sum + (channel.data.reduce((s, v) => s + parseFloat(v), 0) / channel.data.length);
+            }, 0) / data.channels.length;
+            
+            const revenue = Math.floor(avgConversion * 15000 + Math.random() * 10000 + 30000);
+            const potential = Math.floor(revenue * 0.6 + Math.random() * 5000);
+            
+            document.getElementById('revenueMetric').textContent = '$' + revenue.toLocaleString('en-US');
+            document.getElementById('conversionMetric').textContent = avgConversion.toFixed(1) + '%';
+            document.getElementById('potentialMetric').textContent = '+$' + potential.toLocaleString('en-US');
+        }
+
+        // Auto-initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing matrix...');
+            updateMatrix();
+            setInterval(updateCounter, 2000);
+        });
+    </script>E html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airtable - SealMetrics Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 15px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
+            overflow: hidden; 
+        }
+        .header { 
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%); 
+            color: white; 
+            padding: 40px 30px; 
+            text-align: center; 
+        }
+        .header h1 { 
+            font-size: 2.8em; 
+            margin-bottom: 10px; 
+            font-weight: 700;
+        }
+        .header h2 { 
+            font-size: 1.6em; 
+            opacity: 0.9; 
+            font-weight: 400;
+        }
+        .header p {
+            margin-top: 15px;
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+        .metrics-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; 
+            padding: 40px 30px; 
+            background: #f8fafc;
+        }
+        .metric-card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            text-align: center; 
+            border-left: 5px solid #667eea; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+        .metric-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .metric-value { 
+            font-size: 2.8em; 
+            font-weight: 800; 
+            color: #2d3748; 
+            margin-bottom: 12px; 
+            line-height: 1;
+        }
+        .metric-label { 
+            font-size: 1.1em; 
+            color: #718096; 
+            text-transform: uppercase; 
+            letter-spacing: 1.2px; 
+            font-weight: 600;
+        }
+        .interactive-section { 
+            padding: 40px 30px; 
+            border-top: 2px solid #e2e8f0; 
+        }
+        .section-title { 
+            font-size: 2em; 
+            color: #2d3748; 
+            margin-bottom: 30px; 
+            text-align: center; 
+            font-weight: 700;
+        }
+        .selector-container { 
+            text-align: center; 
+            margin-bottom: 35px; 
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .selector-container label {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #4a5568;
+            margin-right: 15px;
+        }
+        .selector { 
+            padding: 15px 30px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 10px; 
+            font-size: 1.1em; 
+            background: white; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            min-width: 200px;
+            font-weight: 500;
+        }
+        .selector:hover { 
+            border-color: #667eea; 
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); 
+        }
+        .matrix-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 35px; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            background: white;
+        }
+        .matrix-table th { 
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%); 
+            color: white; 
+            padding: 18px 15px; 
+            text-align: center; 
+            font-weight: 600; 
+            font-size: 0.95em; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .matrix-table td { 
+            padding: 16px 12px; 
+            text-align: center; 
+            border-bottom: 1px solid #e2e8f0; 
+            transition: all 0.3s ease; 
+            font-weight: 500;
+        }
+        .matrix-table tr:hover { 
+            background: #f7fafc !important; 
+            transform: scale(1.01);
+        }
+        .channel-cell { 
+            font-weight: 700 !important; 
+            text-align: left !important; 
+            padding-left: 25px !important; 
+            font-size: 1.05em;
+        }
+        .best-performer { 
+            color: #38a169 !important; 
+            font-weight: 700 !important; 
+            background: rgba(56, 161, 105, 0.1) !important; 
+            position: relative;
+        }
+        .best-performer::after {
+            content: '🏆';
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8em;
+        }
+        .average-cell { 
+            background: #edf2f7 !important; 
+            font-weight: 700 !important; 
+            color: #4a5568 !important;
+        }
+        .site-average-row { 
+            background: #f1f5f9 !important; 
+            font-weight: 700 !important; 
+        }
+        .site-average-header { 
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%) !important; 
+            color: white !important; 
+        }
+        .total-average { 
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important; 
+            color: white !important; 
+        }
+        .insights-box { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            margin-top: 25px; 
+            animation: fadeIn 0.6s ease-in-out; 
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+        .insights-box h4 { 
+            font-size: 1.4em; 
+            margin-bottom: 15px; 
+            font-weight: 600;
+        }
+        .insights-box p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        .footer { 
+            text-align: center; 
+            padding: 25px; 
+            color: #718096; 
+            border-top: 1px solid #e2e8f0; 
+            background: #f8fafc;
+        }
+        .footer p {
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+        .footer strong {
+            color: #4a5568;
+        }
+        .live-counter { 
+            color: #38a169; 
+            font-weight: 800; 
+            animation: pulse 2s infinite;
+        }
+        .loading { 
+            opacity: 0.6; 
+            pointer-events: none; 
+            filter: blur(2px);
+        }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .property-tag {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 0 5px;
+        }
+        @media (max-width: 768px) {
+            .metrics-grid { 
+                grid-template-columns: 1fr; 
+                padding: 20px;
+            }
+            .header h1 { font-size: 2.2em; }
+            .metric-value { font-size: 2.2em; }
+            .matrix-table { font-size: 0.85em; }
+            .matrix-table th, .matrix-table td { padding: 10px 6px; }
+            .interactive-section { padding: 20px 15px; }
+            .selector-container { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 SealMetrics Dashboard</h1>
+            <h2>Airtable</h2>
+            <p>Análisis Avanzado de Conversiones por Propiedades de Producto</p>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">€87.142</div>
+                <div class="metric-label">Revenue Mensual</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">3.4%</div>
+                <div class="metric-label">Conversion Rate</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value"><span class="live-counter">156.789</span></div>
+                <div class="metric-label">Total Hits (Live)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">+€63.421</div>
+                <div class="metric-label">Potencial Mensual</div>
+            </div>
+        </div>
+        
+        <div class="interactive-section">
+            <h3 class="section-title">📊 Matriz Interactiva de Conversiones</h3>
+            
+            <div class="selector-container">
+                <label for="attributeSelector">Analizar por Propiedad:</label>
+                <select id="attributeSelector" class="selector" onchange="updateMatrix()">
+                    <option value="platform_features">Características de Plataforma</option>
+                    <option value="ai_capabilities">Capacidades de IA</option>
+                    <option value="integrations">Integraciones</option>
+                </select>
+            </div>
+            
+            <table class="matrix-table" id="interactiveMatrix">
+                <thead>
+                    <tr id="matrixHeader">
+                        <th>Canal / Características de Plataforma</th>
+                        <th>Automatizaciones</th>
+                        <th>Bases de datos</th>
+                        <th>Interfaces</th>
+                        <th>Visualizaciones</th>
+                        <th>Gobernanza</th>
+                        <th>Media Canal</th>
+                    </tr>
+                </thead>
+                <tbody id="matrixBody">
+                    <tr style="background: #f0fff4;">
+                        <td class="channel-cell"><strong>SEO</strong></td>
+                        <td>2.1%</td>
+                        <td class="best-performer">2.8%</td>
+                        <td>3.2%</td>
+                        <td>2.9%</td>
+                        <td>2.6%</td>
+                        <td class="average-cell">2.7%</td>
+                    </tr>
+                    <tr style="background: #fff5f5;">
+                        <td class="channel-cell"><strong>Google Ads</strong></td>
+                        <td>1.8%</td>
+                        <td>2.9%</td>
+                        <td class="best-performer">3.6%</td>
+                        <td class="best-performer">4.2%</td>
+                        <td class="best-performer">3.8%</td>
+                        <td class="average-cell">3.3%</td>
+                    </tr>
+                    <tr style="background: #fef5f8;">
+                        <td class="channel-cell"><strong>Instagram Ads</strong></td>
+                        <td class="best-performer">3.4%</td>
+                        <td>2.6%</td>
+                        <td>3.1%</td>
+                        <td>2.5%</td>
+                        <td>2.8%</td>
+                        <td class="average-cell">2.9%</td>
+                    </tr>
+                    <tr style="background: #fffbeb;">
+                        <td class="channel-cell"><strong>Newsletter</strong></td>
+                        <td class="best-performer">3.8%</td>
+                        <td class="best-performer">4.1%</td>
+                        <td class="best-performer">3.9%</td>
+                        <td class="best-performer">3.6%</td>
+                        <td>3.2%</td>
+                        <td class="average-cell">3.7%</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td class="channel-cell"><strong>TikTok</strong></td>
+                        <td>2.4%</td>
+                        <td>2.6%</td>
+                        <td>2.3%</td>
+                        <td>1.9%</td>
+                        <td>1.6%</td>
+                        <td class="average-cell">2.2%</td>
+                    </tr>
+                    <tr style="background: #fef2f2;">
+                        <td class="channel-cell"><strong>Youtube</strong></td>
+                        <td>1.6%</td>
+                        <td>2.3%</td>
+                        <td>2.7%</td>
+                        <td>3.2%</td>
+                        <td class="best-performer">3.5%</td>
+                        <td class="average-cell">2.7%</td>
+                    </tr>
+                    <tr class="site-average-row">
+                        <td class="site-average-header"><strong>MEDIA SITE</strong></td>
+                        <td>2.5%</td>
+                        <td>2.9%</td>
+                        <td>3.1%</td>
+                        <td>3.1%</td>
+                        <td>2.9%</td>
+                        <td class="total-average"><strong>2.9%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="insights-box" id="matrixInsights">
+                <h4>📈 Insights - Características de Plataforma</h4>
+                <p><strong>Newsletter domina</strong> con 3.7% de conversión promedio, especialmente en <span class="property-tag">Automatizaciones</span> y <span class="property-tag">Bases de datos</span>. <strong>Google Ads</strong> muestra excelente performance en <span class="property-tag">Visualizaciones</span> y <span class="property-tag">Gobernanza</span>. Optimizar targeting por características de plataforma puede generar <strong>+€32.400/mes adicionales</strong>.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Dashboard generado:</strong> 28/08/2025, 15:23:42</p>
+            <p><strong>Propiedades analizadas:</strong> Características de Plataforma, Capacidades de IA, Integraciones</p>
+            <p>Powered by <strong>SealMetrics</strong> - Product Intelligence Platform</p>
+        </div>
+    </div>
+
+    <script>
+        // Datos de la matriz interactiva
+        const matrixData = {
+            "platform_features": {
+                name: "Características de Plataforma",
+                headers: ["Automatizaciones", "Bases de datos", "Interfaces", "Visualizaciones", "Gobernanza"],
+                channels: [
+                    { name: "SEO", color: "#f0fff4", data: [2.1, 2.8, 3.2, 2.9, 2.6] },
+                    { name: "Google Ads", color: "#fff5f5", data: [1.8, 2.9, 3.6, 4.2, 3.8] },
+                    { name: "Instagram Ads", color: "#fef5f8", data: [3.4, 2.6, 3.1, 2.5, 2.8] },
+                    { name: "Newsletter", color: "#fffbeb", data: [3.8, 4.1, 3.9, 3.6, 3.2] },
+                    { name: "TikTok", color: "#f7fafc", data: [2.4, 2.6, 2.3, 1.9, 1.6] },
+                    { name: "Youtube", color: "#fef2f2", data: [1.6, 2.3, 2.7, 3.2, 3.5] }
+                ],
+                insights: "Newsletter domina con 3.7% de conversión promedio, especialmente en automatizaciones y bases de datos relacionales. Google Ads muestra excelente performance en visualizaciones y gobernanza. Optimizar targeting por características de plataforma puede generar +€32.400/mes adicionales."
+            },
+            "ai_capabilities": {
+                name: "Capacidades de IA",
+                headers: ["Apps con IA", "Agentes", "Modelos líderes", "Automatización",
