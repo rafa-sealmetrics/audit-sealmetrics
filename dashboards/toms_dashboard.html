@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sealmetrics Dashboard - TOMS Product Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(102,126,234,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 18px;
+        }
+        
+        .header .meta {
+            font-size: 1rem;
+            opacity: 0.85;
+        }
+        
+        .toms-brand {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 25px;
+            margin-right: 15px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .alert {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(255,107,107,0.25);
+        }
+        
+        .alert h3 {
+            font-size: 1.5rem;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert h3::before {
+            content: "👟";
+            margin-right: 12px;
+            font-size: 1.8rem;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        
+        .card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3::before {
+            content: attr(data-icon);
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .metric-value.positive { 
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .metric-value.negative { 
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .metric-label {
+            font-size: 1.1rem;
+            color: #718096;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .metric-change {
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 25px;
+        }
+        
+        .metric-change.up {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            color: #22543d;
+        }
+        
+        .metric-change.down {
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
+            color: #742a2a;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .table th,
+        .table td {
+            padding: 18px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(226,232,240,0.8);
+        }
+        
+        .table th {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            font-weight: 700;
+            color: #4a5568;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .table td {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .insight-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 5px solid #48bb78;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 4px 15px rgba(72,187,120,0.15);
+        }
+        
+        .insight-box h4 {
+            color: #22543d;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .insight-box p {
+            color: #2f855a;
+            font-size: 1rem;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tag.high { 
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%); 
+            color: #22543d; 
+        }
+        .tag.medium { 
+            background: linear-gradient(135deg, #fef5e7 0%, #fbd38d 100%); 
+            color: #744210; 
+        }
+        .tag.low { 
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%); 
+            color: #742a2a; 
+        }
+        
+        .channel-card {
+            border-left: 5px solid;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+            backdrop-filter: blur(5px);
+        }
+        
+        .facebook { 
+            border-color: #1877f2; 
+            background: linear-gradient(135deg, #f0f8ff 0%, #e3f2fd 100%);
+        }
+        .google { 
+            border-color: #ea4335; 
+            background: linear-gradient(135deg, #fff5f5 0%, #ffebee 100%);
+        }
+        .instagram { 
+            border-color: #e4405f; 
+            background: linear-gradient(135deg, #fef5f8 0%, #fce4ec 100%);
+        }
+        .tiktok { 
+            border-color: #000000; 
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+        .email { 
+            border-color: #805ad5; 
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #48bb78;
+            border-radius: 50%;
+            margin-right: 12px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 0 rgba(72,187,120,0.7);
+        }
+        
+        @keyframes pulse {
+            0% { 
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(72,187,120,0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(72,187,120,0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(72,187,120,0);
+            }
+        }
+
+        .interactive-section {
+            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+            border: 3px solid #667eea;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .selector-container {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .selector-container select {
+            padding: 12px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .selector-container select:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .selector-container button {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .selector-container button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            border-left: 5px solid #48bb78;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 4px 15px rgba(72,187,120,0.15);
+        }
+        
+        .recommendation h4 {
+            color: #22543d;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        
+        .recommendation p {
+            color: #2f855a;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '👟✨';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        
+        .cta-button {
+            background: rgba(255,255,255,0.9);
+            color: #667eea;
+            padding: 18px 35px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .cta-button:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,255,255,0.3);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(226,232,240,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .metric-value {
+                font-size: 2.5rem;
+            }
+
+            .selector-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        .seasonal-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .impact-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .toms-special {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header Personalizado -->
+        <div class="header">
+            <div class="header-content">
+                <h1><span class="live-indicator"></span><span class="toms-brand">TOMS</span>Product Intelligence Dashboard</h1>
+                <div class="subtitle">Analytics avanzadas de calzado consciente | Impacto social meets data-driven marketing</div>
+                <div class="meta">
+                    Dashboard personalizado para toms.es | 100% Consentless tracking | 
+                    <strong>Purpose + Performance Analytics</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerta Principal -->
+        <div class="alert">
+            <h3>Oportunidad Detectada: Alpargatas meets Summer Strategy</h3>
+            <p><strong>Las alpargatas clásicas mujer €70-80 convierten 45% mejor en Instagram vs Google Ads durante primavera-verano, mientras que slip-on hombre dominan Google Shopping con búsquedas específicas de comodidad.</strong></p>
+            <p style="margin-top: 12px; font-size: 1.1rem;">
+                <strong>Potencial identificado:</strong> +€34,600/mes optimizando seasonal targeting + género específico.
+            </p>
+        </div>
+
+        <!-- KPIs Ejecutivos -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">100%</div>
+                <div class="metric-label">Footwear Intelligence Coverage</div>
+                <div class="metric-change up">vs 38% traditional analytics</div>
+            </div>
+            
+            <div class="card metric">
+                <div class="metric-value neutral">€127,890</div>
+                <div class="metric-label">Revenue per Shoe Tracked</div>
+                <div class="metric-change up">Purpose + Performance combined</div>
+            </div>
+            
+            <div class="card metric">
+                <div class="metric-value positive">89,456</div>
+                <div class="metric-label">Pares Analizados/Mes</div>
+                <div class="metric-change up">Cada par = insight accionable</div>
+            </div>
+            
+            <div class="card metric">
+                <div class="metric-value neutral">€0.14</div>
+                <div class="metric-label">Cost per Insight</div>
+                <div class="metric-change down">ROI 847% vs traditional research</div>
+            </div>
+        </div>
+
+        <!-- Performance por Canal vs Tipo de Calzado -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3 data-icon="👟">Performance por Canal vs Tipo de Calzado</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Canal</th>
+                            <th>Alpargatas</th>
+                            <th>Sandalias</th>
+                            <th>Zapatillas</th>
+                            <th>Slip-on</th>
+                            <th>Botas</th>
+                            <th>Best Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: linear-gradient(135deg, #f0f8ff 0%, #e3f2fd 100%);">
+                            <td><strong>Facebook Ads</strong></td>
+                            <td>3.2%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.6%</span></td>
+                            <td>3.8%</td>
+                            <td>3.4%</td>
+                            <td>2.9%</td>
+                            <td><span class="tag high">Sandalias</span></td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #fff5f5 0%, #ffebee 100%);">
+                            <td><strong>Google Shopping</strong></td>
+                            <td>4.1%</td>
+                            <td>3.8%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.4%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.8%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">6.2%</span></td>
+                            <td><span class="tag high">Botas</span></td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #fef5f8 0%, #fce4ec 100%);">
+                            <td><strong>Instagram</strong></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.1%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.9%</span></td>
+                            <td>4.2%</td>
+                            <td>3.7%</td>
+                            <td>3.4%</td>
+                            <td><span class="tag high">Alpargatas</span></td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);">
+                            <td><strong>TikTok Ads</strong></td>
+                            <td>2.8%</td>
+                            <td>3.4%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.1%</span></td>
+                            <td>3.2%</td>
+                            <td>2.6%</td>
+                            <td><span class="tag high">Zapatillas</span></td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);">
+                            <td><strong>Email Marketing</strong></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.8%</span></td>
+                            <td>4.3%</td>
+                            <td>4.1%</td>
+                            <td>4.6%</td>
+                            <td>5.1%</td>
+                            <td><span class="tag high">Botas</span><span class="impact-badge">Impact focus</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="insight-box">
+                    <h4>🎯 Footwear Channel Insights</h4>
+                    <p>Instagram domina alpargatas (lifestyle summer content). Google Shopping lidera botas/slip-on (comfort search intent). Facebook strong en sandalias (visual discovery). Email funciona para todos con messaging de impacto social.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 data-icon="🎨">Top Estilos por Canal + Estacionalidad</h3>
+                
+                <div class="channel-card facebook">
+                    <strong>Facebook Ads</strong> <span style="color: #48bb78; font-size: 0.9em;">(lifestyle + visual storytelling)</span><br>
+                    1. Sandalias estampadas (2,847 conv.) <span class="seasonal-badge">Verano peak</span><br>
+                    2. Alpargatas colored (2,356 conv.) - <em>Primavera targeting</em><br>
+                    3. Wedding collection (1,723 conv.) - <em>Ultra-specific audience</em>
+                </div>
+                
+                <div class="channel-card google">
+                    <strong>Google Shopping</strong> <span style="color: #48bb78; font-size: 0.9em;">(search intent + functionality)</span><br>
+                    1. Slip-on comfort (4,245 conv.) - <em>Work/travel keywords</em><br>
+                    2. Botas invierno (3,834 conv.) <span class="seasonal-badge">Oct-Feb</span><br>
+                    3. Zapatillas casual (2,967 conv.) - <em>Everyday comfort</em>
+                </div>
+                
+                <div class="channel-card instagram">
+                    <strong>Instagram Stories</strong> <span style="color: #48bb78; font-size: 0.9em;">(aesthetic + lifestyle)</span><br>
+                    1. Alpargatas natural/yute (3,167 conv.) <span class="impact-badge">Eco-conscious</span><br>
+                    2. Limited editions (2,045 conv.) - <em>Exclusivity appeal</em><br>
+                    3. Collaborations (1,834 conv.) - <em>Artist partnerships</em>
+                </div>
+                
+                <div class="channel-card email">
+                    <strong>Email Marketing</strong> <span style="color: #48bb78; font-size: 0.9em;">(purpose + loyalty)</span><br>
+                    1. Impact stories + products (2,456 conv.) <span class="impact-badge">One for One</span><br>
+                    2. Seasonal collections preview (2,123 conv.)<br>
+                    3. Member exclusive drops (1,789 conv.) - <em>VIP treatment</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matrix Interactiva TOMS -->
+        <div class="card interactive-section">
+            <h3 data-icon="📊">Matrix Interactiva TOMS: Canales vs Propiedades de Calzado</h3>
+            
+            <div class="selector-container">
+                <label style="font-weight: 700; color: #2d3748;">Seleccionar Propiedad:</label>
+                <select id="propertySelector">
+                    <option value="tipo">Tipo de Calzado</option>
+                    <option value="genero">Género Target</option>
+                    <option value="precio">Rango de Precio</option>
+                    <option value="color">Color/Estilo</option>
+                    <option value="estacion">Estacionalidad</option>
+                    <option value="impacto">Impacto Social</option>
+                </select>
+                <button onclick="updateMatrix()">Actualizar Análisis</button>
+            </div>
+            
+            <div id="matrixContainer" style="overflow-x: auto;">
+                <table class="table" id="interactiveMatrix">
+                    <thead>
+                        <tr>
+                            <th style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">Canal / Tipo</th>
+                            <th>Alpargatas</th>
+                            <th>Sandalias</th>
+                            <th>Zapatillas</th>
+                            <th>Slip-on</th>
+                            <th>Botas</th>
+                            <th style="background: #e2e8f0;">Conversion Promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: linear-gradient(135deg, #f0f8ff 0%, #e3f2fd 100%);">
+                            <td><strong>Facebook Ads</strong></td>
+                            <td>3.2%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.6%</span></td>
+                            <td>3.8%</td>
+                            <td>3.4%</td>
+                            <td>2.9%</td>
+                            <td style="background: #e2e8f0;"><strong>3.6%</strong></td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #fff5f5 0%, #ffebee 100%);">
+                            <td><strong>Google Shopping</strong></td>
+                            <td>4.1%</td>
+                            <td>3.8%</td>
+                            <td>5.4%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.8%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">6.2%</span></td>
+                            <td style="background: #e2e8f0;"><strong>5.1%</strong></td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #fef5f8 0%, #fce4ec 100%);">
+                            <td><strong>Instagram</strong></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.1%</span></td>
+                            <td>4.9%</td>
+                            <td>4.2%</td>
+                            <td>3.7%</td>
+                            <td>3.4%</td>
+                            <td style="background: #e2e8f0;"><strong>4.3%</strong></td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);">
+                            <td><strong>TikTok Ads</strong></td>
+                            <td>2.8%</td>
+                            <td>3.4%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.1%</span></td>
+                            <td>3.2%</td>
+                            <td>2.6%</td>
+                            <td style="background: #e2e8f0;"><strong>3.2%</strong></td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);">
+                            <td><strong>Email Marketing</strong></td>
+                            <td>4.8%</td>
+                            <td>4.3%</td>
+                            <td>4.1%</td>
+                            <td>4.6%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.1%</span></td>
+                            <td style="background: #e2e8f0;"><strong>4.6%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="recommendation" id="matrixInsights">
+                <h4>🎯 Insights Dinámicos - Tipo de Calzado</h4>
+                <p>Google Shopping domina calzado funcional (slip-on/botas). Instagram lidera alpargatas lifestyle. Facebook strong en sandalias seasonal. Email efectivo para todos con messaging de propósito social. Channel-product alignment = +€34,600/mes.</p>
+            </div>
+        </div>
+
+        <!-- Análisis por Género + Precio -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3 data-icon="👩">Género Intelligence: Patrones de Compra</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Segmento</th>
+                            <th>AOV</th>
+                            <th>Best Channel</th>
+                            <th>Top Category</th>
+                            <th>Purchase Driver</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>👩 Mujer</strong></td>
+                            <td>€78</td>
+                            <td>Instagram (5.1%)</td>
+                            <td>Alpargatas</td>
+                            <td>Style + Impact</td>
+                        </tr>
+                        <tr>
+                            <td><strong>👨 Hombre</strong></td>
+                            <td>€82</td>
+                            <td>Google Shop (5.8%)</td>
+                            <td>Slip-on</td>
+                            <td>Comfort + Function</td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #fef5e7 0%, #fbd38d 100%);">
+                            <td><strong>👶 Niños</strong></td>
+                            <td>€45</td>
+                            <td>Email (4.2%)</td>
+                            <td>Alpargatas mini</td>
+                            <td>Parent values-driven</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 25px;">
+                    <h4 style="color: #4a5568; margin-bottom: 15px;">💡 Gender-Specific Strategies:</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="padding: 12px; background: linear-gradient(135deg, #fef5f8 0%, #fce4ec 100%); border-radius: 8px;">
+                            <strong>Mujer:</strong> Visual storytelling + lifestyle content + sustainability messaging
+                        </div>
+                        <div style="padding: 12px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 8px;">
+                            <strong>Hombre:</strong> Functional benefits + comfort features + practical use cases
+                        </div>
+                        <div style="padding: 12px; background: linear-gradient(135deg, #f0fff4 0%, #dcfce7 100%); border-radius: 8px;">
+                            <strong>Niños:</strong> Family values + giving back stories + durability focus
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 data-icon="💰">Precio vs Performance Intelligence</h3>
+                <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px; background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%); border-radius: 12px;">
+                        <div>
+                            <h4 style="color: #4a5568; margin-bottom: 5px;">€40-60 <span class="tag medium">Entry Level</span></h4>
+                            <p style="color: #718096; font-size: 0.9rem;">TikTok dominance • Impulse buying • Youth target</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 1.3rem; font-weight: bold; color: #667eea;">4.1%</div>
+                            <div style="font-size: 0.8rem; color: #718096;">conversion rate</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px; background: linear-gradient(135deg, #f0fff4 0%, #dcfce7 100%); border-radius: 12px;">
+                        <div>
+                            <h4 style="color: #4a5568; margin-bottom: 5px;">€61-80 <span class="tag high">Sweet Spot</span></h4>
+                            <p style="color: #718096; font-size: 0.9rem;">Instagram + Facebook • Core TOMS price • Best volume</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 1.3rem; font-weight: bold; color: #48bb78;">5.2%</div>
+                            <div style="font-size: 0.8rem; color: #718096;">conversion rate</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px; background: linear-gradient(135deg, #fef5e7 0%, #fbd38d 100%); border-radius: 12px;">
+                        <div>
+                            <h4 style="color: #4a5568; margin-bottom: 5px;">€81-100 <span class="tag high">Premium</span></h4>
+                            <p style="color: #718096; font-size: 0.9rem;">Google Shopping + Email • Limited editions • High intent</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 1.3rem; font-weight: bold; color: #38a169;">4.8%</div>
+                            <div style="font-size: 0.8rem; color: #718096;">conversion rate</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px; background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%); border-radius: 12px; border: 2px solid #38a169;">
+                        <div>
+                            <h4 style="color: #2c7a7b; margin-bottom: 5px;">€100+ <span class="impact-badge">Impact Premium</span></h4>
+                            <p style="color: #2c7a7b; font-size: 0.9rem;">Email nurturing • Purpose-driven • Highest LTV</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 1.3rem; font-weight: bold; color: #2c7a7b;">3.9%</div>
+                            <div style="font-size: 0.8rem; color: #2c7a7b;">but highest AOV</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impacto Social Intelligence (Único de TOMS) -->
+        <div class="card">
+            <h3 data-icon="❤️">Social Impact Intelligence <span class="toms-special">(Exclusivo TOMS)</span></h3>
+            
+            <div class="grid grid-3" style="margin-top: 25px;">
+                <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #fef5e7 0%, #fbd38d 100%); border-radius: 12px;">
+                    <div style="font-size: 2.8rem; margin-bottom: 15px;">👟➡️❤️</div>
+                    <h4 style="color: #744210; margin-bottom: 12px; font-size: 1.1rem;">One for One Model</h4>
+                    <div style="font-size: 2rem; font-weight: bold; color: #744210; margin-bottom: 8px;">67,890</div>
+                    <div style="color: #744210; font-size: 0.9rem;">Pares donados este año</div>
+                    <div style="color: #744210; font-size: 0.8rem; margin-top: 8px;">+23% conversion cuando destacado</div>
+                </div>
+                
+                <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #f0fff4 0%, #dcfce7 100%); border-radius: 12px;">
+                    <div style="font-size: 2.8rem; margin-bottom: 15px;">🌱</div>
+                    <h4 style="color: #22543d; margin-bottom: 12px; font-size: 1.1rem;">Sustainable Materials</h4>
+                    <div style="font-size: 2rem; font-weight: bold; color: #22543d; margin-bottom: 8px;">34%</div>
+                    <div style="color: #22543d; font-size: 0.9rem;">Materiales eco-friendly</div>
+                    <div style="color: #22543d; font-size: 0.8rem; margin-top: 8px;">Eco-conscious audience: 45% higher LTV</div>
+                </div>
+                
+                <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #fef5f8 0%, #fce4ec 100%); border-radius: 12px;">
+                    <div style="font-size: 2.8rem; margin-bottom: 15px;">🧠💚</div>
+                    <h4 style="color: #be185d; margin-bottom: 12px; font-size: 1.1rem;">Mental Health Focus</h4>
+                    <div style="font-size: 2rem; font-weight: bold; color: #be185d; margin-bottom: 8px;">89,340</div>
+                    <div style="color: #be185d; font-size: 0.9rem;">€ donados salud mental</div>
+                    <div style="color: #be185d; font-size: 0.8rem; margin-top: 8px;">Stories con impacto: +31% engagement</div>
+                </div>
+            </div>
+
+            <div class="insight-box" style="margin-top: 30px;">
+                <h4>💡 Purpose-Driven Marketing Intelligence</h4>
+                <p><strong>Key finding:</strong> Products with prominent impact messaging convert 23% better in Email and 18% better on Instagram Stories. Purpose-conscious customers show 45% higher LTV and 67% more likely to refer friends. <span class="toms-special">Social impact = competitive advantage.</span></p>
+            </div>
+        </div>
+
+        <!-- Estacionalidad Avanzada -->
+        <div class="card">
+            <h3 data-icon="📅">Seasonal Intelligence: Calzado por Época</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 25px;">
+                <div style="padding: 20px; background: linear-gradient(135deg, #fff9e6 0%, #ffd89b 100%); border-radius: 12px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 1.5rem; margin-right: 10px;">🌸</span>
+                        <h4 style="color: #744210;">Primavera (Mar-May)</h4>
+                    </div>
+                    <div style="color: #744210; font-size: 0.9rem;">
+                        <strong>🎯 Focus:</strong> Alpargatas + Sandalias<br>
+                        <strong>📱 Canales:</strong> Instagram Stories peak<br>
+                        <strong>💡 Messaging:</strong> New beginnings + fresh styles
+                    </div>
+                </div>
+
+                <div style="padding: 20px; background: linear-gradient(135deg, #e0f2fe 0%, #0ea5e9 100%); border-radius: 12px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 1.5rem; margin-right: 10px; color: white;">☀️</span>
+                        <h4 style="color: white;">Verano (Jun-Aug)</h4>
+                    </div>
+                    <div style="color: white; font-size: 0.9rem;">
+                        <strong>🎯 Focus:</strong> Alpargatas + Sandalias peak<br>
+                        <strong>📱 Canales:</strong> Instagram + Facebook dominance<br>
+                        <strong>💡 Messaging:</strong> Beach lifestyle + travel
+                    </div>
+                </div>
+
+                <div style="padding: 20px; background: linear-gradient(135deg, #fef3e2 0%, #f97316 100%); border-radius: 12px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 1.5rem; margin-right: 10px; color: white;">🍂</span>
+                        <h4 style="color: white;">Otoño (Sep-Nov)</h4>
+                    </div>
+                    <div style="color: white; font-size: 0.9rem;">
+                        <strong>🎯 Focus:</strong> Zapatillas + Slip-on<br>
+                        <strong>📱 Canales:</strong> Google Shopping surge<br>
+                        <strong>💡 Messaging:</strong> Back to work comfort
+                    </div>
+                </div>
+
+                <div style="padding: 20px; background: linear-gradient(135deg, #e0e7ff 0%, #3b82f6 100%); border-radius: 12px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 1.5rem; margin-right: 10px; color: white;">❄️</span>
+                        <h4 style="color: white;">Invierno (Dec-Feb)</h4>
+                    </div>
+                    <div style="color: white; font-size: 0.9rem;">
+                        <strong>🎯 Focus:</strong> Botas + Zapatillas casa<br>
+                        <strong>📱 Canales:</strong> Email + Google Shopping<br>
+                        <strong>💡 Messaging:</strong> Warmth + giving season
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recomendaciones Estratégicas -->
+        <div class="card">
+            <h3 data-icon="🧠">Recomendaciones AI-Powered para TOMS</h3>
+            
+            <div class="recommendation">
+                <h4>1. Seasonal + Gender Targeting Optimization</h4>
+                <p>Alpargatas mujer dominan Instagram primavera/verano (5.1% conversion). Slip-on hombre lideran Google Shopping otoño/invierno. Seasonal gender-specific creative = +€34,600/mes revenue boost.</p>
+            </div>
+            
+            <div class="recommendation">
+                <h4>2. Purpose-Driven Email Sequences</h4>
+                <p>Email con messaging de impacto social convierte 23% mejor across all categories. Desarrollar automated sequences highlighting One for One model para cada tipo de calzado = +€28,900/mes.</p>
+            </div>
+            
+            <div class="recommendation">
+                <h4>3. Premium vs Entry-Level Channel Strategy</h4>
+                <p>€61-80 sweet spot en Instagram/Facebook (5.2% conversion). €100+ premium necesita Email nurturing. Entry-level €40-60 domina TikTok. Price-based allocation = +€22,400/mes.</p>
+            </div>
+            
+            <div class="recommendation">
+                <h4>4. Visual Discovery + Search Intent Balance</h4>
+                <p>Instagram: alpargatas lifestyle discovery. Google Shopping: slip-on/botas functional search. Facebook: sandalias seasonal push. Channel-product synergy = +€19,800/mes optimization.</p>
+            </div>
+
+            <div class="recommendation" style="background: linear-gradient(135deg, #ff6b6b 20%, #feca57 100%); border-left: 5px solid #ff6b6b;">
+                <h4 style="color: white;">5. 🎯 TOMS Unique Advantage: Social Impact Amplification</h4>
+                <p style="color: white;">Stories highlighting giving back + sustainability increase conversion by 23% and customer LTV by 45%. This is TOMS' secret weapon that competitors can't replicate. <strong>Impact = Revenue.</strong></p>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h3 style="font-size: 1.7rem; margin-bottom: 18px;">Ready to Transform Every Step into Strategic Insights?</h3>
+            <p style="font-size: 1.2rem; margin-bottom: 25px; opacity: 0.95;">
+                Discover how each pair of TOMS tells a unique story of purpose + performance
+            </p>
+            <button class="cta-button" onclick="scheduleTomsDemo()">
+                👟 Demo TOMS Product Intelligence
+            </button>
+            
+            <div style="margin-top: 25px; font-size: 1rem; opacity: 0.9; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <p>✨ Purpose + Performance analytics</p>
+                <p>👟 Every shoe = insight</p>
+                <p>🌱 Social impact tracking</p>
+                <p>📊 Seasonal intelligence automática</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h3 style="margin-bottom: 18px;">TOMS Product Intelligence Dashboard</h3>
+            <p style="opacity: 0.9; margin-bottom: 12px; font-size: 1.1rem;">
+                Where conscious commerce meets data-driven optimization. Every step forward is a step toward better insights.
+            </p>
+            <p style="opacity: 0.8; font-size: 1rem;">
+                <strong>Powered by:</strong> Sealmetrics.com - Purpose-driven Analytics Platform<br>
+                Helping conscious brands sell more while doing more good | hello@sealmetrics.com
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // TOMS-specific matrix data
+        const tomsMatrixData = {
+            tipo: {
+                headers: ['Alpargatas', 'Sandalias', 'Zapatillas', 'Slip-on', 'Botas'],
+                facebook: ['3.2%', '4.6%', '3.8%', '3.4%', '2.9%'],
+                google: ['4.1%', '3.8%', '5.4%', '5.8%', '6.2%'],
+                instagram: ['5.1%', '4.9%', '4.2%', '3.7%', '3.4%'],
+                tiktok: ['2.8%', '3.4%', '4.1%', '3.2%', '2.6%'],
+                email: ['4.8%', '4.3%', '4.1%', '4.6%', '5.1%'],
+                averages: ['4.0%', '4.2%', '4.3%', '4.1%', '3.8%']
+            },
+            genero: {
+                headers: ['Mujer', 'Hombre', 'Niños', 'Unisex', 'Teens'],
+                facebook: ['4.2%', '3.1%', '3.8%', '3.6%', '3.9%'],
+                google: ['3.8%', '5.8%', '4.2%', '4.4%', '3.2%'],
+                instagram: ['5.1%', '3.4%', '4.1%', '4.2%', '4.8%'],
+                tiktok: ['3.6%', '2.8%', '3.2%', '3.4%', '4.5%'],
+                email: ['4.4%', '4.6%', '5.2%', '4.1%', '3.8%'],
+                averages: ['4.2%', '3.9%', '4.1%', '4.0%', '4.0%']
+            },
+            precio: {
+                headers: ['€40-60', '€61-80', '€81-100', '€100+', 'Limited Ed'],
+                facebook: ['3.8%', '4.6%', '3.9%', '3.2%', '4.1%'],
+                google: ['3.2%', '4.1%', '5.4%', '5.8%', '4.9%'],
+                instagram: ['4.1%', '5.2%', '4.6%', '4.1%', '5.4%'],
+                tiktok: ['4.2%', '3.6%', '2.8%', '2.1%', '3.2%'],
+                email: ['4.1%', '4.8%', '5.1%', '6.2%', '5.8%'],
+                averages: ['3.9%', '4.5%', '4.4%', '4.3%', '4.7%']
+            },
+            color: {
+                headers: ['Natural/Beige', 'Negro', 'Blanco', 'Colored', 'Patterns'],
+                facebook: ['3.8%', '4.2%', '4.1%', '4.6%', '4.9%'],
+                google: ['4.9%', '5.2%', '4.8%', '3.8%', '3.6%'],
+                instagram: ['4.6%', '4.8%', '5.1%', '5.4%', '5.8%'],
+                tiktok: ['3.2%', '3.6%', '3.8%', '4.1%', '4.2%'],
+                email: ['4.8%', '4.9%', '4.6%', '4.4%', '4.2%'],
+                averages: ['4.3%', '4.5%', '4.5%', '4.5%', '4.5%']
+            },
+            estacion: {
+                headers: ['Primavera', 'Verano', 'Otoño', 'Invierno', 'All-Season'],
+                facebook: ['4.1%', '5.2%', '3.6%', '3.2%', '3.8%'],
+                google: ['4.2%', '4.1%', '5.4%', '5.8%', '4.6%'],
+                instagram: ['5.4%', '5.9%', '4.1%', '3.6%', '4.2%'],
+                tiktok: ['3.8%', '4.2%', '3.4%', '2.9%', '3.6%'],
+                email: ['4.6%', '4.8%', '4.9%', '5.2%', '4.8%'],
+                averages: ['4.4%', '4.8%', '4.3%', '4.1%', '4.2%']
+            },
+            impacto: {
+                headers: ['One for One', 'Eco Materials', 'Mental Health', 'Community', 'Standard'],
+                facebook: ['4.8%', '4.2%', '4.6%', '4.1%', '3.2%'],
+                google: ['4.6%', '4.9%', '4.2%', '4.4%', '4.8%'],
+                instagram: ['5.2%', '5.6%', '5.4%', '4.8%', '3.9%'],
+                tiktok: ['3.8%', '4.1%', '4.2%', '3.6%', '3.2%'],
+                email: ['6.2%', '5.8%', '5.9%', '5.4%', '4.1%'],
+                averages: ['4.9%', '4.9%', '4.9%', '4.5%', '3.8%']
+            }
+        };
+
+        const tomsInsights = {
+            tipo: 'Google Shopping domina calzado funcional (slip-on/botas). Instagram lidera alpargatas lifestyle. Facebook strong en sandalias seasonal. Email efectivo para todos con messaging de propósito social. Channel-product alignment = +€34,600/mes.',
+            genero: 'Mujer domina Instagram (lifestyle/visual). Hombre lidera Google Shopping (functional search). Niños mejor Email (parent decision-makers). Gender-specific targeting = +€28,900/mes optimization.',
+            precio: 'Sweet spot €61-80 domina Instagram/Facebook. Premium €100+ necesita Email nurturing con impact stories. Entry €40-60 funciona TikTok. Price-based allocation = +€22,400/mes.',
+            color: 'Patterns + colored products dominan Instagram (visual discovery). Natural/beige lideran Google Shopping (search intent). Negro versatile across channels. Color-creative alignment = +€19,800/mes.',
+            estacion: 'Verano = Instagram/Facebook alpargatas peak. Invierno = Google Shopping/Email botas focus. Primavera = transition period opportunity. Seasonal optimization = +€31,200/mes revenue boost.',
+            impacto: 'Products with social impact messaging convert 23-31% better, especially Email (6.2% One for One). Instagram Stories love eco/mental health content. Impact = competitive advantage = +€42,600/mes.'
+        };
+
+        function updateMatrix() {
+            const selectedProperty = document.getElementById('propertySelector').value;
+            const data = tomsMatrixData[selectedProperty];
+            const table = document.getElementById('interactiveMatrix');
+            
+            // Update headers
+            const headerRow = table.querySelector('thead tr');
+            headerRow.innerHTML = '<th style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">Canal / ' + 
+                selectedProperty.charAt(0).toUpperCase() + selectedProperty.slice(1) + '</th>';
+            
+            data.headers.forEach(header => {
+                headerRow.innerHTML += '<th>' + header + '</th>';
+            });
+            headerRow.innerHTML += '<th style="background: #e2e8f0;">Conversion Promedio</th>';
+            
+            // Update body
+            const tbody = table.querySelector('tbody');
+            const channels = [
+                {name: 'Facebook Ads', key: 'facebook', class: 'linear-gradient(135deg, #f0f8ff 0%, #e3f2fd 100%)'},
+                {name: 'Google Shopping', key: 'google', class: 'linear-gradient(135deg, #fff5f5 0%, #ffebee 100%)'},
+                {name: 'Instagram', key: 'instagram', class: 'linear-gradient(135deg, #fef5f8 0%, #fce4ec 100%)'},
+                {name: 'TikTok Ads', key: 'tiktok', class: 'linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%)'},
+                {name: 'Email Marketing', key: 'email', class: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)'}
+            ];
+            
+            tbody.innerHTML = '';
+            
+            channels.forEach(channel => {
+                const row = document.createElement('tr');
+                row.style.background = channel.class;
+                row.innerHTML = '<td><strong>' + channel.name + '</strong></td>';
+                
+                data[channel.key].forEach((value, index) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    
+                    // Highlight best performers
+                    const numValue = parseFloat(value);
+                    const avgValue = parseFloat(data.averages[index]);
+                    if (numValue > avgValue * 1.15) {
+                        cell.style.color = '#48bb78';
+                        cell.style.fontWeight = 'bold';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Calculate channel average
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#e2e8f0';
+                avgCell.style.fontWeight = 'bold';
+                const channelAvg = data[channel.key].reduce((sum, val) => sum + parseFloat(val), 0) / data[channel.key].length;
+                avgCell.textContent = channelAvg.toFixed(1) + '%';
+                row.appendChild(avgCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Update insights
+            document.getElementById('matrixInsights').innerHTML = 
+                '<h4>🎯 Insights Dinámicos - ' + selectedProperty.charAt(0).toUpperCase() + selectedProperty.slice(1) + '</h4><p>' + 
+                tomsInsights[selectedProperty] + '</p>';
+        }
+
+        // CTA Action
+        function scheduleTomsDemo() {
+            alert('¡Increíble! 👟✨\n\nTu demo personalizada de TOMS Product Intelligence está en camino.\n\nNos contactaremos en las próximas 24h para programar tu sesión exclusiva.\n\n📧 hello@sealmetrics.com\n📞 +34 XXX XXX XXX\n\n💡 Menciona "TOMS Purpose + Performance Analytics" para acceso directo al equipo especializado.\n\n🌟 Descubre cómo cada paso puede convertirse en insights que impulsen tanto tus ventas como tu impacto social.');
+        }
+
+        // Simulate real-time updates for TOMS metrics
+        function simulateTomsRealTimeUpdates() {
+            const metrics = document.querySelectorAll('.metric-value');
+            metrics.forEach(metric => {
+                if (metric.textContent.includes('€')) {
+                    const current = parseFloat(metric.textContent.replace(/[€,]/g, ''));
+                    const variation = (Math.random() - 0.5) * current * 0.015; // ±1.5% variation for TOMS
+                    const newValue = Math.round(current + variation);
+                    metric.textContent = '€' + newValue.toLocaleString();
+                }
+            });
+            
+            // Update impact numbers (unique to TOMS)
+            const impactElements = document.querySelectorAll('[data-impact]');
+            impactElements.forEach(element => {
+                if (element.textContent.includes(',')) {
+                    const current = parseInt(element.textContent.replace(/[,]/g, ''));
+                    const increase = Math.floor(Math.random() * 10) + 1; // Small increases for donated pairs
+                    element.textContent = (current + increase).toLocaleString();
+                }
+            });
+        }
+
+        // Initialize TOMS dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMatrix();
+            
+            // Add TOMS-specific event listeners
+            document.querySelectorAll('.channel-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                    this.style.transition = 'all 0.3s ease';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+            
+            // Activate real-time updates every 45 seconds
+            // setInterval(simulateTomsRealTimeUpdates, 45000);
+        });
+
+        // Add TOMS-specific interactive features
+        function highlightImpactMetrics() {
+            const impactElements = document.querySelectorAll('.impact-badge, .seasonal-badge');
+            impactElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    this.style.animation = 'pulse 1s ease-in-out';
+                    setTimeout(() => {
+                        this.style.animation = '';
+                    }, 1000);
+                });
+            });
+        }
+
+        // Track user interactions with TOMS-specific elements
+        function trackTomsInteractions() {
+            // Track clicks on impact-related elements
+            document.querySelectorAll('.impact-badge, .toms-special, .toms-brand').forEach(element => {
+                element.addEventListener('click', function() {
+                    console.log('TOMS Impact element clicked:', this.textContent);
+                    // Analytics tracking would go here
+                });
+            });
+            
+            // Track seasonal interest
+            document.querySelectorAll('[style*="seasonal"]').forEach(element => {
+                element.addEventListener('click', function() {
+                    console.log('Seasonal element engaged:', this.textContent);
+                    // Seasonal analytics would go here
+                });
+            });
+        }
+
+        // Initialize TOMS-specific features
+        setTimeout(() => {
+            highlightImpactMetrics();
+            trackTomsInteractions();
+        }, 1000);
