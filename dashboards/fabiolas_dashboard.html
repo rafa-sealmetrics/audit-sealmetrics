@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabiolas Dashboard - Calzado Artesanal Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .date-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .date-filter select {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value.positive { color: #48bb78; }
+        .metric-value.negative { color: #f56565; }
+        .metric-value.neutral { color: #D2691E; }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+        
+        .metric-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+        
+        .metric-change.up {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .metric-change.down {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .alert {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .alert-list {
+            list-style: none;
+        }
+        
+        .alert-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .alert-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .chart-container {
+            height: 300px;
+            background: linear-gradient(45deg, #f7fafc, #edf2f7);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-style: italic;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            transition: width 0.3s ease;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .tag.high { background: #c6f6d5; color: #22543d; }
+        .tag.medium { background: #fef5e7; color: #744210; }
+        .tag.low { background: #fed7d7; color: #742a2a; }
+        
+        .recommendation {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .recommendation h4 {
+            color: #22543d;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        .recommendation p {
+            color: #2f855a;
+            font-size: 0.9rem;
+        }
+        
+        .channel-card {
+            border-left: 4px solid;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .facebook { border-color: #1877f2; background: #f0f8ff; }
+        .google { border-color: #ea4335; background: #fff5f5; }
+        .instagram { border-color: #e4405f; background: #fef5f8; }
+        .email { border-color: #805ad5; background: #faf5ff; }
+        
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <h1><span class="live-indicator"></span>Fabiolas Analytics - Calzado Artesanal Dashboard</h1>
+            <div class="date-filter">
+                <select>
+                    <option>Temporada Primavera-Verano</option>
+                    <option>Otoño-Invierno</option>
+                    <option>Todo el año</option>
+                </select>
+                <select>
+                    <option>Todos los canales</option>
+                    <option>Solo paid</option>
+                    <option>Solo organic</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Executive KPIs -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">100%</div>
+                <div class="metric-label">Visibilidad de Datos</div>
+                <div class="metric-change up">vs 65% GA4 = +€12,400/mes revenue visibility</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">€28,670</div>
+                <div class="metric-label">Revenue Visibility</div>
+                <div class="metric-change up">+35% vs GA4 = +€9,870/mes optimization potential</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value positive">45,230</div>
+                <div class="metric-label">Total Hits Temporada</div>
+                <div class="metric-change up">+18% vs temporada anterior = +€3,200/mes</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">€0.64</div>
+                <div class="metric-label">Cost per Hit</div>
+                <div class="metric-change down">-12% vs last season = +€1,850/mes savings</div>
+            </div>
+        </div>
+
+        <!-- Channel Performance -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🏆 Performance por Canal - Calzado Artesanal</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Canal</th>
+                            <th>Hits</th>
+                            <th>Producto Top</th>
+                            <th>ROI Score</th>
+                            <th>Revenue Potential</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag high">Google Shopping</span></td>
+                            <td>18,450</td>
+                            <td>Aitana Cuero</td>
+                            <td>9.1/10</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">+€8,900/temporada</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag high">Facebook Ads</span></td>
+                            <td>12,650</td>
+                            <td>Valeria Negro</td>
+                            <td>8.5/10</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">+€6,200/temporada</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Instagram</span></td>
+                            <td>8,920</td>
+                            <td>Salma Oro</td>
+                            <td>7.8/10</td>
+                            <td><span style="color: #ecc94b; font-weight: bold;">+€4,100/temporada</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Email Marketing</span></td>
+                            <td>5,210</td>
+                            <td>Aitana Crudo</td>
+                            <td>8.2/10</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">+€3,400/temporada</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">💡 Channel Insights Artesanales</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Google Shopping domina búsquedas de "alpargatas artesanales". Instagram mejor para colores llamativos y estilos modernos. Optimizar por temporada alta.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Top Modelos por Canal</h3>
+                
+                <div class="channel-card google">
+                    <strong>Google Shopping</strong> <span style="color: #48bb78; font-size: 0.9em;">(temporada alta)</span><br>
+                    1. Aitana Cuero (1,245 hits) - <em>Búsquedas "alpargatas cuero"</em><br>
+                    2. Valeria Crudo (987 hits) - <em>Estilo clásico</em><br>
+                    3. Salma Negro (756 hits) - <em>Versatilidad máxima</em>
+                </div>
+                
+                <div class="channel-card facebook">
+                    <strong>Facebook Ads</strong> <span style="color: #48bb78; font-size: 0.9em;">(engagement alto)</span><br>
+                    1. Valeria Negro (892 hits) - <em>Mejor CTR</em><br>
+                    2. Aitana Oro (634 hits) - <em>Premium segment</em><br>
+                    3. Salma Cuero (445 hits) - <em>Artesanía destacada</em>
+                </div>
+                
+                <div class="channel-card instagram">
+                    <strong>Instagram</strong> <span style="color: #ecc94b; font-size: 0.9em;">(visual appeal)</span><br>
+                    1. Salma Oro (567 hits) - <em>Mayor engagement</em><br>
+                    2. Aitana Negro (423 hits) - <em>Stories performance</em><br>
+                    3. Valeria Oro (334 hits) - <em>Influencer favorite</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Conversion Rate Matrix -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>📊 Matriz de Conversión Interactiva: Canales vs Atributos</h3>
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600; margin-right: 15px;">Seleccionar Atributo:</label>
+                    <select id="attributeSelector" style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; margin-right: 20px;">
+                        <option value="tallas">Tallas</option>
+                        <option value="colores">Colores</option>
+                        <option value="materiales">Materiales</option>
+                        <option value="cuna">Altura Cuña</option>
+                    </select>
+                    <button onclick="updateMatrix()" style="padding: 8px 16px; background: #D2691E; color: white; border: none; border-radius: 6px; cursor: pointer;">Actualizar Matriz</button>
+                </div>
+                
+                <div id="matrixContainer" style="overflow-x: auto;">
+                    <table class="table" id="interactiveMatrix">
+                        <thead>
+                            <tr>
+                                <th style="background: #8B4513; color: white;">Canal / Talla</th>
+                                <th>35</th>
+                                <th>36</th>
+                                <th>37</th>
+                                <th>38</th>
+                                <th>39</th>
+                                <th>40</th>
+                                <th>41</th>
+                                <th>42</th>
+                                <th style="background: #e2e8f0;">Media Canal</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                
+                <div class="recommendation" id="matrixInsights">
+                    <h4>📈 Insights Dinámicos</h4>
+                    <p>Selecciona diferentes atributos para ver oportunidades de optimización específicas por canal en calzado artesanal.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Analysis -->
+        <div class="grid grid-3">
+            <div class="card">
+                <h3>🎨 Performance por Color</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Color</th>
+                            <th>Hits</th>
+                            <th>Conversión</th>
+                            <th>Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🤎 Cuero</td>
+                            <td>12,450</td>
+                            <td>3.8%</td>
+                            <td>€18,670</td>
+                        </tr>
+                        <tr>
+                            <td>⚫ Negro</td>
+                            <td>11,230</td>
+                            <td>3.5%</td>
+                            <td>€16,890</td>
+                        </tr>
+                        <tr>
+                            <td>🤍 Crudo</td>
+                            <td>9,850</td>
+                            <td>3.2%</td>
+                            <td>€14,230</td>
+                        </tr>
+                        <tr>
+                            <td>🟡 Oro</td>
+                            <td>6,720</td>
+                            <td>4.1%</td>
+                            <td>€12,340</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>👠 Performance por Altura Cuña</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Altura</th>
+                            <th>Hits</th>
+                            <th>Conversión</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cuña Media (3-5cm)</td>
+                            <td>15,670</td>
+                            <td><span class="tag high">3.9%</span></td>
+                            <td>Google Shopping</td>
+                        </tr>
+                        <tr>
+                            <td>Cuña Baja (2-3cm)</td>
+                            <td>12,340</td>
+                            <td><span class="tag high">3.6%</span></td>
+                            <td>Facebook Ads</td>
+                        </tr>
+                        <tr>
+                            <td>Cuña Alta (5-8cm)</td>
+                            <td>8,920</td>
+                            <td><span class="tag medium">3.2%</span></td>
+                            <td>Instagram</td>
+                        </tr>
+                        <tr>
+                            <td>Plana</td>
+                            <td>8,300</td>
+                            <td><span class="tag medium">2.8%</span></td>
+                            <td>Email Marketing</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🧵 Performance por Material</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>AOV</th>
+                            <th>Conversión</th>
+                            <th>Margen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cuero Premium</td>
+                            <td>€74</td>
+                            <td>3.8%</td>
+                            <td>45% (premium positioning)</td>
+                        </tr>
+                        <tr>
+                            <td>Esparto Natural</td>
+                            <td>€68</td>
+                            <td>3.5%</td>
+                            <td>42% (artesanía value)</td>
+                        </tr>
+                        <tr>
+                            <td>Lona</td>
+                            <td>€59</td>
+                            <td>3.1%</td>
+                            <td>38% (volumen oportunity)</td>
+                        </tr>
+                        <tr>
+                            <td>Yute</td>
+                            <td>€65</td>
+                            <td>3.3%</td>
+                            <td>40% (sostenibilidad focus)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Cart Abandonment Analysis -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🛒 Abandono de Carrito - Análisis Artesanal</h3>
+                <div class="chart-container">
+                    <div style="text-align: left; padding: 20px;">
+                        <div style="margin-bottom: 15px;">
+                            <strong>Tallas 35-36:</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 68%; background: #f56565;"></div>
+                            </div>
+                            68% abandono - €8,450 perdidos <span style="color: #48bb78; font-weight: bold;">(Stock limitado)</span>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>Cuñas Altas:</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 52%; background: #ed8936;"></div>
+                            </div>
+                            52% abandono - €6,230 perdidos <span style="color: #48bb78; font-weight: bold;">(Sizing concerns)</span>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>Color Oro:</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%; background: #ecc94b;"></div>
+                            </div>
+                            45% abandono - €4,890 perdidos <span style="color: #48bb78; font-weight: bold;">(Premium hesitation)</span>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>Primera compra:</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 42%; background: #48bb78;"></div>
+                            </div>
+                            42% abandono - €5,670 perdidos <span style="color: #48bb78; font-weight: bold;">(Trust building needed)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📈 Estacionalidad & Timing</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Período</th>
+                            <th>Traffic %</th>
+                            <th>Conversión</th>
+                            <th>Estrategia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f0fff4;">
+                            <td><strong>Abril-Junio</strong></td>
+                            <td>45%</td>
+                            <td>4.2%</td>
+                            <td><span class="tag high">Peak temporada</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Julio-Agosto</strong></td>
+                            <td>32%</td>
+                            <td>3.8%</td>
+                            <td><span class="tag medium">Mantener stock</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Septiembre-Noviembre</strong></td>
+                            <td>15%</td>
+                            <td>2.1%</td>
+                            <td><span class="tag low">Liquidación</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Diciembre-Marzo</strong></td>
+                            <td>8%</td>
+                            <td>1.8%</td>
+                            <td><span class="tag low">Preparación</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Strategic Recommendations -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🧠 Recomendaciones Estratégicas - Calzado Artesanal</h3>
+                
+                <div class="recommendation">
+                    <h4>1. Optimización por Tallas Populares</h4>
+                    <p>Tallas 37-39 representan 65% de conversiones. Incrementar stock y campañas específicas = +€8,900/temporada. Google Shopping ideal para búsquedas "alpargatas talla 38".</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>2. Estrategia de Colores por Canal</h4>
+                    <p>Cuero y Negro dominan Google Shopping (búsquedas "alpargatas cuero artesanales"). Oro y colores vivos mejor en Instagram = +€4,200/temporada en visual channels.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>3. Maximizar Temporada Alta</h4>
+                    <p>Abril-Junio: 4.2% conversión vs 2.1% resto año. Concentrar 70% budget en Q2. Email marketing para pre-temporada y reactivación = +€6,700/año.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>4. Artesanía como Diferenciador</h4>
+                    <p>Destacar "Hechas a mano en La Rioja" aumenta conversión 25%. Contenido de proceso artesanal en Instagram y Facebook mejora engagement y AOV premium.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>5. Recovery de Abandono Específico</h4>
+                    <p>Email automático tras abandono de tallas 35-36 con "Últimas unidades disponibles". Recovery estimado: +€3,200/temporada en tallas escasas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div style="background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%); color: white; border-radius: 12px; padding: 30px; text-align: center; margin: 30px 0;">
+            <h3 style="font-size: 1.6rem; margin-bottom: 15px;">¿Preparada para maximizar la próxima temporada alta?</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">
+                Descubre cómo Sealmetrics puede ayudar a Fabiolas a optimizar cada alpargata, cada talla, cada canal
+            </p>
+            <button style="background: white; color: #8B4513; padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                🏆 Agendar Demo Personalizada Fabiolas
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Interactive Matrix Data para Fabiolas
+        const matrixData = {
+            tallas: {
+                headers: ['35', '36', '37', '38', '39', '40', '41', '42'],
+                facebook: ['2.3%', '2.8%', '3.6%', '4.1%', '4.3%', '3.2%', '2.6%', '2.1%'],
+                google: ['2.1%', '3.2%', '4.2%', '4.8%', '4.5%', '3.8%', '3.1%', '2.5%'],
+                instagram: ['3.1%', '3.4%', '3.8%', '3.9%', '3.5%', '2.8%', '2.2%', '1.9%'],
+                email: ['2.8%', '3.6%', '4.1%', '4.4%', '4.2%', '3.5%', '2.9%', '2.3%'],
+                averages: ['2.6%', '3.2%', '3.9%', '4.3%', '4.1%', '3.3%', '2.7%', '2.2%']
+            },
+            colores: {
+                headers: ['Cuero', 'Negro', 'Crudo', 'Oro', 'Champagne'],
+                facebook: ['3.8%', '3.5%', '3.2%', '4.1%', '3.6%'],
+                google: ['4.2%', '3.9%', '3.6%', '3.4%', '3.1%'],
+                instagram: ['3.4%', '3.1%', '3.8%', '4.6%', '4.2%'],
+                email: ['4.1%', '3.8%', '4.2%', '3.9%', '3.7%'],
+                averages: ['3.9%', '3.6%', '3.7%', '4.0%', '3.7%']
+            },
+            materiales: {
+                headers: ['Cuero Premium', 'Esparto', 'Lona', 'Yute', 'Serraje'],
+                facebook: ['4.1%', '3.8%', '3.2%', '3.5%', '3.1%'],
+                google: ['4.5%', '4.2%', '3.6%', '3.8%', '3.4%'],
+                instagram: ['3.6%', '3.9%', '4.1%', '4.3%', '3.8%'],
+                email: ['4.3%', '4.1%', '3.8%', '4.0%', '3.6%'],
+                averages: ['4.1%', '4.0%', '3.7%', '3.9%', '3.5%']
+            },
+            cuna: {
+                headers: ['Plana', 'Baja 2-3cm', 'Media 3-5cm', 'Alta 5-8cm'],
+                facebook: ['2.8%', '3.6%', '3.9%', '3.2%'],
+                google: ['3.1%', '3.8%', '4.2%', '3.4%'],
+                instagram: ['3.4%', '3.5%', '3.7%', '4.1%'],
+                email: ['3.2%', '3.9%', '4.0%', '3.6%'],
+                averages: ['3.1%', '3.7%', '3.9%', '3.6%']
+            }
+        };
+
+        function updateMatrix() {
+            const selectedAttribute = document.getElementById('attributeSelector').value;
+            const data = matrixData[selectedAttribute];
+            const table = document.getElementById('interactiveMatrix');
+            
+            // Update headers
+            const headerRow = table.querySelector('thead tr');
+            headerRow.innerHTML = '<th style="background: #8B4513; color: white;">Canal / ' + 
+                selectedAttribute.charAt(0).toUpperCase() + selectedAttribute.slice(1) + '</th>';
+            
+            data.headers.forEach(header => {
+                headerRow.innerHTML += '<th>' + header + '</th>';
+            });
+            headerRow.innerHTML += '<th style="background: #e2e8f0;">Media Canal</th>';
+            
+            // Update body
+            const tbody = table.querySelector('tbody');
+            const channels = [
+                {name: 'Facebook Ads', key: 'facebook', class: 'f0f8ff'},
+                {name: 'Google Shopping', key: 'google', class: 'fff5f5'},
+                {name: 'Instagram', key: 'instagram', class: 'fef5f8'},
+                {name: 'Email Marketing', key: 'email', class: 'faf5ff'}
+            ];
+            
+            tbody.innerHTML = '';
+            
+            channels.forEach(channel => {
+                const row = document.createElement('tr');
+                row.style.background = '#' + channel.class;
+                row.innerHTML = '<td><strong>' + channel.name + '</strong></td>';
+                
+                data[channel.key].forEach((value, index) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    
+                    // Highlight best performers
+                    const numValue = parseFloat(value);
+                    const avgValue = parseFloat(data.averages[index]);
+                    if (numValue > avgValue * 1.15) {
+                        cell.style.color = '#48bb78';
+                        cell.style.fontWeight = 'bold';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Calculate channel average
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#e2e8f0';
+                avgCell.style.fontWeight = 'bold';
+                const channelAvg = data[channel.key].reduce((sum, val) => sum + parseFloat(val), 0) / data[channel.key].length;
+                avgCell.textContent = channelAvg.toFixed(1) + '%';
+                row.appendChild(avgCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add site average row
+            const avgRow = document.createElement('tr');
+            avgRow.style.background = '#f4f4f5';
+            avgRow.style.fontWeight = 'bold';
+            avgRow.innerHTML = '<td style="background: #8B4513; color: white;"><strong>MEDIA FABIOLAS</strong></td>';
+            
+            data.averages.forEach(avg => {
+                avgRow.innerHTML += '<td>' + avg + '</td>';
+            });
+            
+            const totalAvg = data.averages.reduce((sum, val) => sum + parseFloat(val), 0) / data.averages.length;
+            avgRow.innerHTML += '<td style="background: #8B4513; color: white;"><strong>' + totalAvg.toFixed(1) + '%</strong></td>';
+            
+            tbody.appendChild(avgRow);
+            
+            // Update insights
+            updateInsights(selectedAttribute);
+        }
+        
+        function updateInsights(attribute) {
+            const insights = {
+                tallas: 'Tallas 37-39 dominan conversiones (4.3% peak talla 38). Google Shopping ideal para búsquedas específicas de talla. Focus en stock de tallas populares = +€8,900/temporada',
+                colores: 'Oro lidera en Instagram (4.6%) por appeal visual. Cuero domina Google Shopping por búsquedas "alpargatas cuero". Estrategia de colores por canal = +€5,200/temporada',
+                materiales: 'Cuero Premium mejor ROI en todos canales. Esparto natural second performer por autenticidad artesanal. Premium materials strategy = +€6,700/temporada',
+                cuna: 'Cuña Media (3-5cm) sweet spot universal. Instagram prefiere cuñas altas por factor visual. Segmentar altura por canal = +€4,100/temporada'
+            };
+            
+            document.getElementById('matrixInsights').innerHTML = 
+                '<h4>📈 Insights - ' + attribute.charAt(0).toUpperCase() + attribute.slice(1) + '</h4><p>' + 
+                insights[attribute] + '</p>';
+        }
+        
+        // Initialize with default values when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMatrix();
+        });
+    </script>
+</body>
+</html>
