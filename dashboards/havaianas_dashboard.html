@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Havaianas - Informe Sealmetrics | Product Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #fef3c7 100%);
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #f59e0b 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 15px;
+        }
+        
+        .header .tagline {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            font-style: italic;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0ea5e9;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #0ea5e9, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .metric-value.positive { 
+            background: linear-gradient(45deg, #10b981, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .metric-value.negative { 
+            background: linear-gradient(45deg, #ef4444, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .metric-label {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .metric-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 25px;
+        }
+        
+        .metric-change.up {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            color: #166534;
+        }
+        
+        .metric-change.down {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            color: #991b1b;
+        }
+        
+        .alert {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.3);
+        }
+        
+        .alert h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert h3::before {
+            content: "🏖️";
+            margin-right: 12px;
+            font-size: 1.8rem;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .table th,
+        .table td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .table th {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            font-weight: 700;
+            color: #334155;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            font-size: 0.95rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 3px;
+        }
+        
+        .tag.high { 
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0); 
+            color: #166534; 
+        }
+        .tag.medium { 
+            background: linear-gradient(135deg, #fef3c7, #fed7aa); 
+            color: #92400e; 
+        }
+        .tag.low { 
+            background: linear-gradient(135deg, #fef2f2, #fecaca); 
+            color: #991b1b; 
+        }
+        
+        .recommendation {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-left: 5px solid #22c55e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 2px 10px rgba(34, 197, 94, 0.1);
+        }
+        
+        .recommendation h4 {
+            color: #166534;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .recommendation p {
+            color: #15803d;
+            font-size: 0.95rem;
+        }
+        
+        .channel-card {
+            border-left: 5px solid;
+            padding: 18px;
+            margin: 12px 0;
+            border-radius: 0 12px 12px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .channel-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .facebook { border-color: #1877f2; background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+        .instagram { border-color: #e4405f; background: linear-gradient(135deg, #fdf2f8, #fce7f3); }
+        .google { border-color: #ea4335; background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+        .tiktok { border-color: #000000; background: linear-gradient(135deg, #f8fafc, #f1f5f9); }
+        .email { border-color: #7c3aed; background: linear-gradient(135deg, #faf5ff, #f3e8ff); }
+        
+        .interactive-controls {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .interactive-controls label {
+            font-weight: 700;
+            margin-right: 15px;
+            color: #334155;
+        }
+        
+        .interactive-controls select,
+        .interactive-controls button {
+            padding: 10px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-controls button {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .interactive-controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+        
+        .insights-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid #f97316;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .insights-box h4 {
+            color: #9a3412;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .insights-box h4::before {
+            content: "💡";
+            margin-right: 8px;
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .metric-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header Havaianas -->
+        <div class="header">
+            <h1><span class="live-indicator"></span>Havaianas - Product Intelligence Report</h1>
+            <div class="subtitle">Optimización de Marketing por Color, Talla y Colección</div>
+            <div class="tagline">"The Legitimate Ones" - Sealmetrics Product Attribution Analysis</div>
+        </div>
+
+        <!-- Alerta de Oportunidad -->
+        <div class="alert">
+            <h3>Oportunidad de Revenue Discovery Detectada</h3>
+            <p><strong>Havaianas puede incrementar sus ingresos en +€245,600/mes optimizando la estrategia color-canal y size-targeting.</strong></p>
+            <p style="margin-top: 12px; font-size: 1.1rem;">
+                <strong>Action Items:</strong> Instagram domina con colores vibrantes (Rosa, Coral), Google Shopping excela con básicos (Negro, Azul Navy), y tallas pequeñas (35-38) convierten 40% mejor en redes sociales.
+            </p>
+        </div>
+
+        <!-- KPIs Executivos Havaianas -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">328,456</div>
+                <div class="metric-label">Flip Flops Vendidos/Mes</div>
+                <div class="metric-change up">+18% vs temporada anterior</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value">€47.2M</div>
+                <div class="metric-label">Revenue Visibility Total</div>
+                <div class="metric-change up">100% tracking vs 65% GA4</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value positive">3.8%</div>
+                <div class="metric-label">Conversion Rate Promedio</div>
+                <div class="metric-change up">+0.9% con Product Intelligence</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value">€28.50</div>
+                <div class="metric-label">AOV por Par</div>
+                <div class="metric-change up">Premium collections +€12 AOV</div>
+            </div>
+        </div>
+
+        <!-- Performance por Canal -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🏆 Channel Performance - Footwear Intelligence</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Canal</th>
+                            <th>Pares Vendidos</th>
+                            <th>Color Top</th>
+                            <th>Talla Dominante</th>
+                            <th>Revenue Potential</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag high">Instagram</span></td>
+                            <td>89,234</td>
+                            <td>🌺 Rosa/Coral</td>
+                            <td>37/38 (42%)</td>
+                            <td><span style="color: #10b981; font-weight: bold;">+€78,400/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag high">Facebook Ads</span></td>
+                            <td>76,891</td>
+                            <td>⚫ Negro</td>
+                            <td>39/40 (38%)</td>
+                            <td><span style="color: #10b981; font-weight: bold;">+€65,200/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag high">Google Shopping</span></td>
+                            <td>67,523</td>
+                            <td>🔵 Azul Navy</td>
+                            <td>41/42 (35%)</td>
+                            <td><span style="color: #10b981; font-weight: bold;">+€58,900/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Email Marketing</span></td>
+                            <td>34,567</td>
+                            <td>🥇 Rose Gold</td>
+                            <td>39/40 (Premium)</td>
+                            <td><span style="color: #10b981; font-weight: bold;">+€43,100/mes</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="insights-box">
+                    <h4>Channel Intelligence Insights</h4>
+                    <p>Instagram domina con colores vibrantes y tallas pequeñas (target femenino joven). Facebook excela con colores neutros para audience amplia. Google Shopping convierte mejor con tallas grandes (target masculino).</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎨 Top Colors by Channel</h3>
+                
+                <div class="channel-card instagram">
+                    <strong>Instagram</strong> <span style="color: #10b981; font-size: 0.9em;">(color strategy leader)</span><br>
+                    1. 🌺 Rosa/Coral (23,456 pares) - <em>Lifestyle content winner</em><br>
+                    2. 🟡 Cyber Pink (18,234 pares) - <em>Stories performance</em><br>
+                    3. 🌿 Matcha Green (15,678 pares) - <em>Eco-conscious trend</em>
+                </div>
+                
+                <div class="channel-card facebook">
+                    <strong>Facebook Ads</strong> <span style="color: #10b981; font-size: 0.9em;">(volume optimizer)</span><br>
+                    1. ⚫ Negro (28,456 pares) - <em>Universal appeal</em><br>
+                    2. ⚪ Blanco (22,345 pares) - <em>Summer essential</em><br>
+                    3. 🔵 Azul Navy (19,234 pares) - <em>Classic choice</em>
+                </div>
+                
+                <div class="channel-card google">
+                    <strong>Google Shopping</strong> <span style="color: #10b981; font-size: 0.9em;">(premium focus)</span><br>
+                    1. 🔵 Azul Navy (25,123 pares) - <em>Search volume leader</em><br>
+                    2. ⚫ Negro (21,876 pares) - <em>Consistent performer</em><br>
+                    3. 🟤 Dark Brown (16,543 pares) - <em>Premium positioning</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matriz Interactiva Colores vs Canales -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🎨 Conversion Rate Matrix: Canales vs Colores</h3>
+                <div class="interactive-controls">
+                    <label>Seleccionar Atributo:</label>
+                    <select id="attributeSelector">
+                        <option value="colors">Colores</option>
+                        <option value="sizes">Tallas</option>
+                        <option value="collections">Colecciones</option>
+                        <option value="prices">Rangos Precio</option>
+                    </select>
+                    <button onclick="updateMatrix()">Actualizar Matrix</button>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table class="table" id="interactiveMatrix">
+                        <thead>
+                            <tr>
+                                <th style="background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white;">Canal / Color</th>
+                                <th>⚫ Negro</th>
+                                <th>⚪ Blanco</th>
+                                <th>🌺 Rosa</th>
+                                <th>🔵 Navy</th>
+                                <th>🌿 Verde</th>
+                                <th>🧡 Coral</th>
+                                <th>🥇 Rose Gold</th>
+                                <th>🟡 Yellow</th>
+                                <th style="background: #f1f5f9;">Media Canal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matrixBody">
+                            <tr style="background: #fef2f8;">
+                                <td><strong>Instagram</strong></td>
+                                <td>3.2%</td>
+                                <td>2.8%</td>
+                                <td><span style="color: #10b981; font-weight: bold;">5.4%</span></td>
+                                <td>2.9%</td>
+                                <td>4.1%</td>
+                                <td><span style="color: #10b981; font-weight: bold;">5.8%</span></td>
+                                <td>3.6%</td>
+                                <td>4.2%</td>
+                                <td style="background: #f1f5f9;"><strong>4.0%</strong></td>
+                            </tr>
+                            <tr style="background: #eff6ff;">
+                                <td><strong>Facebook Ads</strong></td>
+                                <td><span style="color: #10b981; font-weight: bold;">4.6%</span></td>
+                                <td>4.2%</td>
+                                <td>3.8%</td>
+                                <td>4.1%</td>
+                                <td>3.4%</td>
+                                <td>4.0%</td>
+                                <td>3.2%</td>
+                                <td>2.9%</td>
+                                <td style="background: #f1f5f9;"><strong>3.8%</strong></td>
+                            </tr>
+                            <tr style="background: #fef2f2;">
+                                <td><strong>Google Shopping</strong></td>
+                                <td>4.2%</td>
+                                <td>3.8%</td>
+                                <td>2.6%</td>
+                                <td><span style="color: #10b981; font-weight: bold;">5.2%</span></td>
+                                <td>3.1%</td>
+                                <td>2.4%</td>
+                                <td>4.8%</td>
+                                <td>3.3%</td>
+                                <td style="background: #f1f5f9;"><strong>3.7%</strong></td>
+                            </tr>
+                            <tr style="background: #faf5ff;">
+                                <td><strong>Email Marketing</strong></td>
+                                <td>3.8%</td>
+                                <td>4.1%</td>
+                                <td>4.4%</td>
+                                <td>4.0%</td>
+                                <td>3.6%</td>
+                                <td>4.2%</td>
+                                <td><span style="color: #10b981; font-weight: bold;">6.1%</span></td>
+                                <td>3.9%</td>
+                                <td style="background: #f1f5f9;"><strong>4.3%</strong></td>
+                            </tr>
+                            <tr style="background: #f8fafc;">
+                                <td><strong>TikTok Ads</strong></td>
+                                <td>2.8%</td>
+                                <td>3.1%</td>
+                                <td><span style="color: #10b981; font-weight: bold;">4.6%</span></td>
+                                <td>2.4%</td>
+                                <td>3.8%</td>
+                                <td>4.2%</td>
+                                <td>2.9%</td>
+                                <td><span style="color: #10b981; font-weight: bold;">4.8%</span></td>
+                                <td style="background: #f1f5f9;"><strong>3.6%</strong></td>
+                            </tr>
+                            <tr style="background: #f4f4f5; font-weight: bold;">
+                                <td style="background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white;"><strong>MEDIA SITE</strong></td>
+                                <td>3.7%</td>
+                                <td>3.6%</td>
+                                <td>4.2%</td>
+                                <td>3.7%</td>
+                                <td>3.6%</td>
+                                <td>4.1%</td>
+                                <td>4.1%</td>
+                                <td>3.8%</td>
+                                <td style="background: #64748b; color: white;"><strong>3.8%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="recommendation" id="matrixInsights">
+                    <h4>🎨 Color Performance Insights</h4>
+                    <p>Rosa y Coral dominan en Instagram (+5.4% conversión). Negro lidera en Facebook para audience masiva. Navy Blue excela en Google Shopping. Rose Gold premium convierte mejor en Email. Optimizar color por canal = +€156,300/mes adicionales.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Análisis de Tallas y Abandono -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>👟 Size Performance Analysis</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Talla (BR)</th>
+                            <th>Volume</th>
+                            <th>Best Channel</th>
+                            <th>Conversion Rate</th>
+                            <th>Demographics</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>35/36</strong></td>
+                            <td>45,234</td>
+                            <td>Instagram (47%)</td>
+                            <td><span class="tag high">4.8%</span></td>
+                            <td>Women 18-25</td>
+                        </tr>
+                        <tr>
+                            <td><strong>37/38</strong></td>
+                            <td>67,891</td>
+                            <td>Instagram (42%)</td>
+                            <td><span class="tag high">4.5%</span></td>
+                            <td>Women 25-35</td>
+                        </tr>
+                        <tr>
+                            <td><strong>39/40</strong></td>
+                            <td>89,456</td>
+                            <td>Facebook (38%)</td>
+                            <td><span class="tag medium">3.9%</span></td>
+                            <td>Mixed Gender</td>
+                        </tr>
+                        <tr>
+                            <td><strong>41/42</strong></td>
+                            <td>56,234</td>
+                            <td>Google Shop (45%)</td>
+                            <td><span class="tag medium">3.6%</span></td>
+                            <td>Men 25-45</td>
+                        </tr>
+                        <tr>
+                            <td><strong>43/44</strong></td>
+                            <td>23,567</td>
+                            <td>Google Shop (52%)</td>
+                            <td><span class="tag low">3.1%</span></td>
+                            <td>Men 35+</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🛒 Cart Abandonment por Atributos</h3>
+                <div style="margin: 20px 0;">
+                    <div style="margin-bottom: 20px;">
+                        <strong>Colecciones Premium (You Malta, Crystal):</strong>
+                        <div style="width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; margin: 8px 0;">
+                            <div style="width: 68%; height: 100%; background: linear-gradient(90deg, #ef4444, #dc2626); border-radius: 5px;"></div>
+                        </div>
+                        68% abandono - €142,500 perdidos <span style="color: #10b981; font-weight: bold;">(Email recovery opportunity)</span>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <strong>Tallas Grandes (43/44+):</strong>
+                        <div style="width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; margin: 8px 0;">
+                            <div style="width: 54%; height: 100%; background: linear-gradient(90deg, #f59e0b, #d97706); border-radius: 5px;"></div>
+                        </div>
+                        54% abandono - €78,300 perdidos <span style="color: #10b981; font-weight: bold;">(Size availability messaging)</span>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <strong>Colores Trending (Cyber Pink, Matcha):</strong>
+                        <div style="width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; margin: 8px 0;">
+                            <div style="width: 47%; height: 100%; background: linear-gradient(90deg, #eab308, #ca8a04); border-radius: 5px;"></div>
+                        </div>
+                        47% abandono - €65,800 perdidos <span style="color: #10b981; font-weight: bold;">(Urgency + scarcity)</span>
+                    </div>
+                    
+                    <div>
+                        <strong>Precio €40+ (Premium Range):</strong>
+                        <div style="width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; margin: 8px 0;">
+                            <div style="width: 62%; height: 100%; background: linear-gradient(90deg, #f97316, #ea580c); border-radius: 5px;"></div>
+                        </div>
+                        62% abandono - €98,400 perdidos <span style="color: #10b981; font-weight: bold;">(Value proposition focus)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recomendaciones Estratégicas -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🚀 Recomendaciones Estratégicas - Havaianas</h3>
+                
+                <div class="recommendation">
+                    <h4>1. Color-Channel Optimization Strategy</h4>
+                    <p><strong>Instagram:</strong> Focus en colores vibrantes (Rosa, Coral, Cyber Pink) = +€78,400/mes. <strong>Facebook:</strong> Scale colores universales (Negro, Blanco) para reach masivo = +€65,200/mes. <strong>Google Shopping:</strong> Dominar con Navy Blue y colores premium = +€58,900/mes.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>2. Size-Demographic Targeting</h4>
+                    <p>Tallas 35-38 convierten 40% mejor en Instagram/TikTok (target femenino joven). Tallas 41+ excelen en Google Shopping (target masculino). Implementar creative específico por talla-canal = +€89,200/mes recovery.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>3. Premium Collection Strategy</h4>
+                    <p>You Malta y Crystal Collections tienen 68% abandono pero AOV 85% superior. Email sequences personalizadas para premium + retargeting específico = +€56,700/mes en recovery de carritos abandonados.</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>4. Seasonal Geographic Optimization</h4>
+                    <p>Verano Brasil: Scale colores vibrantes en redes sociales. Invierno Europa: Push espadrilles y colores neutros. Geo-targeting + seasonal messaging = +€34,800/mes adicionales en mercados estacionales.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card" style="text-align: center; background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; margin-top: 30px;">
+            <h3 style="color: white; margin-bottom: 15px;">🏖️ Ready to Scale Your Flip Flop Empire?</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">
+                Con Sealmetrics, Havaianas puede optimizar cada par vendido por color, talla y canal específico.
+            </p>
+            <div style="margin-top: 20px;">
+                <p style="font-size: 0.95rem; opacity: 0.9;">
+                    <strong>Total Revenue Opportunity:</strong> +€245,600/mes con Product Intelligence<br>
+                    <strong>ROI Potential:</strong> 340% en los primeros 6 meses<br>
+                    <strong>Implementation:</strong> < 48 horas técnicas
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive Matrix Data for Havaianas
+        const matrixData = {
+            colors: {
+                headers: ['⚫ Negro', '⚪ Blanco', '🌺 Rosa', '🔵 Navy', '🌿 Verde', '🧡 Coral', '🥇 Rose Gold', '🟡 Yellow'],
+                instagram: ['3.2%', '2.8%', '5.4%', '2.9%', '4.1%', '5.8%', '3.6%', '4.2%'],
+                facebook: ['4.6%', '4.2%', '3.8%', '4.1%', '3.4%', '4.0%', '3.2%', '2.9%'],
+                google: ['4.2%', '3.8%', '2.6%', '5.2%', '3.1%', '2.4%', '4.8%', '3.3%'],
+                email: ['3.8%', '4.1%', '4.4%', '4.0%', '3.6%', '4.2%', '6.1%', '3.9%'],
+                tiktok: ['2.8%', '3.1%', '4.6%', '2.4%', '3.8%', '4.2%', '2.9%', '4.8%'],
+                averages: ['3.7%', '3.6%', '4.2%', '3.7%', '3.6%', '4.1%', '4.1%', '3.8%']
+            },
+            sizes: {
+                headers: ['35/36', '37/38', '39/40', '41/42', '43/44', '45/46'],
+                instagram: ['5.1%', '4.8%', '3.9%', '2.8%', '2.1%', '1.8%'],
+                facebook: ['4.2%', '4.5%', '4.8%', '3.6%', '3.1%', '2.9%'],
+                google: ['2.8%', '3.2%', '3.8%', '4.9%', '4.2%', '3.8%'],
+                email: ['4.6%', '4.3%', '4.1%', '3.9%', '3.6%', '3.4%'],
+                tiktok: ['5.8%', '5.2%', '3.4%', '2.1%', '1.6%', '1.2%'],
+                averages: ['4.5%', '4.4%', '4.0%', '3.5%', '3.1%', '2.6%']
+            },
+            collections: {
+                headers: ['Top Classic', 'Slim', 'You Malta', 'Square', 'Crystal', 'Stradi Slides'],
+                instagram: ['4.2%', '4.6%', '3.8%', '5.1%', '2.9%', '3.4%'],
+                facebook: ['5.1%', '4.8%', '3.2%', '3.6%', '2.4%', '3.1%'],
+                google: ['3.8%', '4.1%', '4.9%', '3.2%', '5.4%', '4.2%'],
+                email: ['4.1%', '4.3%', '5.8%', '3.9%', '6.2%', '4.6%'],
+                tiktok: ['3.9%', '4.2%', '2.8%', '4.8%', '2.1%', '3.6%'],
+                averages: ['4.2%', '4.4%', '4.1%', '4.1%', '3.8%', '3.8%']
+            },
+            prices: {
+                headers: ['€15-25', '€26-35', '€36-45', '€46-60'],
+                instagram: ['4.8%', '4.2%', '3.1%', '2.6%'],
+                facebook: ['5.2%', '4.6%', '3.4%', '2.8%'],
+                google: ['3.6%', '4.1%', '4.8%', '5.1%'],
+                email: ['4.1%', '4.4%', '5.2%', '6.8%'],
+                tiktok: ['5.6%', '4.1%', '2.9%', '1.8%'],
+                averages: ['4.7%', '4.3%', '3.9%', '3.8%']
+            }
+        };
+
+        function updateMatrix() {
+            const selectedAttribute = document.getElementById('attributeSelector').value;
+            const data = matrixData[selectedAttribute];
+            const table = document.getElementById('interactiveMatrix');
+            
+            // Update headers
+            const headerRow = table.querySelector('thead tr');
+            const attributeNames = {
+                colors: 'Color',
+                sizes: 'Talla',
+                collections: 'Colección',
+                prices: 'Precio'
+            };
+            
+            headerRow.innerHTML = `<th style="background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white;">Canal / ${attributeNames[selectedAttribute]}</th>`;
+            
+            data.headers.forEach(header => {
+                headerRow.innerHTML += `<th>${header}</th>`;
+            });
+            headerRow.innerHTML += '<th style="background: #f1f5f9;">Media Canal</th>';
+            
+            // Update body
+            const tbody = table.querySelector('#matrixBody');
+            const channels = [
+                {name: 'Instagram', key: 'instagram', class: 'fef2f8'},
+                {name: 'Facebook Ads', key: 'facebook', class: 'eff6ff'},
+                {name: 'Google Shopping', key: 'google', class: 'fef2f2'},
+                {name: 'Email Marketing', key: 'email', class: 'faf5ff'},
+                {name: 'TikTok Ads', key: 'tiktok', class: 'f8fafc'}
+            ];
+            
+            tbody.innerHTML = '';
+            
+            channels.forEach(channel => {
+                const row = document.createElement('tr');
+                row.style.background = '#' + channel.class;
+                row.innerHTML = `<td><strong>${channel.name}</strong></td>`;
+                
+                data[channel.key].forEach((value, index) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    
+                    // Highlight best performers
+                    const numValue = parseFloat(value);
+                    const avgValue = parseFloat(data.averages[index]);
+                    if (numValue > avgValue * 1.15) {
+                        cell.style.color = '#10b981';
+                        cell.style.fontWeight = 'bold';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Calculate channel average
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#f1f5f9';
+                avgCell.style.fontWeight = 'bold';
+                const channelAvg = data[channel.key].reduce((sum, val) => sum + parseFloat(val), 0) / data[channel.key].length;
+                avgCell.textContent = channelAvg.toFixed(1) + '%';
+                row.appendChild(avgCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add site average row
+            const avgRow = document.createElement('tr');
+            avgRow.style.background = '#f4f4f5';
+            avgRow.style.fontWeight = 'bold';
+            avgRow.innerHTML = '<td style="background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white;"><strong>MEDIA SITE</strong></td>';
+            
+            data.averages.forEach(avg => {
+                avgRow.innerHTML += `<td>${avg}</td>`;
+            });
+            
+            const totalAvg = data.averages.reduce((sum, val) => sum + parseFloat(val), 0) / data.averages.length;
+            avgRow.innerHTML += `<td style="background: #64748b; color: white;"><strong>${totalAvg.toFixed(1)}%</strong></td>`;
+            
+            tbody.appendChild(avgRow);
+            
+            // Update insights
+            updateInsights(selectedAttribute);
+        }
+        
+        function updateInsights(attribute) {
+            const insights = {
+                colors: '🎨 Rosa y Coral dominan en Instagram (+5.4% conversión). Negro lidera en Facebook para audience masiva. Navy Blue excela en Google Shopping. Rose Gold premium convierte mejor en Email. Optimizar color por canal = +€156,300/mes adicionales.',
+                sizes: '👟 Tallas pequeñas (35-38) dominan redes sociales con audience femenino joven. Tallas grandes (41+) convierten mejor en Google Shopping. Size-specific creative = +€89,200/mes recovery.',
+                collections: '⭐ You Malta y Crystal son premium pero Email converts mejor (+5.8%). Square moderno excela en Instagram. Top Classic lidera volumen en Facebook. Collection targeting = +€67,400/mes.',
+                prices: '💰 Low-cost (€15-25) domina en redes sociales. Premium (€46-60) convierte mejor en Email Marketing (+6.8%). Google Shopping ideal para mid-premium. Price strategy = +€78,900/mes.'
+            };
+            
+            const attributeNames = {
+                colors: 'Colores',
+                sizes: 'Tallas', 
+                collections: 'Colecciones',
+                prices: 'Precios'
+            };
+            
+            document.getElementById('matrixInsights').innerHTML = 
+                `<h4>${insights[attribute].split(' ')[0]} ${attributeNames[attribute]} Performance Insights</h4><p>${insights[attribute]}</p>`;
+        }
+
+        // Simular contador en tiempo real
+        function updateCounter() {
+            // Add any live counter updates here if needed
+            console.log('Havaianas dashboard updated');
+        }
+        
+        setInterval(updateCounter, 3000);
+        
+        // Initialize with default values when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMatrix();
+        });
+    </script>
+</body>
+</html>
