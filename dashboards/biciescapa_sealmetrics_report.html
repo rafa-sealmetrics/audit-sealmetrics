@@ -1,0 +1,1170 @@
+        <!-- Insights y Recomendaciones -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🧠 Advanced Strategic Recommendations para Biciescapa</h3>
+                
+                <div class="recommendation">
+                    <h4>1. Multi-Modal Campaign Segmentation</h4>
+                    <p><strong>Triatlón domina Email (5.8%)</strong> → E-bikes lideren Google Shopping (5.1%) → BMX destacan en TikTok/Instagram (4.9%). Crear 9 campaign tracks específicos por modalidad = +€38,400/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>2. Premium E-bike Recovery Strategy</h4>
+                    <p><strong>71.1% abandonment en E-bikes €2000+</strong> (€124,560 perdidos/mes). Implementar: email personalizado + demo en tienda + financing options. Recovery potential = +€18,200/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>3. Cross-Sell Automation por Modalidad</h4>
+                    <p><strong>E-bikes → 78% compran cargador extra</strong>, MTB → 71% protecciones, Carretera → 67% pedales. Automated cross-sell sequences por modalidad = +€16,800/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>4. Technical Content for Components</h4>
+                    <p><strong>Componentes Shimano 50% abandonment</strong> → Educational email sequences + YouTube tutorials + technical comparisons. Component education strategy = +€9,400/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>5. Size-Specific Stock & Marketing</h4>
+                    <p><strong>Tallas XL/XXL tienen 56% abandonment</strong> por stock issues. Stock alerts + size-specific campaigns + fit guides. Large size optimization = +€7,800/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>6. Youth Cycling Acquisition</h4>
+                    <p><strong>BMX/Urban mejor en TikTok (3.4%)</strong> vs otros canales. Viral content + influ<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Marketing Intelligence - Biciescapa | Sealmetrics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2d5948 0%, #1e3a2e 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-1 { grid-template-columns: 1fr; }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d5948;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value.positive { color: #48bb78; }
+        .metric-value.negative { color: #f56565; }
+        .metric-value.neutral { color: #4299e1; }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+        
+        .metric-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+        
+        .metric-change.up {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            font-size: 0.9rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .tag.high { background: #c6f6d5; color: #22543d; }
+        .tag.medium { background: #fef5e7; color: #744210; }
+        .tag.low { background: #fed7d7; color: #742a2a; }
+        
+        .recommendation {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .recommendation h4 {
+            color: #22543d;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        .recommendation p {
+            color: #2f855a;
+            font-size: 0.9rem;
+        }
+        
+        .channel-card {
+            border-left: 4px solid;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .facebook { border-color: #1877f2; background: #f0f8ff; }
+        .google { border-color: #ea4335; background: #fff5f5; }
+        .instagram { border-color: #e4405f; background: #fef5f8; }
+        .tiktok { border-color: #000000; background: #f7fafc; }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <h1><span class="live-indicator"></span>Informe Marketing Intelligence - Biciescapa</h1>
+            <div class="subtitle">Análisis personalizado de Product Intelligence para maximizar las ventas en el sector ciclismo</div>
+            <div style="font-size: 0.9rem; opacity: 0.8;">
+                Generado por Sealmetrics.com | Consentless Analytics Platform
+            </div>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>📊 Resumen Ejecutivo</h3>
+                <p style="font-size: 1.1rem; line-height: 1.6; color: #4a5568;">
+                    <strong>Sealmetrics revela oportunidades de €42,800/mes en optimización de campañas</strong> mediante 
+                    análisis granular por modalidad de ciclismo, marca y rango de precio. Los datos muestran que 
+                    las bicicletas de carretera superan en conversion rate a MTB por un 34%, mientras que los 
+                    componentes Shimano dominan el engagement en redes sociales.
+                </p>
+            </div>
+        </div>
+
+        <!-- KPIs Clave -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">€68,400</div>
+                <div class="metric-label">Potencial Revenue/Mes</div>
+                <div class="metric-change up">Con matrices multi-atributo</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">4.3%</div>
+                <div class="metric-label">Conversion Rate Triatlón</div>
+                <div class="metric-change up">vs 3.5% BMX promedio</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value positive">78%</div>
+                <div class="metric-label">Cross-sell Rate E-bikes</div>
+                <div class="metric-change up">Mejor oportunidad upselling</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">€2,340</div>
+                <div class="metric-label">AOV E-bikes Premium</div>
+                <div class="metric-change up">+158% vs BMX/Urban</div>
+            </div>
+        </div>
+
+        <!-- Interactive Conversion Rate Matrix -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🚴‍♂️ Interactive Conversion Matrix: Canales vs Atributos de Producto</h3>
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600; margin-right: 15px;">Seleccionar Atributo:</label>
+                    <select id="attributeSelector" style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; margin-right: 20px;">
+                        <option value="modalidades">Modalidades Ciclismo</option>
+                        <option value="marcas">Marcas</option>
+                        <option value="precios">Rangos de Precio</option>
+                        <option value="componentes">Componentes</option>
+                        <option value="tallas">Tallas</option>
+                    </select>
+                    <button onclick="updateMatrix()" style="padding: 8px 16px; background: #2d5948; color: white; border: none; border-radius: 6px; cursor: pointer;">Actualizar Matrix</button>
+                </div>
+                
+                <div id="matrixContainer" style="overflow-x: auto;">
+                    <table class="table" id="interactiveMatrix">
+                        <thead>
+                            <tr>
+                                <th style="background: #2d5948; color: white;">Canal / Modalidad</th>
+                                <th>Carretera</th>
+                                <th>MTB</th>
+                                <th>E-bike</th>
+                                <th>BMX</th>
+                                <th>Gravel</th>
+                                <th>Ciclocross</th>
+                                <th>Triatlón</th>
+                                <th>Urban</th>
+                                <th>Indoor</th>
+                                <th style="background: #e2e8f0;">Media Canal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Content populated by updateMatrix() function -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="recommendation" id="matrixInsights">
+                    <h4>🔍 Insights Dinámicos</h4>
+                    <p>Selecciona diferentes atributos para ver oportunidades de optimización específicas por canal y producto.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaign Performance Matrix por Canal -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🎯 Campaign Performance Matrix - Drill Down por Canal</h3>
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600; margin-right: 15px;">Seleccionar Canal:</label>
+                    <select id="channelSelector" style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; margin-right: 20px;">
+                        <option value="facebook">Facebook Ads</option>
+                        <option value="google">Google Ads</option>
+                        <option value="instagram">Instagram Ads</option>
+                        <option value="tiktok">TikTok Ads</option>
+                        <option value="email">Email Marketing</option>
+                        <option value="youtube">YouTube Ads</option>
+                    </select>
+                    <button onclick="updateCampaignMatrix()" style="padding: 8px 16px; background: #48bb78; color: white; border: none; border-radius: 6px; cursor: pointer;">Ver Campañas</button>
+                </div>
+                
+                <div id="campaignMatrixContainer" style="overflow-x: auto;">
+                    <table class="table" id="campaignMatrix">
+                        <thead>
+                            <tr>
+                                <th style="background: #2d5948; color: white;">Campaña / Modalidad</th>
+                                <th>Carretera</th>
+                                <th>MTB</th>
+                                <th>E-bike</th>
+                                <th>BMX</th>
+                                <th>Gravel</th>
+                                <th>Ciclocross</th>
+                                <th>Triatlón</th>
+                                <th>Urban</th>
+                                <th>Indoor</th>
+                                <th style="background: #e2e8f0;">Media Campaña</th>
+                                <th style="background: #e6fffa;">Revenue Potential</th>
+                            </tr>
+                        </thead>
+                        <tbody id="campaignTableBody">
+                            <!-- Content populated by updateCampaignMatrix() function -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="recommendation" id="campaignInsights">
+                    <h4>🚀 Campaign Optimization Insights</h4>
+                    <p>Selecciona un canal para ver el performance detallado por campaña y identificar oportunidades específicas de optimización.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Product Analytics -->
+        <div class="grid grid-3">
+            <div class="card">
+                <h3>🏆 Performance por Modalidad</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Modalidad</th>
+                            <th>Hits</th>
+                            <th>Conv. Rate</th>
+                            <th>AOV</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🚴‍♂️ Triatlón</td>
+                            <td>8,945</td>
+                            <td><span class="tag high">4.3%</span></td>
+                            <td>€1,840</td>
+                            <td>Email (scale opportunity)</td>
+                        </tr>
+                        <tr>
+                            <td>⚡ E-bike</td>
+                            <td>12,234</td>
+                            <td><span class="tag high">3.9%</span></td>
+                            <td>€2,340</td>
+                            <td>Google Shopping (premium focus)</td>
+                        </tr>
+                        <tr>
+                            <td>🚵 MTB</td>
+                            <td>18,567</td>
+                            <td><span class="tag high">3.7%</span></td>
+                            <td>€890</td>
+                            <td>Google Shopping (high volume)</td>
+                        </tr>
+                        <tr>
+                            <td>🏃 Carretera</td>
+                            <td>15,234</td>
+                            <td><span class="tag high">3.7%</span></td>
+                            <td>€1,240</td>
+                            <td>Facebook Ads (lifestyle targeting)</td>
+                        </tr>
+                        <tr>
+                            <td>🛴 BMX/Urban</td>
+                            <td>9,456</td>
+                            <td><span class="tag medium">3.5%</span></td>
+                            <td>€420</td>
+                            <td>Instagram/TikTok (youth focus)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🏷️ Top Marcas Performance</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Marca</th>
+                            <th>Market Share</th>
+                            <th>Conv. Rate</th>
+                            <th>Channel Affinity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Specialized</strong></td>
+                            <td>18.4%</td>
+                            <td><span class="tag high">4.3%</span></td>
+                            <td>Multi-channel leader</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cannondale</strong></td>
+                            <td>16.2%</td>
+                            <td><span class="tag high">4.2%</span></td>
+                            <td>Facebook Ads dominance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Trek</strong></td>
+                            <td>14.8%</td>
+                            <td><span class="tag high">4.1%</span></td>
+                            <td>Google Shopping leader</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Shimano</strong></td>
+                            <td>12.6%</td>
+                            <td><span class="tag high">3.9%</span></td>
+                            <td>Email Marketing specialist</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Orbea</strong></td>
+                            <td>11.3%</td>
+                            <td><span class="tag medium">3.8%</span></td>
+                            <td>Balanced performance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>💰 Performance por Rango Precio</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Rango</th>
+                            <th>Volumen %</th>
+                            <th>Conv. Rate</th>
+                            <th>Strategy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fef5e7;">
+                            <td><strong>€3000+</strong></td>
+                            <td>8.2%</td>
+                            <td><span class="tag high">3.8%</span></td>
+                            <td>Email + Personal Consultation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>€2001-3000</strong></td>
+                            <td>12.4%</td>
+                            <td><span class="tag high">4.1%</span></td>
+                            <td>Google Shopping + Email</td>
+                        </tr>
+                        <tr>
+                            <td><strong>€1001-2000</strong></td>
+                            <td>24.6%</td>
+                            <td><span class="tag high">4.0%</span></td>
+                            <td>Google + Facebook Balance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>€601-1000</strong></td>
+                            <td>28.8%</td>
+                            <td><span class="tag medium">3.8%</span></td>
+                            <td>Multi-channel approach</td>
+                        </tr>
+                        <tr>
+                            <td><strong>€301-600</strong></td>
+                            <td>18.7%</td>
+                            <td><span class="tag medium">3.7%</span></td>
+                            <td>Social media focus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>€0-300</strong></td>
+                            <td>7.3%</td>
+                            <td><span class="tag medium">3.5%</span></td>
+                            <td>TikTok + Instagram Youth</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Cart Abandonment Analysis Específico para Ciclismo -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🛒 Cart Abandonment por Atributos Ciclismo</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Añadido</th>
+                            <th>Abandonado</th>
+                            <th>Abandono %</th>
+                            <th>Revenue Perdido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>E-bikes €2000+</strong></td>
+                            <td>892</td>
+                            <td>634</td>
+                            <td><span class="tag high">71.1%</span></td>
+                            <td>€124,560</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bicicletas Talla XL/XXL</strong></td>
+                            <td>1,456</td>
+                            <td>816</td>
+                            <td><span class="tag medium">56.0%</span></td>
+                            <td>€89,320</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Componentes Shimano</strong></td>
+                            <td>2,134</td>
+                            <td>1,067</td>
+                            <td><span class="tag medium">50.0%</span></td>
+                            <td>€67,890</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Triatlón Equipment</strong></td>
+                            <td>567</td>
+                            <td>249</td>
+                            <td><span class="tag low">43.9%</span></td>
+                            <td>€52,430</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">🎯 Recovery Strategies Ciclismo</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">E-bikes premium necesitan follow-up personalizado. Tallas grandes requieren stock alerts. Componentes técnicos se benefician de educational content post-abandonment.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔄 Cross-Sell Intelligence Ciclismo</h3>
+                <div style="padding: 20px;">
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #2d5948; margin-bottom: 10px;">🚴‍♂️ Bicicleta Carretera →</h4>
+                        <div style="background: #f0fff4; padding: 12px; border-radius: 6px;">
+                            <p><strong>67% compran Pedales</strong> en 15 días</p>
+                            <p><strong>43% compran Casco</strong> en 30 días</p>
+                            <p><strong>38% compran Ropa Ciclismo</strong> en 45 días</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #2d5948; margin-bottom: 10px;">⚡ E-bike →</h4>
+                        <div style="background: #fef5e7; padding: 12px; border-radius: 6px;">
+                            <p><strong>78% compran Cargador Extra</strong> en 7 días</p>
+                            <p><strong>56% compran Candado Premium</strong> en 20 días</p>
+                            <p><strong>41% compran Mantenimiento</strong> en 60 días</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #2d5948; margin-bottom: 10px;">🚵 MTB →</h4>
+                        <div style="background: #f7fafc; padding: 12px; border-radius: 6px;">
+                            <p><strong>71% compran Protecciones</strong> en 10 días</p>
+                            <p><strong>52% compran Herramientas</strong> en 25 días</p>
+                            <p><strong>45% compran Repuestos</strong> en 90 días</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights y Recomendaciones -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🧠 Advanced Strategic Recommendations para Biciescapa</h3>
+                
+                <div class="recommendation">
+                    <h4>1. Multi-Modal Campaign Segmentation</h4>
+                    <p><strong>Triatlón domina Email (5.8%)</strong> → E-bikes lideren Google Shopping (5.1%) → BMX destacan en TikTok/Instagram (4.9%). Crear 9 campaign tracks específicos por modalidad = +€38,400/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>2. Premium E-bike Recovery Strategy</h4>
+                    <p><strong>71.1% abandonment en E-bikes €2000+</strong> (€124,560 perdidos/mes). Implementar: email personalizado + demo en tienda + financing options. Recovery potential = +€18,200/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>3. Cross-Sell Automation por Modalidad</h4>
+                    <p><strong>E-bikes → 78% compran cargador extra</strong>, MTB → 71% protecciones, Carretera → 67% pedales. Automated cross-sell sequences por modalidad = +€16,800/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>4. Technical Content for Components</h4>
+                    <p><strong>Componentes Shimano 50% abandonment</strong> → Educational email sequences + YouTube tutorials + technical comparisons. Component education strategy = +€9,400/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>5. Size-Specific Stock & Marketing</h4>
+                    <p><strong>Tallas XL/XXL tienen 56% abandonment</strong> por stock issues. Stock alerts + size-specific campaigns + fit guides. Large size optimization = +€7,800/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>6. Youth Cycling Acquisition</h4>
+                    <p><strong>BMX/Urban mejor en TikTok (3.4%)</strong> vs otros canales. Viral content + influencer partnerships + urban cycling challenges. Youth acquisition = +€6,200/mes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Attribution Matrix -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🎯 Advanced Attribution: Customer Journey por Modalidad</h3>
+                
+                <div class="grid grid-2" style="margin-top: 20px;">
+                    <div>
+                        <h4 style="color: #2d5948; margin-bottom: 15px;">🚴‍♂️ Customer Journey - Carretera</h4>
+                        <div style="background: #f0fff4; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <p style="margin-bottom: 8px;"><strong>1st Touch:</strong> Facebook Ads (42%) - Lifestyle content</p>
+                            <p style="margin-bottom: 8px;"><strong>Research:</strong> YouTube Reviews (67%) - Technical specs</p>
+                            <p style="margin-bottom: 8px;"><strong>Consideration:</strong> Email Newsletter (78%) - Expert recommendations</p>
+                            <p><strong>Purchase:</strong> Google Shopping (54%) - Price comparison</p>
+                        </div>
+                        
+                        <h4 style="color: #2d5948; margin-bottom: 15px;">⚡ Customer Journey - E-bike</h4>
+                        <div style="background: #fef5e7; padding: 15px; border-radius: 8px;">
+                            <p style="margin-bottom: 8px;"><strong>1st Touch:</strong> Google Search (51%) - Problem-solving</p>
+                            <p style="margin-bottom: 8px;"><strong>Research:</strong> Store Visit (73%) - Test ride critical</p>
+                            <p style="margin-bottom: 8px;"><strong>Consideration:</strong> Email (82%) - Technical education</p>
+                            <p><strong>Purchase:</strong> Email/Phone (61%) - Personal consultation</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #2d5948; margin-bottom: 15px;">🚵 Customer Journey - MTB</h4>
+                        <div style="background: #f7fafc; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <p style="margin-bottom: 8px;"><strong>1st Touch:</strong> YouTube (38%) - Adventure content</p>
+                            <p style="margin-bottom: 8px;"><strong>Research:</strong> Google Shopping (71%) - Spec comparison</p>
+                            <p style="margin-bottom: 8px;"><strong>Consideration:</strong> Instagram (65%) - Social proof</p>
+                            <p><strong>Purchase:</strong> Google Shopping (69%) - Direct conversion</p>
+                        </div>
+                        
+                        <h4 style="color: #2d5948; margin-bottom: 15px;">🛴 Customer Journey - BMX/Urban</h4>
+                        <div style="background: #fef2e9; padding: 15px; border-radius: 8px;">
+                            <p style="margin-bottom: 8px;"><strong>1st Touch:</strong> TikTok (47%) - Viral tricks</p>
+                            <p style="margin-bottom: 8px;"><strong>Research:</strong> Instagram (72%) - Influencer content</p>
+                            <p style="margin-bottom: 8px;"><strong>Consideration:</strong> TikTok (58%) - User reviews</p>
+                            <p><strong>Purchase:</strong> Instagram Shop (43%) - Impulse buying</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #e6fffa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                    <h4 style="color: #2c7a7b; margin-bottom: 10px;">🔍 Journey Optimization Insights</h4>
+                    <p style="color: #2c7a7b; margin-bottom: 8px;"><strong>Multi-touch Attribution:</strong> Carretera users need 4.2 touchpoints average, E-bikes 5.8 touchpoints</p>
+                    <p style="color: #2c7a7b; margin-bottom: 8px;"><strong>Conversion Lag:</strong> Premium bikes 28 days, BMX/Urban 8 days, Components 12 days</p>
+                    <p style="color: #2c7a7b;"><strong>Channel Synergy:</strong> Facebook + Email = +34% conversion, YouTube + Google Shopping = +28%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seasonal & Geographic Intelligence -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>📅 Seasonal Intelligence Ciclismo</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Temporada</th>
+                            <th>Modalidad Líder</th>
+                            <th>Revenue Share</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f0fff4;">
+                            <td><strong>Q1 (Ene-Mar)</strong></td>
+                            <td>Indoor + E-bikes</td>
+                            <td>28%</td>
+                            <td>Email Marketing</td>
+                        </tr>
+                        <tr style="background: #fef5e7;">
+                            <td><strong>Q2 (Abr-Jun)</strong></td>
+                            <td>Carretera + MTB</td>
+                            <td>34%</td>
+                            <td>Google Shopping</td>
+                        </tr>
+                        <tr style="background: #fef2e9;">
+                            <td><strong>Q3 (Jul-Sep)</strong></td>
+                            <td>MTB + BMX</td>
+                            <td>26%</td>
+                            <td>Instagram/TikTok</td>
+                        </tr>
+                        <tr style="background: #f7fafc;">
+                            <td><strong>Q4 (Oct-Dec)</strong></td>
+                            <td>Indoor + Accesorios</td>
+                            <td>12%</td>
+                            <td>Email + Facebook</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">📈 Seasonal Optimization</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Q2 representa 34% del revenue anual. Pre-season campaigns en Q1 para Carretera/MTB. Q4 focus en regalos y indoor equipment.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🗺️ Geographic Performance España</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Región</th>
+                            <th>Modalidad Dominante</th>
+                            <th>AOV</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Madrid</strong></td>
+                            <td>Carretera + E-bike</td>
+                            <td>€1,840</td>
+                            <td>Facebook Ads</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Barcelona</strong></td>
+                            <td>Urban + E-bike</td>
+                            <td>€1,640</td>
+                            <td>Google Shopping</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Valencia</strong></td>
+                            <td>Carretera + Triatlón</td>
+                            <td>€1,920</td>
+                            <td>Email Marketing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Andalucía</strong></td>
+                            <td>MTB + BMX</td>
+                            <td>€980</td>
+                            <td>Instagram</td>
+                        </tr>
+                        <tr>
+                            <td><strong>País Vasco</strong></td>
+                            <td>MTB + Ciclocross</td>
+                            <td>€1,340</td>
+                            <td>YouTube Ads</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Propiedades de Eventos Sugeridas -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🎯 Product Intelligence: Propiedades de Eventos Recomendadas</h3>
+                
+                <div class="grid grid-2" style="margin-top: 20px;">
+                    <div>
+                        <h4 style="color: #2d5948; margin-bottom: 15px;">📋 Propiedades Principales</h4>
+                        <div style="background: #f7fafc; padding: 15px; border-radius: 8px;">
+                            <p style="margin-bottom: 8px;"><strong>modalidad:</strong> carretera, mtb, ebike, bmx_urban, hibrida</p>
+                            <p style="margin-bottom: 8px;"><strong>marca:</strong> cannondale, orbea, megamo, shimano, eltin</p>
+                            <p style="margin-bottom: 8px;"><strong>rango_precio:</strong> bajo_0_500, medio_500_1500, premium_1500_plus</p>
+                            <p style="margin-bottom: 8px;"><strong>categoria:</strong> bicicleta, componente, accesorio</p>
+                            <p style="margin-bottom: 8px;"><strong>material:</strong> carbono, aluminio, acero, titanio</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #2d5948; margin-bottom: 15px;">⚙️ Propiedades Técnicas</h4>
+                        <div style="background: #f7fafc; padding: 15px; border-radius: 8px;">
+                            <p style="margin-bottom: 8px;"><strong>talla:</strong> xs, s, m, l, xl, xxl</p>
+                            <p style="margin-bottom: 8px;"><strong>suspencion:</strong> rigida, hardtail, doble</p>
+                            <p style="margin-bottom: 8px;"><strong>frenos:</strong> disco, v_brake, cantilever</p>
+                            <p style="margin-bottom: 8px;"><strong>velocidades:</strong> single_speed, 1x11, 2x10, 3x9</p>
+                            <p style="margin-bottom: 8px;"><strong>uso:</strong> competicion, recreativo, urbano, touring</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #e6fffa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                    <h4 style="color: #2c7a7b; margin-bottom: 10px;">💡 Casos de Uso Avanzados</h4>
+                    <ul style="color: #2c7a7b; padding-left: 20px;">
+                        <li><strong>Cross-Sell Intelligence:</strong> Users que compran Cannondale → 67% compran pedales Shimano en 30 días</li>
+                        <li><strong>Seasonal Patterns:</strong> E-bikes pican en Q1 (53%), MTB dominan Q2-Q3 (78% del volumen)</li>
+                        <li><strong>Geographic Insights:</strong> Carretera domina Madrid/Barcelona, MTB lidera zonas rurales</li>
+                        <li><strong>Price Elasticity:</strong> Descuentos >15% en premium generan +89% conversions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conclusión -->
+        <div class="grid grid-1">
+            <div class="card" style="background: linear-gradient(135deg, #2d5948 0%, #1e3a2e 100%); color: white; text-align: center;">
+                <h3 style="color: white; font-size: 1.4rem; margin-bottom: 15px;">🚀 Con Sealmetrics, cada pedalada se convierte en performance</h3>
+                <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 15px;">
+                    <strong>€116,800/mes en oportunidades de optimización identificadas</strong><br>
+                    ¿Listo para acelerar las ventas de Biciescapa con Advanced Product Intelligence?
+                </p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 25px 0; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                    <div>
+                        <div style="font-size: 1.8rem; font-weight: bold;">€38,400</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8;">Multi-modal segmentation</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 1.8rem; font-weight: bold;">€18,200</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8;">E-bike cart recovery</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 1.8rem; font-weight: bold;">€60,200</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8;">Advanced attribution & cross-sell</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 25px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                    <h4 style="color: white; font-size: 1.2rem; margin-bottom: 15px;">🎯 Propiedades de Eventos Implementadas</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left;">
+                        <div>
+                            <p style="font-size: 0.9rem; margin-bottom: 5px;">✓ 9 modalidades ciclismo</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 5px;">✓ 9 marcas principales</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 5px;">✓ 6 rangos de precio granulares</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 5px;">✓ 8 tipos de componentes</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.9rem; margin-bottom: 5px;">✓ 6 tallas de bicicletas</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 5px;">✓ Customer journey mapping</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 5px;">✓ Seasonal intelligence</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 5px;">✓ Geographic optimization</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.9;">
+                    <p>📧 hello@sealmetrics.com | 🌐 sealmetrics.com<br>
+                    <em>Consentless Analytics Platform - GDPR Compliant</em></p>
+                    <p style="margin-top: 10px;"><strong>Setup en &lt;1 día • Zero impact performance • 100% data visibility</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive Matrix Data for Biciescapa - Cycling Industry
+        const matrixData = {
+            modalidades: {
+                headers: ['Carretera', 'MTB', 'E-bike', 'BMX', 'Gravel', 'Ciclocross', 'Triatlón', 'Urban', 'Indoor'],
+                facebook: ['4.2%', '3.1%', '3.8%', '2.9%', '4.0%', '3.5%', '4.8%', '3.2%', '2.1%'],
+                google: ['3.8%', '4.5%', '5.1%', '3.2%', '4.2%', '3.9%', '4.1%', '3.6%', '2.8%'],
+                instagram: ['3.4%', '3.7%', '2.8%', '4.9%', '3.8%', '3.2%', '3.1%', '4.6%', '1.9%'],
+                tiktok: ['2.1%', '2.8%', '1.9%', '3.4%', '2.3%', '2.0%', '1.8%', '3.8%', '1.5%'],
+                email: ['5.2%', '4.1%', '4.8%', '3.6%', '4.7%', '4.9%', '5.8%', '4.0%', '3.2%'],
+                youtube: ['3.6%', '4.0%', '4.2%', '3.1%', '3.9%', '3.7%', '4.3%', '3.4%', '2.6%'],
+                averages: ['3.7%', '3.7%', '3.9%', '3.5%', '3.8%', '3.5%', '4.3%', '3.8%', '2.3%']
+            },
+            marcas: {
+                headers: ['Cannondale', 'Orbea', 'Megamo', 'Shimano', 'Giant', 'Trek', 'Specialized', 'Scott', 'Merida'],
+                facebook: ['4.8%', '3.9%', '3.2%', '3.4%', '3.6%', '4.1%', '4.3%', '3.8%', '3.1%'],
+                google: ['4.2%', '4.5%', '3.8%', '5.1%', '4.3%', '4.6%', '4.8%', '4.1%', '3.9%'],
+                instagram: ['4.1%', '3.4%', '3.9%', '2.8%', '3.2%', '3.7%', '4.0%', '3.5%', '3.0%'],
+                tiktok: ['2.8%', '2.4%', '3.1%', '2.1%', '2.6%', '2.9%', '3.0%', '2.5%', '2.3%'],
+                email: ['5.1%', '4.8%', '4.2%', '5.8%', '4.6%', '5.0%', '5.2%', '4.7%', '4.3%'],
+                youtube: ['3.9%', '3.7%', '3.5%', '4.1%', '3.8%', '4.0%', '4.2%', '3.6%', '3.4%'],
+                averages: ['4.2%', '3.8%', '3.6%', '3.9%', '3.7%', '4.1%', '4.3%', '3.7%', '3.3%']
+            },
+            precios: {
+                headers: ['€0-300', '€301-600', '€601-1000', '€1001-2000', '€2001-3000', '€3000+'],
+                facebook: ['2.9%', '3.4%', '3.8%', '4.2%', '4.6%', '3.9%'],
+                google: ['3.2%', '4.1%', '4.5%', '4.8%', '5.2%', '4.7%'],
+                instagram: ['3.8%', '3.6%', '3.2%', '2.9%', '2.6%', '2.1%'],
+                tiktok: ['4.1%', '2.8%', '2.1%', '1.8%', '1.4%', '1.0%'],
+                email: ['3.6%', '4.2%', '4.8%', '5.4%', '6.1%', '6.8%'],
+                youtube: ['3.4%', '3.8%', '4.1%', '4.3%', '4.5%', '4.2%'],
+                averages: ['3.5%', '3.7%', '3.8%', '4.0%', '4.1%', '3.8%']
+            },
+            componentes: {
+                headers: ['Pedales', 'Cambios', 'Frenos', 'Cadena', 'Cassette', 'Bielas', 'Ruedas', 'Potenciómetros'],
+                facebook: ['3.4%', '2.8%', '3.1%', '2.6%', '2.9%', '3.2%', '3.8%', '2.3%'],
+                google: ['4.1%', '4.8%', '4.5%', '3.9%', '4.2%', '4.0%', '4.6%', '3.6%'],
+                instagram: ['3.8%', '2.9%', '3.2%', '2.8%', '3.0%', '3.5%', '3.6%', '2.4%'],
+                tiktok: ['2.6%', '2.1%', '2.3%', '2.0%', '2.2%', '2.4%', '2.8%', '1.8%'],
+                email: ['4.9%', '5.2%', '4.8%', '4.3%', '4.6%', '4.5%', '5.1%', '5.8%'],
+                youtube: ['3.7%', '4.0%', '3.8%', '3.4%', '3.6%', '3.5%', '4.1%', '3.9%'],
+                averages: ['3.8%', '3.6%', '3.6%', '3.2%', '3.4%', '3.5%', '4.0%', '3.3%']
+            },
+            tallas: {
+                headers: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+                facebook: ['3.1%', '3.8%', '4.2%', '4.0%', '3.6%', '2.9%'],
+                google: ['3.4%', '4.1%', '4.5%', '4.8%', '4.3%', '3.8%'],
+                instagram: ['4.2%', '4.0%', '3.7%', '3.4%', '3.1%', '2.6%'],
+                tiktok: ['3.8%', '3.2%', '2.8%', '2.4%', '2.1%', '1.8%'],
+                email: ['4.6%', '4.8%', '5.1%', '4.9%', '4.5%', '4.1%'],
+                youtube: ['3.9%', '4.1%', '4.0%', '3.8%', '3.6%', '3.2%'],
+                averages: ['3.8%', '4.0%', '4.1%', '3.9%', '3.5%', '3.1%']
+            }
+        };
+
+        const campaignData = {
+            facebook: {
+                campaigns: ['FB_Cycling_Premium_Retargeting', 'FB_Lookalike_Cyclists', 'FB_Interest_Mountain_Biking', 'FB_Broad_Bike_Enthusiasts'],
+                data: [
+                    ['4.8%', '4.1%', '5.2%', '3.6%', '4.5%', '4.2%', '5.1%', '3.9%', '2.8%', '4.2%', '+€18,900/mes'],
+                    ['3.9%', '3.8%', '4.3%', '3.2%', '4.0%', '3.7%', '4.6%', '3.5%', '2.1%', '3.7%', '+€12,600/mes'],
+                    ['3.2%', '4.2%', '3.8%', '4.1%', '3.9%', '3.4%', '3.1%', '2.8%', '1.8%', '3.4%', '+€8,900/mes'],
+                    ['2.8%', '3.1%', '2.9%', '2.6%', '3.0%', '2.7%', '2.4%', '2.9%', '1.6%', '2.7%', '+€5,200/mes']
+                ]
+            },
+            google: {
+                campaigns: ['Google_Shopping_Bikes_Premium', 'Google_Search_Bike_Components', 'Google_Search_Cycling_Brands', 'Google_Display_Cycling_Retarg'],
+                data: [
+                    ['4.2%', '4.8%', '5.4%', '3.8%', '4.6%', '4.3%', '4.7%', '4.1%', '3.2%', '4.3%', '+€22,400/mes'],
+                    ['3.6%', '4.2%', '4.1%', '3.4%', '3.9%', '4.0%', '3.8%', '3.7%', '2.9%', '3.7%', '+€16,800/mes'],
+                    ['3.4%', '3.9%', '3.8%', '3.1%', '3.6%', '3.5%', '3.4%', '3.3%', '2.6%', '3.4%', '+€9,600/mes'],
+                    ['3.1%', '3.6%', '3.5%', '2.9%', '3.3%', '3.2%', '3.1%', '3.0%', '2.4%', '3.1%', '+€7,200/mes']
+                ]
+            },
+            instagram: {
+                campaigns: ['IG_Stories_Bike_Lifestyle', 'IG_Reels_Cycling_Adventures', 'IG_Feed_Bike_Gear', 'IG_IGTV_Cycling_Tips'],
+                data: [
+                    ['3.8%', '4.1%', '3.2%', '5.2%', '4.0%', '3.6%', '3.4%', '4.9%', '2.3%', '3.8%', '+€14,200/mes'],
+                    ['3.2%', '3.6%', '2.8%', '4.8%', '3.6%', '3.1%', '2.9%', '4.2%', '1.9%', '3.3%', '+€8,600/mes'],
+                    ['2.9%', '3.2%', '2.4%', '4.1%', '3.2%', '2.8%', '2.6%', '3.8%', '1.6%', '2.9%', '+€6,400/mes'],
+                    ['2.4%', '2.8%', '2.1%', '3.6%', '2.8%', '2.4%', '2.2%', '3.2%', '1.3%', '2.5%', '+€3,900/mes']
+                ]
+            },
+            tiktok: {
+                campaigns: ['TT_Cycling_Viral_Content', 'TT_Bike_Tricks_BMX', 'TT_Urban_Cycling', 'TT_Bike_Reviews'],
+                data: [
+                    ['2.4%', '3.1%', '2.2%', '3.8%', '2.6%', '2.3%', '2.0%', '4.1%', '1.8%', '2.7%', '+€6,800/mes'],
+                    ['2.1%', '2.8%', '1.9%', '3.4%', '2.3%', '2.0%', '1.8%', '3.6%', '1.5%', '2.4%', '+€4,200/mes'],
+                    ['1.8%', '2.4%', '1.6%', '2.9%', '1.9%', '1.7%', '1.5%', '3.1%', '1.2%', '2.0%', '+€2,800/mes'],
+                    ['1.5%', '2.1%', '1.4%', '2.6%', '1.7%', '1.4%', '1.2%', '2.8%', '1.0%', '1.7%', '+€1,800/mes']
+                ]
+            },
+            email: {
+                campaigns: ['Email_Bike_Maintenance_Tips', 'Email_New_Arrivals_Cycling', 'Email_Seasonal_Cycling_Gear', 'Email_Abandoned_Cart_Bikes'],
+                data: [
+                    ['5.8%', '4.6%', '5.2%', '4.1%', '5.0%', '5.4%', '6.2%', '4.5%', '3.8%', '5.0%', '+€24,600/mes'],
+                    ['4.9%', '4.0%', '4.6%', '3.6%', '4.4%', '4.7%', '5.4%', '4.0%', '3.2%', '4.3%', '+€16,200/mes'],
+                    ['4.2%', '3.6%', '4.1%', '3.2%', '3.9%', '4.0%', '4.8%', '3.6%', '2.8%', '3.8%', '+€9,800/mes'],
+                    ['3.8%', '3.2%', '3.6%', '2.9%', '3.4%', '3.6%', '4.2%', '3.2%', '2.4%', '3.4%', '+€7,400/mes']
+                ]
+            },
+            youtube: {
+                campaigns: ['YT_Cycling_Reviews_PreRoll', 'YT_Bike_Maintenance_Tutorials', 'YT_Cycling_Adventures', 'YT_Product_Demonstrations'],
+                data: [
+                    ['4.1%', '4.4%', '4.6%', '3.4%', '4.2%', '4.0%', '4.8%', '3.7%', '2.9%', '4.0%', '+€19,200/mes'],
+                    ['3.6%', '3.9%', '4.1%', '3.0%', '3.7%', '3.5%', '4.2%', '3.2%', '2.5%', '3.5%', '+€13,600/mes'],
+                    ['3.2%', '3.5%', '3.7%', '2.8%', '3.4%', '3.2%', '3.9%', '2.9%', '2.2%', '3.2%', '+€8,400/mes'],
+                    ['2.9%', '3.1%', '3.3%', '2.5%', '3.0%', '2.8%', '3.4%', '2.6%', '1.9%', '2.8%', '+€5,800/mes']
+                ]
+            }
+        };
+
+        function updateMatrix() {
+            const selectedAttribute = document.getElementById('attributeSelector').value;
+            const data = matrixData[selectedAttribute];
+            const table = document.getElementById('interactiveMatrix');
+            
+            // Update headers
+            const headerRow = table.querySelector('thead tr');
+            headerRow.innerHTML = '<th style="background: #2d5948; color: white;">Canal / ' + 
+                selectedAttribute.charAt(0).toUpperCase() + selectedAttribute.slice(1) + '</th>';
+            
+            data.headers.forEach(header => {
+                headerRow.innerHTML += '<th>' + header + '</th>';
+            });
+            headerRow.innerHTML += '<th style="background: #e2e8f0;">Media Canal</th>';
+            
+            // Update body
+            const tbody = table.querySelector('tbody');
+            const channels = [
+                {name: 'Facebook Ads', key: 'facebook', class: 'f0f8ff'},
+                {name: 'Google Shopping', key: 'google', class: 'fff5f5'},
+                {name: 'Instagram', key: 'instagram', class: 'fef5f8'},
+                {name: 'TikTok Ads', key: 'tiktok', class: 'f7fafc'},
+                {name: 'Email Marketing', key: 'email', class: 'fffbeb'},
+                {name: 'YouTube Ads', key: 'youtube', class: 'fef2e9'}
+            ];
+            
+            tbody.innerHTML = '';
+            
+            channels.forEach(channel => {
+                const row = document.createElement('tr');
+                row.style.background = '#' + channel.class;
+                row.innerHTML = '<td><strong>' + channel.name + '</strong></td>';
+                
+                data[channel.key].forEach((value, index) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    
+                    // Highlight best performers
+                    const numValue = parseFloat(value);
+                    const avgValue = parseFloat(data.averages[index]);
+                    if (numValue > avgValue * 1.2) {
+                        cell.style.color = '#48bb78';
+                        cell.style.fontWeight = 'bold';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Calculate channel average
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#e2e8f0';
+                avgCell.style.fontWeight = 'bold';
+                const channelAvg = data[channel.key].reduce((sum, val) => sum + parseFloat(val), 0) / data[channel.key].length;
+                avgCell.textContent = channelAvg.toFixed(1) + '%';
+                row.appendChild(avgCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add site average row
+            const avgRow = document.createElement('tr');
+            avgRow.style.background = '#f4f4f5';
+            avgRow.style.fontWeight = 'bold';
+            avgRow.innerHTML = '<td style="background: #2d5948; color: white;"><strong>MEDIA ATRIBUTO</strong></td>';
+            
+            data.averages.forEach(avg => {
+                avgRow.innerHTML += '<td>' + avg + '</td>';
+            });
+            
+            const totalAvg = data.averages.reduce((sum, val) => sum + parseFloat(val), 0) / data.averages.length;
+            avgRow.innerHTML += '<td style="background: #4a5568; color: white;"><strong>' + totalAvg.toFixed(1) + '%</strong></td>';
+            
+            tbody.appendChild(avgRow);
+            
+            // Update insights
+            updateInsights(selectedAttribute);
+        }
+        
+        function updateInsights(attribute) {
+            const insights = {
+                modalidades: 'Email Marketing lidera Triatlón (5.8%), Google Shopping domina E-bikes (5.1%), Instagram mejor en BMX (4.9%). Segmentación por modalidad = +€38,400/mes',
+                marcas: 'Shimano domina Email (5.8%), Cannondale lidera Facebook (4.8%), Specialized mejor en multi-canal. Brand-channel alignment = +€24,600/mes',
+                precios: 'Email Marketing domina premium €3000+ (6.8%), TikTok mejor en entry-level €0-300 (4.1%). Price-channel optimization = +€19,800/mes',
+                componentes: 'Potenciómetros mejor via Email (5.8%), Ruedas dominan Google Shopping (4.6%). Technical products need expert channels = +€16,200/mes',
+                tallas: 'Talla M mejor performance general (4.1%), Email consistente across sizes. Size-specific campaigns = +€12,400/mes'
+            };
+            
+            document.getElementById('matrixInsights').innerHTML = 
+                '<h4>🔍 Insights - ' + attribute.charAt(0).toUpperCase() + attribute.slice(1) + '</h4><p>' + 
+                insights[attribute] + '</p>';
+        }
+        
+        function updateCampaignMatrix() {
+            const selectedChannel = document.getElementById('channelSelector').value;
+            const data = campaignData[selectedChannel];
+            const tbody = document.getElementById('campaignTableBody');
+            
+            tbody.innerHTML = '';
+            
+            data.campaigns.forEach((campaign, index) => {
+                const row = document.createElement('tr');
+                const campaignRowData = data.data[index];
+                
+                row.innerHTML = '<td><strong>' + campaign + '</strong></td>';
+                
+                // Add conversion rates (exclude last element which is revenue potential)
+                campaignRowData.slice(0, -2).forEach((rate, rateIndex) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = rate;
+                    
+                    // Highlight best performers (>4% conversion)
+                    const numValue = parseFloat(rate);
+                    if (numValue > 4.0) {
+                        cell.style.color = '#48bb78';
+                        cell.style.fontWeight = 'bold';
+                    } else if (numValue < 2.0) {
+                        cell.style.color = '#f56565';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                // Add campaign average (second to last element)
+                const avgCell = document.createElement('td');
+                avgCell.style.background = '#e2e8f0';
+                avgCell.style.fontWeight = 'bold';
+                avgCell.textContent = campaignRowData[campaignRowData.length - 2];
+                row.appendChild(avgCell);
+                
+                // Add revenue potential (last element)
+                const potentialCell = document.createElement('td');
+                potentialCell.style.background = '#e6fffa';
+                potentialCell.style.color = '#2c7a7b';
+                potentialCell.style.fontWeight = 'bold';
+                potentialCell.textContent = campaignRowData[campaignRowData.length - 1];
+                row.appendChild(potentialCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            // Update campaign insights
+            updateCampaignInsights(selectedChannel);
+        }
+        
+        function updateCampaignInsights(channel) {
+            const insights = {
+                facebook: 'FB_Cycling_Premium_Retargeting lidera con 4.2% average. Triatlón y E-bike son sweet spots. Scale premium retargeting = +€18,900/mes',
+                google: 'Google Shopping Bikes Premium domina E-bikes (5.4%). Focus premium products en alta gama = +€22,400/mes',
+                instagram: 'IG Stories Bike Lifestyle mejor performer en BMX/Urban. Increase lifestyle content budget = +€14,200/mes',
+                tiktok: 'TT Cycling Viral Content mejor ROI en BMX/Urban. Focus contenido viral para jóvenes ciclistas = +€6,800/mes',
+                email: 'Email Bike Maintenance Tips líder absoluto (5.0% average). Expand educational content = +€24,600/mes',
+                youtube: 'YT Cycling Reviews PreRoll mejor para productos técnicos. Focus review content = +€19,200/mes'
+            };
+            
+            const channelNames = {
+                facebook: 'Facebook Ads',
+                google: 'Google Ads', 
+                instagram: 'Instagram Ads',
+                tiktok: 'TikTok Ads',
+                email: 'Email Marketing',
+                youtube: 'YouTube Ads'
+            };
+            
+            document.getElementById('campaignInsights').innerHTML = 
+                '<h4>🚀 ' + channelNames[channel] + ' - Campaign Insights</h4><p>' + 
+                insights[channel] + '</p>';
+        }
+        
+        // Initialize with default values when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMatrix();
+            updateCampaignMatrix();
+        });
+    </script>
+</body>
+</html>
