@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pummba - Product Intelligence Dashboard | Sealmetrics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pummba-logo {
+            background: #FF6B4A;
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin-right: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .date-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .date-filter select {
+            padding: 8px 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value.positive { color: #48bb78; }
+        .metric-value.negative { color: #f56565; }
+        .metric-value.neutral { color: #FF6B4A; }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+        
+        .metric-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+        
+        .metric-change.up {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .metric-change.down {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .alert {
+            background: linear-gradient(135deg, #FF6B4A 0%, #E53E3E 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            font-size: 0.9rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .tag.high { background: #c6f6d5; color: #22543d; }
+        .tag.medium { background: #fef5e7; color: #744210; }
+        .tag.low { background: #fed7d7; color: #742a2a; }
+        
+        .recommendation {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .recommendation h4 {
+            color: #22543d;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        .recommendation p {
+            color: #2f855a;
+            font-size: 0.9rem;
+        }
+        
+        .channel-card {
+            border-left: 4px solid;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .facebook { border-color: #1877f2; background: #f0f8ff; }
+        .google { border-color: #ea4335; background: #fff5f5; }
+        .instagram { border-color: #e4405f; background: #fef5f8; }
+        .email { border-color: #805ad5; background: #faf5ff; }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <h1><div class="pummba-logo">Pummba</div><span class="live-indicator"></span>Product Intelligence Dashboard</h1>
+            <div class="date-filter">
+                <select>
+                    <option>Últimas 24h</option>
+                    <option>Última semana</option>
+                    <option>Último mes</option>
+                    <option>Último trimestre</option>
+                </select>
+                <select>
+                    <option>Todos los canales</option>
+                    <option>Solo paid</option>
+                    <option>Solo organic</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Executive KPIs -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">100%</div>
+                <div class="metric-label">Data Completeness</div>
+                <div class="metric-change up">vs 65% GA4 = +€42,300/mes revenue visibility</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">€128,450</div>
+                <div class="metric-label">Revenue por Configuración</div>
+                <div class="metric-change up">+35% vs tradicional = +€33,200/mes optimization</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value positive">87,234</div>
+                <div class="metric-label">Configuraciones Totales</div>
+                <div class="metric-change up">+18% vs mes anterior = +€12,400/mes potential</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value neutral">€1.47</div>
+                <div class="metric-label">Cost per Configuration</div>
+                <div class="metric-change down">-12% vs trimestre = +€8,900/mes savings</div>
+            </div>
+        </div>
+
+        <!-- Pummba Intelligence Alert -->
+        <div class="alert">
+            <h3>🚀 Oportunidad Detectada: Módulos 3-4 Piezas + Tejido Premium</h3>
+            <p><strong>Facebook Ads convierte 47% mejor en sofás de 3-4 módulos con tejidos premium vs configuraciones básicas.</strong> Optimizar targeting hacia familias jóvenes con poder adquisitivo medio-alto = +€28,600/mes estimated revenue increase.</p>
+        </div>
+
+        <!-- Product Intelligence Matrix -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🛋️ Performance por Configuración Modular</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Canal</th>
+                            <th>Sillón</th>
+                            <th>2 Módulos</th>
+                            <th>3 Módulos</th>
+                            <th>4+ Módulos</th>
+                            <th>Best Performer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag high">Facebook Ads</span></td>
+                            <td>2.1%</td>
+                            <td>3.8%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.7%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">5.2%</span></td>
+                            <td>4+ Módulos (€3,200)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag high">Google Shopping</span></td>
+                            <td>1.9%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.1%</span></td>
+                            <td>3.9%</td>
+                            <td>3.6%</td>
+                            <td>2 Módulos (€2,800)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Instagram</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">3.2%</span></td>
+                            <td>2.8%</td>
+                            <td>2.4%</td>
+                            <td>2.1%</td>
+                            <td>Sillón (€1,600)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag medium">Email Marketing</span></td>
+                            <td>2.8%</td>
+                            <td>3.4%</td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.3%</span></td>
+                            <td><span style="color: #48bb78; font-weight: bold;">4.8%</span></td>
+                            <td>4+ Módulos (€2,100)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">🧠 Modular Intelligence</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Facebook excela en configuraciones grandes (familias), Google Shopping domina tamaños medios (parejas jóvenes), Instagram conecta mejor con sillones individuales (solteros urbanos).</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎨 Top Configuraciones por Canal</h3>
+                
+                <div class="channel-card facebook">
+                    <strong>Facebook Ads</strong> <span style="color: #48bb78; font-size: 0.9em;">(familia targeting)</span><br>
+                    1. Sofá 4 módulos + Chaise Longue (1,847 config) - <em>Top familias</em><br>
+                    2. Sofá 3 módulos + Tejido Premium (1,456 config) - <em>High AOV</em><br>
+                    3. Esquinero Grande + Cojines Extra (1,234 config) - <em>Comfort focus</em>
+                </div>
+                
+                <div class="channel-card google">
+                    <strong>Google Shopping</strong> <span style="color: #48bb78; font-size: 0.9em;">(intención compra)</span><br>
+                    1. Sofá 2 módulos Básico (2,245 config) - <em>Entry level</em><br>
+                    2. Sofá 2 módulos + Mesa Centro (1,834 config) - <em>Bundle popular</em><br>
+                    3. Chaise Longue Individual (1,467 config) - <em>Apartamentos</em>
+                </div>
+                
+                <div class="channel-card instagram">
+                    <strong>Instagram</strong> <span style="color: #ecc94b; font-size: 0.9em;">(lifestyle content)</span><br>
+                    1. Sillón Individual Premium (1,267 config) - <em>Aesthetic leader</em><br>
+                    2. Sofá 2 módulos + Color Trending (1,045 config) - <em>Social media</em><br>
+                    3. Configuración Minimalista (834 config) - <em>Urban style</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tejido y Color Intelligence -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🧵 Tejido & Color Performance Matrix</h3>
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="background: #2d3748; color: white;">Canal / Tejido-Color</th>
+                                <th>Premium Beige</th>
+                                <th>Premium Gris</th>
+                                <th>Básico Negro</th>
+                                <th>Básico Blanco</th>
+                                <th>Terciopelo Azul</th>
+                                <th>Revenue Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #f0f8ff;">
+                                <td><strong>Facebook Ads</strong></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">5.2%</span></td>
+                                <td>4.8%</td>
+                                <td>3.1%</td>
+                                <td>2.9%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.9%</span></td>
+                                <td style="color: #48bb78; font-weight: bold;">+€18,600/mes</td>
+                            </tr>
+                            <tr style="background: #fff5f5;">
+                                <td><strong>Google Shopping</strong></td>
+                                <td>4.1%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.6%</span></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">3.8%</span></td>
+                                <td>3.4%</td>
+                                <td>3.2%</td>
+                                <td style="color: #48bb78; font-weight: bold;">+€14,200/mes</td>
+                            </tr>
+                            <tr style="background: #fef5f8;">
+                                <td><strong>Instagram</strong></td>
+                                <td>3.8%</td>
+                                <td>3.6%</td>
+                                <td>2.8%</td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.2%</span></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">4.4%</span></td>
+                                <td style="color: #48bb78; font-weight: bold;">+€11,800/mes</td>
+                            </tr>
+                            <tr style="background: #faf5ff;">
+                                <td><strong>Email Marketing</strong></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">5.6%</span></td>
+                                <td><span style="color: #48bb78; font-weight: bold;">5.1%</span></td>
+                                <td>3.9%</td>
+                                <td>3.7%</td>
+                                <td>4.1%</td>
+                                <td style="color: #48bb78; font-weight: bold;">+€21,400/mes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>🎯 Tejido Intelligence Insights</h4>
+                    <p>Premium Beige domina en Facebook y Email (targeting familias premium). Instagram prefiere Terciopelo Azul y Blanco (contenido aesthetic). Google Shopping neutral en colores básicos (búsqueda funcional).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Abandonment por Configuración -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🛒 Abandonment Analysis por Configuración</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Configuración</th>
+                            <th>Iniciadas</th>
+                            <th>Abandonadas</th>
+                            <th>Abandono %</th>
+                            <th>Revenue Perdido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>4+ Módulos Premium</strong></td>
+                            <td>847</td>
+                            <td>602</td>
+                            <td><span class="tag high">71.1%</span></td>
+                            <td>€156,890</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Esquinero + Complementos</strong></td>
+                            <td>1,156</td>
+                            <td>694</td>
+                            <td><span class="tag medium">60.0%</span></td>
+                            <td>€98,450</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sofá 3 Módulos Básico</strong></td>
+                            <td>2,045</td>
+                            <td>1,022</td>
+                            <td><span class="tag medium">50.0%</span></td>
+                            <td>€78,920</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sillón Individual</strong></td>
+                            <td>1,789</td>
+                            <td>715</td>
+                            <td><span class="tag low">40.0%</span></td>
+                            <td>€34,560</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #4a5568; margin-bottom: 10px;">💡 Recovery Opportunities</h4>
+                    <p style="color: #718096; font-size: 0.9rem;">Configuraciones premium muestran mayor abandono pero también mayor valor de recovery. Implementar email sequences específicas para cada tipo de configuración.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💰 Revenue por Segmento</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Segmento Target</th>
+                            <th>Configuración Preferida</th>
+                            <th>AOV</th>
+                            <th>Conversión</th>
+                            <th>Best Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Familias 30-45</strong></td>
+                            <td>3-4 Módulos + Premium</td>
+                            <td>€2,850</td>
+                            <td>4.8%</td>
+                            <td>Facebook Ads</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parejas Jóvenes</strong></td>
+                            <td>2 Módulos + Básico</td>
+                            <td>€1,650</td>
+                            <td>3.9%</td>
+                            <td>Google Shopping</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Solteros Urbanos</strong></td>
+                            <td>Sillón + Premium</td>
+                            <td>€1,200</td>
+                            <td>3.2%</td>
+                            <td>Instagram</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Renovadores</strong></td>
+                            <td>Esquinero + Complementos</td>
+                            <td>€3,200</td>
+                            <td>5.1%</td>
+                            <td>Email Marketing</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Strategic Recommendations -->
+        <div class="grid grid-1">
+            <div class="card">
+                <h3>🧠 AI-Powered Strategic Recommendations para Pummba</h3>
+                
+                <div class="recommendation">
+                    <h4>1. Modularidad-Based Channel Optimization</h4>
+                    <p>Facebook Ads domina configuraciones familiares (4+ módulos: 5.2% conversion). Instagram mejor en sillones individuales (3.2%). Segmentar campaigns por tamaño familiar = +€28,600/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>2. Premium Tejido Recovery Strategy</h4>
+                    <p>Configuraciones premium tienen 71% abandono pero 3x AOV. Implementar email sequences con visualización 3D + descuento escalonado = +€47,250/mes recovery</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>3. Color-Channel Strategic Alignment</h4>
+                    <p>Premium Beige lidera Facebook (5.2%) y Email (5.6%). Terciopelo Azul destaca Instagram (4.4%). Optimizar creative color strategy por canal = +€21,400/mes</p>
+                </div>
+                
+                <div class="recommendation">
+                    <h4>4. Configurador Intelligence Integration</h4>
+                    <p>Usuarios que completan configurador convierten 340% mejor. Implementar progressive profiling en configurador + retargeting específico = +€33,200/mes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div style="background: linear-gradient(135deg, #FF6B4A 0%, #E53E3E 100%); color: white; border-radius: 12px; padding: 30px; text-align: center; margin: 30px 0;">
+            <h3 style="font-size: 1.6rem; margin-bottom: 15px;">¿Listo para optimizar tus configuraciones modulares?</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">
+                Descubre cómo Sealmetrics puede aumentar tu conversión en +€94,650/mes con Product Intelligence
+            </p>
+            <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.9;">
+                <p>✅ 100% Product Attribution</p>
+                <p>✅ Configuración-specific insights</p>
+                <p>✅ Channel-modularidad optimization</p>
+                <p>✅ No-consent tracking</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Simular contador en tiempo real
+        function updateCounter() {
+            const metrics = document.querySelectorAll('.metric-value');
+            metrics.forEach(metric => {
+                if (metric.textContent.includes(',')) {
+                    let current = parseInt(metric.textContent.replace(/[€,]/g, ''));
+                    if (!isNaN(current) && current > 1000) {
+                        current += Math.floor(Math.random() * 5) + 1;
+                        if (metric.textContent.includes('€')) {
+                            metric.textContent = '€' + current.toLocaleString();
+                        } else {
+                            metric.textContent = current.toLocaleString();
+                        }
+                    }
+                }
+            });
+        }
+        
+        setInterval(updateCounter, 3000);
+
+        // Tracking interactions para Pummba
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Pummba Product Intelligence Dashboard loaded');
+            
+            // Simular evento de configuración específica
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'pummba_dashboard_view', {
+                    'client': 'pummba',
+                    'dashboard_type': 'product_intelligence',
+                    'revenue_opportunity': 94650
+                });
+            }
+        });
+    </script>
+</body>
+</html>
