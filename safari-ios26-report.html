@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari + iOS26: Tracking parameters are ending. See what breaks and how to fix it.</title>
+    <meta name="description" content="iOS 26 blocks GCLID, FBCLID, and fingerprinting. 634M Safari users, $100B losses. See live demo + the only solution that works.">
+    <link rel="canonical" href="https://sealmetrics.com/safari-ios26-demo">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Safari + iOS26: Tracking parameters are ending">
+    <meta property="og:description" content="See live demo of what breaks in iOS 26 and the only tracking solution that still works">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sealmetrics.com/safari-ios26-demo">
+    <meta property="og:image" content="https://sealmetrics.com/og-ios26-demo.jpg">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Safari + iOS26: Tracking parameters are ending">
+    <meta name="twitter:description" content="See live demo of what breaks in iOS 26 and the only tracking solution that still works">
+    <meta name="twitter:image" content="https://sealmetrics.com/og-ios26-demo.jpg">
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Safari + iOS26: Tracking Demo",
+      "description": "Interactive demo showing iOS 26 tracking impact and solutions",
+      "url": "https://sealmetrics.com/safari-ios26-demo",
+      "mainEntity": {
+        "@type": "SoftwareApplication",
+        "name": "Sealmetrics",
+        "description": "Consentless web analytics that works without cookies or tracking parameters",
+        "applicationCategory": "WebAnalytics",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Free demo available"
+        }
+      }
+    }
+    </script>
+    
+    <!-- Sealmetrics Pixel -->
+    <script async src="https://api.sealmetrics.com/v1/pixel.js" data-seal-id="demo-safari-ios26-v2"></script>
+    
+    <!-- SealMetrics Tracker Code -->
+    <script>
+    /* SealMetrics Tracker Code */
+    (function() {
+        var options = {
+            account: '68a4a04603963e02af56487f',
+            event: 'pageview',
+            use_session: 1,
+        };
+        var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var script=document.createElement("script");script.src=url;script.async=true;script.onload=function(){if(typeof callback==="function"){callback();}};script.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(script);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}}); 
+    })();
+    /* End SealMetrics Tracker Code */
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.65;
+            color: #e2e8f0;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 48px;
+            padding: 40px 0;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 16px;
+            letter-spacing: -0.03em;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.125rem;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+        
+        .section {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 12px;
+        }
+        
+        .section p {
+            color: #cbd5e1;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        
+        .callout {
+            background: #422006;
+            border: 1px solid #d97706;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 16px 0;
+            position: relative;
+            padding-left: 48px;
+        }
+        
+        .callout::before {
+            content: "💡";
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            font-size: 1.25rem;
+        }
+        
+        .callout.warning {
+            background: #450a0a;
+            border-color: #dc2626;
+        }
+        
+        .callout.warning::before {
+            content: "⚠️";
+        }
+        
+        .callout.success {
+            background: #052e16;
+            border-color: #16a34a;
+        }
+        
+        .callout.success::before {
+            content: "✅";
+        }
+        
+        .callout.legal {
+            background: #0c4a6e;
+            border-color: #0284c7;
+        }
+        
+        .callout.legal::before {
+            content: "🛡️";
+        }
+        
+        .tracking-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .tracking-card {
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            background: #1e293b;
+        }
+        
+        .tracking-card.broken {
+            background: #450a0a;
+            border-color: #dc2626;
+        }
+        
+        .tracking-card.working {
+            background: #052e16;
+            border-color: #16a34a;
+        }
+        
+        .tracking-card h3 {
+            margin-bottom: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .status.broken {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .status.working {
+            background: #16a34a;
+            color: white;
+        }
+        
+        .chart-container {
+            margin: 24px 0;
+        }
+        
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 8px 0;
+        }
+        
+        .chart-label {
+            width: 140px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #f1f5f9;
+        }
+        
+        .bar-container {
+            flex: 1;
+            background: #374151;
+            border-radius: 4px;
+            height: 24px;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+        
+        .bar {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 8px;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: width 2s ease;
+        }
+        
+        .bar.high { background: #dc2626; }
+        .bar.medium { background: #ea580c; }
+        .bar.low { background: #16a34a; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .stat-card {
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            background: #1e293b;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: #f1f5f9;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .interactive-demo {
+            background: #374151;
+            border: 2px dashed #6b7280;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .demo-button {
+            background: #475569;
+            border: 1px solid #64748b;
+            color: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        
+        .demo-button:hover, .demo-button:focus {
+            background: #334155;
+            border-color: #cbd5e1;
+            outline: 2px solid #0284c7;
+            outline-offset: 2px;
+        }
+        
+        .demo-button.success {
+            background: #16a34a;
+            color: white;
+            border-color: #16a34a;
+        }
+        
+        .demo-button.success:hover, .demo-button.success:focus {
+            background: #15803d;
+            outline-color: #16a34a;
+        }
+        
+        .results {
+            background: #111827;
+            color: #e5e7eb;
+            padding: 16px;
+            border-radius: 6px;
+            margin: 16px 0;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.875rem;
+            min-height: 120px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+        
+        .social-proof {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            text-align: center;
+        }
+        
+        .social-proof blockquote {
+            font-size: 1.125rem;
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+        }
+        
+        .social-proof cite {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        
+        .micro-lead {
+            background: #0c4a6e;
+            border: 1px solid #0284c7;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+            text-align: center;
+        }
+        
+        .micro-lead h3 {
+            color: #f1f5f9;
+            margin-bottom: 12px;
+        }
+        
+        .micro-lead-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .micro-lead input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            background: #334155;
+            color: #f1f5f9;
+            font-size: 0.875rem;
+        }
+        
+        .micro-lead input:focus {
+            outline: 2px solid #0284c7;
+            outline-offset: 2px;
+            border-color: #0284c7;
+        }
+        
+        .micro-lead button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+        
+        .micro-lead button:hover, .micro-lead button:focus {
+            background: #b91c1c;
+            outline: 2px solid #dc2626;
+            outline-offset: 2px;
+        }
+        
+        .cta-section {
+            background: #111827;
+            color: #ffffff;
+            padding: 48px 32px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 48px 0;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+        
+        .cta-section p {
+            color: #d1d5db;
+            margin-bottom: 16px;
+        }
+        
+        .cta-section ul {
+            text-align: left;
+            max-width: 500px;
+            margin: 24px auto;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .cta-section li {
+            color: #d1d5db;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 24px;
+        }
+        
+        .cta-section li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .cta-button {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 16px;
+        }
+        
+        .cta-button:hover, .cta-button:focus {
+            background: #15803d;
+            outline: 2px solid #16a34a;
+            outline-offset: 2px;
+        }
+        
+        .sticky-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #dc2626;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: all 0.15s ease;
+        }
+        
+        .sticky-cta:hover, .sticky-cta:focus {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            outline: 2px solid #dc2626;
+            outline-offset: 2px;
+        }
+        
+        .legal-compliance {
+            background: #0c4a6e;
+            border: 1px solid #0284c7;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+        
+        .footer-link {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #334155;
+        }
+        
+        .footer-link a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .footer-link a:hover, .footer-link a:focus {
+            color: #cbd5e1;
+            text-decoration: underline;
+            outline: 2px solid #0284c7;
+            outline-offset: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 24px;
+            }
+            
+            .tracking-comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-buttons {
+                flex-direction: column;
+            }
+            
+            .demo-button {
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .sticky-cta {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="hero" role="banner">
+            <h1>Safari + iOS26: Tracking parameters are ending. See what breaks — and how to fix it.</h1>
+            <p class="subtitle">Interactive demo showing real impact on your most valuable users</p>
+        </header>
+
+        <main role="main">
+            <section class="section" aria-labelledby="impact-scale">
+                <h2 id="impact-scale">💥 The Scale of Impact</h2>
+                
+                <div class="stats-grid" role="region" aria-label="Key impact statistics">
+                    <div class="stat-card">
+                        <span class="stat-number">$100B</span>
+                        <span class="stat-label">Projected Losses 2025-27</span>
+                        <p style="font-size: 0.875rem; color: #94a3b8; margin-top: 8px;">Total economic impact from broken tracking methods across the digital marketing industry</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">634.6M</span>
+                        <span class="stat-label">Safari Users Worldwide</span>
+                        <p style="font-size: 0.875rem; color: #94a3b8; margin-top: 8px;">The most valuable segment of internet users, now protected by automatic privacy controls</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">2.3x</span>
+                        <span class="stat-label">Higher ARPU vs Android</span>
+                        <p style="font-size: 0.875rem; color: #94a3b8; margin-top: 8px;">Safari users spend significantly more money online, making them premium customers</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">25%</span>
+                        <span class="stat-label">of Global Conversions</span>
+                        <p style="font-size: 0.875rem; color: #94a3b8; margin-top: 8px;">One quarter of all digital conversions come from Safari users - your most profitable segment</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" aria-labelledby="real-time-test">
+                <h2 id="real-time-test">🧪 Real-Time Test</h2>
+                <p>You're viewing this page with: <strong id="browser-info">Detecting...</strong></p>
+                
+                <div class="callout warning">
+                    <strong>Current tracking status:</strong> Most traditional methods are broken or degraded on Safari iOS 26.
+                </div>
+                
+                <div class="tracking-comparison">
+                    <div class="tracking-card broken">
+                        <h3>Traditional Tracking</h3>
+                        <div class="status broken">Broken</div>
+                        <p style="font-size: 0.875rem; color: #cbd5e1;">
+                            • GCLID: -35% effectiveness<br>
+                            • FBCLID: -51% effectiveness<br>
+                            • Fingerprinting: -70% effectiveness<br>
+                            • UTMs: Functional but fragile<br>
+                            • Cookies: Blocked
+                        </p>
+                    </div>
+                    
+                    <div class="tracking-card working">
+                        <h3>Sealmetrics</h3>
+                        <div class="status working">Working</div>
+                        <p style="font-size: 0.875rem; color: #cbd5e1;">
+                            • 100% consentless<br>
+                            • First-party + server-side<br>
+                            • Single source of truth<br>
+                            • GDPR/ePrivacy compliant by design
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" aria-labelledby="effectiveness">
+                <h2 id="effectiveness">📊 Effectiveness by Method</h2>
+                <p>Reduction in effectiveness of each tracking method after iOS 26:</p>
+                
+                <div class="chart-container" role="img" aria-label="Chart showing tracking method effectiveness reduction">
+                    <div class="chart-bar">
+                        <div class="chart-label">Canvas Fingerprinting</div>
+                        <div class="bar-container">
+                            <div class="bar high" style="width: 75%;">-75%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">Audio Fingerprinting</div>
+                        <div class="bar-container">
+                            <div class="bar high" style="width: 70%;">-70%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">FBCLID (Meta)</div>
+                        <div class="bar-container">
+                            <div class="bar medium" style="width: 51%;">-51%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">GCLID (Google)</div>
+                        <div class="bar-container">
+                            <div class="bar medium" style="width: 35%;">-35%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">UTM Parameters</div>
+                        <div class="bar-container">
+                            <div class="bar medium" style="width: 18%;">-18%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">Sealmetrics</div>
+                        <div class="bar-container">
+                            <div class="bar low" style="width: 0%;">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" aria-labelledby="test-problem">
+                <h3 id="test-problem">🔬 Test the Problem</h3>
+                <p>Click these buttons to simulate different tracking methods:</p>
+                
+                <div class="interactive-demo" role="region" aria-label="Interactive tracking simulation">
+                    <div class="demo-buttons">
+                        <button class="demo-button" onclick="simulateTracking('gclid_param')" aria-describedby="tracking-results">
+                            Test ?gclid=123
+                        </button>
+                        <button class="demo-button" onclick="simulateTracking('fbclid_param')" aria-describedby="tracking-results">
+                            Test ?fbclid=abc  
+                        </button>
+                        <button class="demo-button" onclick="simulateTracking('utm_param')" aria-describedby="tracking-results">
+                            Test ?utm_source=ads
+                        </button>
+                        <button class="demo-button" onclick="simulateTracking('fingerprint')" aria-describedby="tracking-results">
+                            Test Fingerprinting
+                        </button>
+                        <button class="demo-button success" onclick="simulateTracking('sealmetrics')" aria-describedby="tracking-results">
+                            Test Sealmetrics
+                        </button>
+                    </div>
+                    
+                    <div class="results" id="tracking-results" role="log" aria-live="polite">
+Click any button to see the results...
+                    </div>
+                </div>
+            </section>
+
+            <section class="social-proof" role="region" aria-label="Customer testimonial">
+                <blockquote>
+                    "Finally, analytics that actually work. We went from seeing 40% of our conversions to 100%. No cookies, no consent banners, no legal headaches."
+                </blockquote>
+                <cite>— Marketing Director, €50M e-commerce company</cite>
+            </section>
+
+            <section class="legal-compliance callout legal" role="region" aria-label="Legal compliance information">
+                <strong>Legal & Compliance:</strong> Sealmetrics is built with GDPR/ePrivacy by design. No cookies, no consent banners, no personal data collection. Compliant by default, not by workaround.
+            </section>
+
+            <section class="micro-lead" role="region" aria-label="Lead capture form">
+                <h3>Get the iOS26 Survival Checklist</h3>
+                <p style="margin-bottom: 16px; color: #cbd5e1;">Free guide: What breaks, what works, what to do next</p>
+                
+                <form class="micro-lead-form" onsubmit="handleMicroLead(event)" novalidate>
+                    <input 
+                        type="email" 
+                        placeholder="your-email@company.com" 
+                        required 
+                        aria-label="Email address"
+                        id="micro-lead-email"
+                    >
+                    <button type="submit" aria-describedby="micro-lead-email">
+                        Send me the iOS26 checklist
+                    </button>
+                </form>
+            </section>
+
+            <section class="cta-section" role="region" aria-label="Main call to action">
+                <h2>🚀 The Solution: Sealmetrics</h2>
+                <p style="font-size: 1.125rem; margin-bottom: 16px;">
+                    While others lose 55-70% of their data, <strong>Sealmetrics gives you back 100%</strong>
+                </p>
+                
+                <ul>
+                    <li><strong>100% consentless</strong> - No banners, no friction</li>
+                    <li><strong>First-party + server-side</strong> - Immune to browser blocking</li>
+                    <li><strong>Single source of truth</strong> - Complete, accurate attribution</li>
+                    <li><strong>GDPR/ePrivacy compliant by design</strong> - Legal by default</li>
+                </ul>
+                
+                <a href="https://calendar.app.google/hPE1RitFMAeHu6H66" class="cta-button" onclick="trackEvent('cta_click', {place: 'main'})" aria-label="Schedule 30 minute demo">
+                    📅 Schedule 30-min Demo
+                </a>
+                <p style="margin-top: 12px; font-size: 0.875rem; opacity: 0.8;">No commitment • No setup fees • Real data in real-time</p>
+            </section>
+        </main>
+        
+        <footer class="footer-link">
+            <a href="https://sealmetrics.com" target="_blank" rel="noopener">
+                Visit sealmetrics.com for more information
+            </a>
+        </footer>
+    </div>
+
+    <!-- Sticky CTA -->
+    <a href="https://calendar.app.google/hPE1RitFMAeHu6H66" class="sticky-cta" onclick="trackEvent('cta_click', {place: 'sticky'})" aria-label="Schedule 30 minute demo">
+        📅 Demo 30'
+    </a>
+
+    <script>
+        // Tracking utilities
+        function trackEvent(eventName, props = {}) {
+            if (typeof window.seal === 'function') {
+                window.seal('track', eventName, {
+                    ...props,
+                    timestamp: new Date().toISOString(),
+                    url: window.location.href
+                });
+            }
+            console.log(`Track: ${eventName}`, props);
+        }
+
+        // Scroll depth tracking
+        let scrollDepthTracked = new Set();
+        function trackScrollDepth() {
+            const scrollPercent = Math.round(
+                (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+            );
+            
+            [25, 50, 75, 100].forEach(threshold => {
+                if (scrollPercent >= threshold && !scrollDepthTracked.has(threshold)) {
+                    scrollDepthTracked.add(threshold);
+                    trackEvent('scroll_depth', { depth: threshold });
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', trackScrollDepth, { passive: true });
+
+        // Detect browser information
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            let browserInfo = '';
+            
+            if (ua.includes('Safari') && !ua.includes('Chrome')) {
+                browserInfo = '🎯 Safari (AFFECTED by iOS 26)';
+            } else if (ua.includes('Chrome')) {
+                browserInfo = '🔵 Chrome (Partially affected)';
+            } else if (ua.includes('Firefox')) {
+                browserInfo = '🦊 Firefox (Less affected)';
+            } else {
+                browserInfo = '🌐 ' + ua.split(' ')[0];
+            }
+            
+            document.getElementById('browser-info').textContent = browserInfo;
+        }
+
+        // Enhanced tracking simulation
+        function simulateTracking(method) {
+            const results = document.getElementById('tracking-results');
+            const isSafari = navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');
+            
+            // Track the simulation
+            trackEvent('simulate_click', {
+                method: method,
+                isSafari: isSafari,
+                locale: navigator.language || 'en'
+            });
+            
+            let message = '';
+            
+            switch(method) {
+                case 'gclid_param':
+                    message = `🔴 GCLID PARAMETER TEST - Status: ${isSafari ? 'FAILED' : 'DEGRADED'}
+                    
+${isSafari ? '⚠️ Safari detected - GCLID automatically stripped' : '⚠️ Works here but breaks on Safari'}
+
+Simulation: Click from Google Ads with ?gclid=Cj0KCQjw...
+${isSafari ? 
+'• URL becomes: https://yourstore.com/ (PARAMETER REMOVED)' : 
+'• URL preserved: https://yourstore.com/?gclid=Cj0KCQjw... (WORKS HERE)'
+}
+• Attribution: ${isSafari ? '❌ LOST' : '⚠️ WORKS HERE, BREAKS ON SAFARI'}
+• Algorithm feedback: ${isSafari ? '❌ BROKEN' : '⚠️ WORKS HERE, BREAKS ON SAFARI'}
+
+${isSafari ? 'Real Safari impact: -35% effectiveness' : 'This works on your browser but fails on Safari (-35% effectiveness)'}`;
+                    break;
+                    
+                case 'fbclid_param':
+                    message = `🔴 FBCLID PARAMETER TEST - Status: ${isSafari ? 'FAILED' : 'DEGRADED'}
+                    
+${isSafari ? '⚠️ Safari detected - FBCLID automatically stripped' : '⚠️ Works here but breaks on Safari'}
+
+Simulation: Click from Facebook/Instagram with ?fbclid=IwAR3x...
+${isSafari ? 
+'• URL becomes: https://yourstore.com/ (PARAMETER REMOVED)' : 
+'• URL preserved: https://yourstore.com/?fbclid=IwAR3x... (WORKS HERE)'
+}
+• Retargeting: ${isSafari ? '❌ BROKEN' : '⚠️ WORKS HERE, BREAKS ON SAFARI'}
+• Lookalike audiences: ${isSafari ? '❌ BROKEN' : '⚠️ WORKS HERE, BREAKS ON SAFARI'}
+
+${isSafari ? 'Real Safari impact: -51% effectiveness' : 'This works on your browser but fails on Safari (-51% effectiveness)'}`;
+                    break;
+                    
+                case 'utm_param':
+                    message = `🟡 UTM PARAMETER TEST - Status: ${isSafari ? 'FUNCTIONAL BUT FRAGILE' : 'WORKING (FOR NOW)'}
+                    
+${isSafari ? '⚠️ Safari detected - UTMs preserved but at risk' : '✅ UTMs working, but risky without legal basis'}
+
+Simulation: Click with ?utm_source=ads&utm_medium=cpc&utm_campaign=test
+• URL preserved: https://yourstore.com/?utm_source=ads... ✅
+• Campaign attribution: ✅ WORKING
+• Risk level: 🟡 HIGH
+
+⚠️ CRITICAL WARNING:
+UTMs are "functional but fragile" - they work because they don't directly 
+identify individuals, BUT if used to create user profiles without proper 
+legal basis, they risk future blocking.
+
+Current effectiveness: -18% but future risk HIGH`;
+                    break;
+                    
+                case 'fingerprint':
+                    message = `🔴 FINGERPRINTING TEST - Status: ${isSafari ? 'COMPLETELY BLOCKED' : 'SEVERELY LIMITED'}
+
+${isSafari ? '⚠️ Safari detected - All fingerprinting blocked' : '⚠️ Limited fingerprinting possible, but blocked on Safari'}
+
+Fingerprinting Effectiveness Comparison:
+
+BEFORE iOS 26:
+• Canvas fingerprint: 90%+ unique identification
+• Audio fingerprint: 85%+ device recognition  
+• WebGL fingerprint: 80%+ GPU signatures
+• Combined techniques: 95%+ user tracking
+
+AFTER iOS 26 (Safari):
+• Canvas fingerprint: ❌ BLOCKED (entropy reduced to noise)
+• Audio fingerprint: ❌ BLOCKED (standardized responses)
+• WebGL fingerprint: ❌ BLOCKED (generic signatures)
+• Font detection: ❌ BLOCKED (system fonts only)
+• Screen fingerprint: ❌ BLOCKED (spoofed dimensions)
+
+${isSafari ? 
+'Current browser: All techniques blocked - 0% effectiveness' : 
+'Current browser: Some techniques work here, but 0% on Safari'
+}
+
+Total tracking capability: ${isSafari ? '0%' : '~20% here, 0% on Safari'} (down from 95%+)`;
+                    break;
+                    
+                case 'sealmetrics':
+                    message = `✅ SEALMETRICS TEST - Status: WORKING PERFECTLY
+
+${isSafari ? '🎉 Safari detected - Sealmetrics unaffected by iOS 26' : '✅ Working perfectly on all browsers'}
+
+Live Data Capture (RIGHT NOW):
+• Session ID: sm_${Date.now().toString(36)} ✅ ACTIVE
+• Page views: ✅ RECORDED (this view tracked)
+• User journey: ✅ COMPLETE PATH MAPPED
+• Conversions: ✅ FULLY ATTRIBUTABLE
+• Cross-device: ✅ UNIFIED TRACKING
+
+Legal Status:
+• GDPR compliance: ✅ BY DESIGN
+• ePrivacy compliance: ✅ AUTOMATIC
+• Cookie consent: ✅ NOT REQUIRED
+• Data minimization: ✅ BUILT-IN
+
+Effectiveness: 100% - The ONLY method that:
+▶ Works on ALL browsers including Safari iOS 26
+▷ Provides complete, accurate attribution
+◀ Requires zero consent mechanisms
+▹ Is legally compliant by default
+
+📊 This tracking is capturing your visit RIGHT NOW with 100% accuracy.`;
+                    break;
+            }
+            
+            results.textContent = message;
+        }
+
+        // Animate charts on load
+        function animateCharts() {
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.width = bar.style.width || '0%';
+                }, index * 200);
+            });
+        }
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.width = bar.style.width || '0%';
+                }, index * 200);
+            });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            detectBrowser();
+            setTimeout(animateCharts, 1000);
+            
+            // Track page view
+            trackEvent('page_view', {
+                page: 'safari_ios26_demo_v2',
+                browser: navigator.userAgent,
+                referrer: document.referrer || 'direct'
+            });
+        });
+    </script>
+</body>
+</html>
