@@ -307,85 +307,48 @@
             </div>
         </div>
 
-        <!-- Channel Performance -->
-        <div class="grid grid-2">
+        <!-- Audiencia vs Product Matrix -->
+        <div class="grid grid-1">
             <div class="card">
-                <h3>🏆 Channel Performance Ranking</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Canal</th>
-                            <th>Hits</th>
-                            <th>Top Product</th>
-                            <th>ROI Score</th>
-                            <th>Revenue Potential</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="tag high">Facebook Ads</span></td>
-                            <td>28,456</td>
-                            <td>Camiseta Local 25/26</td>
-                            <td>9.4/10</td>
-                            <td><span style="color: #00c851; font-weight: bold;">+€12,400/mes</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="tag high">Google Shopping</span></td>
-                            <td>22,134</td>
-                            <td>Camiseta Isco</td>
-                            <td>8.9/10</td>
-                            <td><span style="color: #00c851; font-weight: bold;">+€9,800/mes</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="tag medium">Instagram</span></td>
-                            <td>19,234</td>
-                            <td>Sudadera Casual Mujer</td>
-                            <td>7.8/10</td>
-                            <td><span style="color: #ecc94b; font-weight: bold;">+€7,200/mes</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="tag medium">TikTok Ads</span></td>
-                            <td>12,567</td>
-                            <td>Camiseta Niño Local</td>
-                            <td>7.1/10</td>
-                            <td><span style="color: #f56565; font-weight: bold;">-€1,800/mes*</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h3>🎯 Audiencia vs Product</h3>
                 
-                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                    <h4 style="color: #4a5568; margin-bottom: 10px;">💡 Channel Performance Insights</h4>
-                    <p style="color: #718096; font-size: 0.9rem;">Facebook domina camisetas oficiales, Instagram lidera en casual femenino. Optimizar allocation hacia high-performing channel-product combinations.</p>
+                <div style="margin-bottom: 20px; padding: 15px; background: #f7fafc; border-radius: 8px;">
+                    <h4 style="color: #4a5568; margin-bottom: 15px;">Seleccionar Canal de Marketing:</h4>
+                    <select id="channelSelector" onchange="updateAudienceProductMatrix()" style="padding: 10px 15px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 1rem; min-width: 200px; background: white;">
+                        <option value="facebook">📘 Facebook Ads</option>
+                        <option value="google">🔍 Google Ads</option>
+                        <option value="instagram">📸 Instagram</option>
+                        <option value="tiktok">🎵 TikTok</option>
+                        <option value="email">📧 Email Marketing</option>
+                        <option value="search">🔎 Organic Search</option>
+                    </select>
                 </div>
-            </div>
 
-            <div class="card">
-                <h3>⚽ Top Products by Channel</h3>
-                
-                <div class="channel-card facebook">
-                    <strong>Facebook Ads</strong> <span style="color: #00c851; font-size: 0.9em;">(scale opportunity)</span><br>
-                    1. Camiseta Local 25/26 (4,234 hits) - <em>High performance product</em><br>
-                    2. Camiseta Isco #22 (3,567 hits) - <em>Growth potential</em><br>
-                    3. Sudadera Entrenamiento (2,890 hits) - <em>Premium focus</em>
+                <div style="overflow-x: auto;">
+                    <table class="table" id="audienceProductMatrix">
+                        <thead>
+                            <tr>
+                                <th style="background: #00c851; color: white; position: sticky; left: 0; z-index: 10;">Audiencia</th>
+                                <th>🎫 Tickets</th>
+                                <th>🏛️ Tour</th>
+                                <th>🛍️ Ecommerce</th>
+                                <th>⚽ SoyBetico</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audienceProductBody">
+                            <!-- Content will be populated by JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
-                
-                <div class="channel-card google">
-                    <strong>Google Shopping</strong> <span style="color: #00c851; font-size: 0.9em;">(premium focus)</span><br>
-                    1. Camiseta Visitante 25/26 (3,789 hits) - <em>Top performer</em><br>
-                    2. Chaqueta Oficial (2,456 hits) - <em>Consistent growth</em><br>
-                    3. Bufanda Clásica (2,123 hits) - <em>Optimization opportunity</em>
-                </div>
-                
-                <div class="channel-card instagram">
-                    <strong>Instagram</strong> <span style="color: #ecc94b; font-size: 0.9em;">(optimization potential)</span><br>
-                    1. Sudadera Casual Mujer (2,234 hits) - <em>Engagement leader</em><br>
-                    2. Camiseta Retro 90s (1,890 hits) - <em>Nostalgia appeal</em><br>
-                    3. Gorra Lifestyle (1,567 hits) - <em>Youth segment</em>
+
+                <div id="audienceProductInsights" style="background: #f0fff4; border: 1px solid #00c851; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <h4 style="color: #22543d; margin-bottom: 10px;">💡 Channel Insights</h4>
+                    <p id="channelInsightsText" style="color: #2f855a; font-size: 0.9rem;">Cargando insights...</p>
                 </div>
             </div>
         </div>
 
-        <!-- Product Intelligence Matrix -->
+        <!-- Product Performance Intelligence -->
         <div class="grid grid-1">
             <div class="card">
                 <h3>🎯 Product Performance Intelligence</h3>
@@ -438,537 +401,75 @@
             </div>
         </div>
 
-        <!-- Conversion Rate Matrix -->
-        <div class="grid grid-1">
-            <div class="card">
-                <h3>📊 Conversion Rate Matrix: Canales vs Tipo de Equipación</h3>
-                <div style="overflow-x: auto;">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th style="background: #00c851; color: white;">Canal / Tipo</th>
-                                <th>Camiseta Local</th>
-                                <th>Camiseta Visitante</th>
-                                <th>Tercera Equipación</th>
-                                <th>Entrenamiento</th>
-                                <th>Casual</th>
-                                <th>Accesorios</th>
-                                <th style="background: #e2e8f0;">Media Canal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="background: #f0f8ff;">
-                                <td><strong>Facebook Ads</strong></td>
-                                <td><span style="color: #00c851; font-weight: bold;">4.2%</span></td>
-                                <td>3.1%</td>
-                                <td>2.8%</td>
-                                <td>3.4%</td>
-                                <td>2.9%</td>
-                                <td>2.1%</td>
-                                <td style="background: #e2e8f0;"><strong>3.1%</strong></td>
-                            </tr>
-                            <tr style="background: #fff5f5;">
-                                <td><strong>Google Shopping</strong></td>
-                                <td>3.8%</td>
-                                <td><span style="color: #00c851; font-weight: bold;">4.6%</span></td>
-                                <td>3.2%</td>
-                                <td>3.9%</td>
-                                <td>2.4%</td>
-                                <td><span style="color: #00c851; font-weight: bold;">3.7%</span></td>
-                                <td style="background: #e2e8f0;"><strong>3.6%</strong></td>
-                            </tr>
-                            <tr style="background: #fef5f8;">
-                                <td><strong>Instagram</strong></td>
-                                <td>2.9%</td>
-                                <td>2.1%</td>
-                                <td>3.4%</td>
-                                <td>2.8%</td>
-                                <td><span style="color: #00c851; font-weight: bold;">4.5%</span></td>
-                                <td>3.1%</td>
-                                <td style="background: #e2e8f0;"><strong>3.1%</strong></td>
-                            </tr>
-                            <tr style="background: #f7fafc;">
-                                <td><strong>TikTok Ads</strong></td>
-                                <td>2.1%</td>
-                                <td>1.8%</td>
-                                <td>2.4%</td>
-                                <td>1.9%</td>
-                                <td>2.7%</td>
-                                <td>2.3%</td>
-                                <td style="background: #e2e8f0;"><strong>2.2%</strong></td>
-                            </tr>
-                            <tr style="background: #f0fff4;">
-                                <td><strong>Email Marketing</strong></td>
-                                <td>3.4%</td>
-                                <td>3.8%</td>
-                                <td><span style="color: #00c851; font-weight: bold;">4.9%</span></td>
-                                <td><span style="color: #00c851; font-weight: bold;">4.2%</span></td>
-                                <td>3.6%</td>
-                                <td>2.9%</td>
-                                <td style="background: #e2e8f0;"><strong>3.8%</strong></td>
-                            </tr>
-                            <tr style="background: #f4f4f5; font-weight: bold;">
-                                <td style="background: #00c851; color: white;"><strong>MEDIA SITE</strong></td>
-                                <td>3.3%</td>
-                                <td>3.1%</td>
-                                <td>3.3%</td>
-                                <td>3.2%</td>
-                                <td>3.2%</td>
-                                <td>2.8%</td>
-                                <td style="background: #4a5568; color: white;"><strong>3.2%</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                    <h4 style="color: #4a5568; margin-bottom: 10px;">📈 Conversion Matrix Insights</h4>
-                    <p style="color: #718096; font-size: 0.9rem;">Facebook domina Camisetas Locales (4.2%), Instagram lidera Casual (4.5%), Google Shopping mejor en Accesorios (3.7%). Email Marketing excele en productos premium.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Traffic Distribution Analysis -->
+        <!-- Channel Performance -->
         <div class="grid grid-2">
             <div class="card">
-                <h3">🥧 Distribución Real de Tráfico por Canal</h3>
-                <div style="position: relative; width: 300px; height: 300px; margin: 20px auto;">
-                    <canvas id="trafficChart" width="300" height="300"></canvas>
-                </div>
-                <div style="margin-top: 20px;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem;">
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 12px; height: 12px; background: #00c851; border-radius: 50%; margin-right: 8px;"></div>
-                            <span><strong>Direct:</strong> 720,928 (56.7%)</span>
-                        </div>
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 12px; height: 12px; background: #4299e1; border-radius: 50%; margin-right: 8px;"></div>
-                            <span><strong>Organic Search:</strong> 348,138 (27.4%)</span>
-                        </div>
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 12px; height: 12px; background: #e4405f; border-radius: 50%; margin-right: 8px;"></div>
-                            <span><strong>Social:</strong> 155,917 (12.3%)</span>
-                        </div>
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 12px; height: 12px; background: #f56565; border-radius: 50%; margin-right: 8px;"></div>
-                            <span><strong>Referral:</strong> 38,735 (3.0%)</span>
-                        </div>
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 12px; height: 12px; background: #ecc94b; border-radius: 50%; margin-right: 8px;"></div>
-                            <span><strong>Paid Search:</strong> 5,616 (0.4%)</span>
-                        </div>
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 12px; height: 12px; background: #9f7aea; border-radius: 50%; margin-right: 8px;"></div>
-                            <span><strong>Paid Social:</strong> 4,971 (0.4%)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3">📊 Pérdida de Visibility por Canal</h3>
-                <div style="margin-top: 20px;">
-                    <div style="margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-weight: 600;">🔗 Direct Traffic (56.7%)</span>
-                            <span style="color: #f56565; font-weight: bold;">45% visible</span>
-                        </div>
-                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
-                            <div style="width: 45%; height: 100%; background: linear-gradient(90deg, #f56565, #e53e3e);"></div>
-                        </div>
-                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
-                            396,512 visitas perdidas • -€67,800/mes
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-weight: 600;">🔍 Organic Search (27.4%)</span>
-                            <span style="color: #ecc94b; font-weight: bold;">65% visible</span>
-                        </div>
-                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
-                            <div style="width: 65%; height: 100%; background: linear-gradient(90deg, #ecc94b, #d69e2e);"></div>
-                        </div>
-                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
-                            121,848 visitas perdidas • -€34,200/mes
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-weight: 600;">📱 Social Media (12.3%)</span>
-                            <span style="color: #ecc94b; font-weight: bold;">58% visible</span>
-                        </div>
-                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
-                            <div style="width: 58%; height: 100%; background: linear-gradient(90deg, #e4405f, #c53030);"></div>
-                        </div>
-                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
-                            65,485 visitas perdidas • -€18,400/mes
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-weight: 600;">💰 Paid Channels (0.8%)</span>
-                            <span style="color: #00c851; font-weight: bold;">78% visible</span>
-                        </div>
-                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
-                            <div style="width: 78%; height: 100%; background: linear-gradient(90deg, #00c851, #38a169);"></div>
-                        </div>
-                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
-                            2,329 visitas perdidas • -€2,200/mes
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 10px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-weight: 600;">🔗 Referral (3.0%)</span>
-                            <span style="color: #ecc94b; font-weight: bold;">62% visible</span>
-                        </div>
-                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
-                            <div style="width: 62%; height: 100%; background: linear-gradient(90deg, #9f7aea, #805ad5);"></div>
-                        </div>
-                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
-                            14,719 visitas perdidas • -€4,800/mes
-                        </div>
-                    </div>
-                </div>
-
-                <div style="background: #f0fff4; border: 1px solid #00c851; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
-                    <h4 style="color: #22543d; margin-bottom: 8px;">💡 Canal Insights</h4>
-                    <p style="color: #2f855a; font-size: 0.9rem;">Direct Traffic mayor pérdida (55%). Paid channels mejor tracking. Sealmetrics recovery: <strong>+€127,400/mes</strong></p>
-                </div>
-            </div>
-        </div>
-        <div class="grid grid-2">
-            <div class="card">
-                <h3>📱 Pérdida de Visibility por Device</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Device</th>
-                            <th>Visitas Reales/Mes</th>
-                            <th>Visibility Actual</th>
-                            <th>Pérdida Estimada</th>
-                            <th>Revenue Impact</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>📱 Mobile (77.9%)</strong></td>
-                            <td>990,013</td>
-                            <td><span class="tag low">32%</span></td>
-                            <td>673,209 visitas/mes</td>
-                            <td><span style="color: #f56565; font-weight: bold;">-€98,400/mes</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>💻 Desktop (22.1%)</strong></td>
-                            <td>281,485</td>
-                            <td><span class="tag medium">72%</span></td>
-                            <td>78,816 visitas/mes</td>
-                            <td><span style="color: #f56565; font-weight: bold;">-€23,600/mes</span></td>
-                        </tr>
-                        <tr style="background: #fef5e7;">
-                            <td><strong>🔄 Con Sealmetrics</strong></td>
-                            <td>1,271,498</td>
-                            <td><span class="tag high">100%</span></td>
-                            <td>0 visitas perdidas</td>
-                            <td><span style="color: #00c851; font-weight: bold;">+€122,000/mes</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="card">
-                <h3">🌐 Pérdida por Canal de Tráfico</h3>
+                <h3>🏆 Channel Performance Ranking</h3>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Canal</th>
-                            <th>Visitas/Mes</th>
-                            <th>% del Total</th>
-                            <th>Visibility</th>
-                            <th>Recovery Potential</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>🔍 Organic Search</td>
-                            <td>348,138</td>
-                            <td>27.4%</td>
-                            <td><span class="tag medium">65%</span></td>
-                            <td>+€34,200/mes</td>
-                        </tr>
-                        <tr>
-                            <td>📧 Direct Traffic</td>
-                            <td>720,928</td>
-                            <td>56.7%</td>
-                            <td><span class="tag low">45%</span></td>
-                            <td>+€67,800/mes</td>
-                        </tr>
-                        <tr>
-                            <td>📱 Social Media</td>
-                            <td>155,917</td>
-                            <td>12.3%</td>
-                            <td><span class="tag medium">58%</span></td>
-                            <td>+€18,400/mes</td>
-                        </tr>
-                        <tr>
-                            <td>💰 Paid Channels</td>
-                            <td>11,232</td>
-                            <td>0.9%</td>
-                            <td><span class="tag high">78%</span></td>
-                            <td>+€2,200/mes</td>
-                        </tr>
-                        <tr>
-                            <td>🔗 Referral</td>
-                            <td>38,735</td>
-                            <td>3.0%</td>
-                            <td><span class="tag medium">62%</span></td>
-                            <td>+€4,800/mes</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="grid grid-3">
-            <div class="card">
-                <h3">👨 Performance por Público</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Público</th>
                             <th>Hits</th>
-                            <th>Conversión</th>
-                            <th>Revenue</th>
+                            <th>Top Product</th>
+                            <th>ROI Score</th>
+                            <th>Revenue Potential</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>👨 Hombre</td>
-                            <td>78,234</td>
-                            <td>3.8%</td>
-                            <td>€156,780</td>
+                            <td><span class="tag high">Facebook Ads</span></td>
+                            <td>28,456</td>
+                            <td>Camiseta Local 25/26</td>
+                            <td>9.4/10</td>
+                            <td><span style="color: #00c851; font-weight: bold;">+€12,400/mes</span></td>
                         </tr>
                         <tr>
-                            <td>👩 Mujer</td>
-                            <td>34,567</td>
-                            <td>4.2%</td>
-                            <td>€89,450</td>
+                            <td><span class="tag high">Google Shopping</span></td>
+                            <td>22,134</td>
+                            <td>Camiseta Isco</td>
+                            <td>8.9/10</td>
+                            <td><span style="color: #00c851; font-weight: bold;">+€9,800/mes</span></td>
                         </tr>
                         <tr>
-                            <td>👶 Niño</td>
-                            <td>22,345</td>
-                            <td>3.1%</td>
-                            <td>€45,670</td>
+                            <td><span class="tag medium">Instagram</span></td>
+                            <td>19,234</td>
+                            <td>Sudadera Casual Mujer</td>
+                            <td>7.8/10</td>
+                            <td><span style="color: #ecc94b; font-weight: bold;">+€7,200/mes</span></td>
                         </tr>
                         <tr>
-                            <td>🍼 Bebé</td>
-                            <td>8,901</td>
-                            <td>2.7%</td>
-                            <td>€18,230</td>
+                            <td><span class="tag medium">TikTok Ads</span></td>
+                            <td>12,567</td>
+                            <td>Camiseta Niño Local</td>
+                            <td>7.1/10</td>
+                            <td><span style="color: #f56565; font-weight: bold;">-€1,800/mes*</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="card">
-                <h3>💰 Performance por Precio</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Rango</th>
-                            <th>Conversión</th>
-                            <th>Best Channel</th>
-                            <th>AOV</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>€0-40</td>
-                            <td><span class="tag medium">3.2%</span></td>
-                            <td>TikTok Ads</td>
-                            <td>€28</td>
-                        </tr>
-                        <tr>
-                            <td>€41-70</td>
-                            <td><span class="tag high">4.1%</span></td>
-                            <td>Facebook Ads</td>
-                            <td>€58</td>
-                        </tr>
-                        <tr>
-                            <td>€71-100</td>
-                            <td><span class="tag high">3.9%</span></td>
-                            <td>Google Shopping</td>
-                            <td>€87</td>
-                        </tr>
-                        <tr>
-                            <td>€100+</td>
-                            <td><span class="tag high">4.8%</span></td>
-                            <td>Email Marketing</td>
-                            <td>€134</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="card">
-                <h3">👕 Performance por Talla</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Talla</th>
-                            <th>Hits</th>
-                            <th>Conversión</th>
-                            <th>Best Channel</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>XS-S</td>
-                            <td>23,456</td>
-                            <td><span class="tag high">4.1%</span></td>
-                            <td>Instagram</td>
-                        </tr>
-                        <tr>
-                            <td>M</td>
-                            <td>45,789</td>
-                            <td><span class="tag high">3.8%</span></td>
-                            <td>Facebook</td>
-                        </tr>
-                        <tr>
-                            <td>L</td>
-                            <td>38,234</td>
-                            <td><span class="tag high">4.2%</span></td>
-                            <td>Google Shopping</td>
-                        </tr>
-                        <tr>
-                            <td>XL-XXL</td>
-                            <td>21,567</td>
-                            <td><span class="tag medium">3.5%</span></td>
-                            <td>Google Shopping</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Cart Abandonment -->
-        <div class="grid grid-2">
-            <div class="card">
-                <h3">🛒 Cart Abandonment Analysis</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Añadido</th>
-                            <th>Abandonado</th>
-                            <th>Abandono %</th>
-                            <th>Revenue Perdido</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Productos €100+</strong></td>
-                            <td>1,456</td>
-                            <td>1,029</td>
-                            <td><span class="tag high">70.7%</span></td>
-                            <td>€78,450</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Camisetas Personalizadas</strong></td>
-                            <td>2,234</td>
-                            <td>1,340</td>
-                            <td><span class="tag medium">60.0%</span></td>
-                            <td>€56,780</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tallas XL-XXL</strong></td>
-                            <td>1,789</td>
-                            <td>1,007</td>
-                            <td><span class="tag medium">56.3%</span></td>
-                            <td>€43,230</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Accesorios Premium</strong></td>
-                            <td>890</td>
-                            <td>427</td>
-                            <td><span class="tag low">48.0%</span></td>
-                            <td>€28,670</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="card">
-                <h3">📈 Sales Performance Matrix</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Top Performers</th>
-                            <th>Ventas</th>
-                            <th>Revenue</th>
-                            <th>Avg. Ticket</th>
-                            <th>Best Channel</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Local, Hombre, M, €70</strong></td>
-                            <td>567</td>
-                            <td>€39,690</td>
-                            <td>€70</td>
-                            <td>Facebook</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Isco #22, Hombre, L, €85</strong></td>
-                            <td>342</td>
-                            <td>€29,070</td>
-                            <td>€85</td>
-                            <td>Google Shop</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Casual, Mujer, S, €45</strong></td>
-                            <td>456</td>
-                            <td>€20,520</td>
-                            <td>€45</td>
-                            <td>Instagram</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Niño, Local, M, €55</strong></td>
-                            <td>289</td>
-                            <td>€15,895</td>
-                            <td>€55</td>
-                            <td>TikTok</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Strategic Recommendations -->
-        <div class="grid grid-1">
-            <div class="card">
-                <h3">🧠 AI-Powered Strategic Recommendations</h3>
+                <h3>⚽ Top Products by Channel</h3>
                 
-                <div class="recommendation">
-                    <h4>1. Mobile Analytics Recovery</h4>
-                    <p>Mobile representa 77.9% del tráfico pero solo 32% visibility. Recovery 673K visitas/mes con Sealmetrics = +€98,400/mes en mobile optimization</p>
+                <div class="channel-card facebook">
+                    <strong>Facebook Ads</strong> <span style="color: #00c851; font-size: 0.9em;">(scale opportunity)</span><br>
+                    1. Camiseta Local 25/26 (4,234 hits) - <em>High performance product</em><br>
+                    2. Camiseta Isco #22 (3,567 hits) - <em>Growth potential</em><br>
+                    3. Sudadera Entrenamiento (2,890 hits) - <em>Premium focus</em>
                 </div>
                 
-                <div class="recommendation">
-                    <h4>2. Direct Traffic Intelligence</h4>
-                    <p>720K visitas directas/mes con 45% visibility. Complete tracking = +€67,800/mes en attribution accuracy y user journey optimization</p>
+                <div class="channel-card google">
+                    <strong>Google Shopping</strong> <span style="color: #00c851; font-size: 0.9em;">(premium focus)</span><br>
+                    1. Camiseta Visitante 25/26 (3,789 hits) - <em>Top performer</em><br>
+                    2. Chaqueta Oficial (2,456 hits) - <em>Consistent growth</em><br>
+                    3. Bufanda Clásica (2,123 hits) - <em>Optimization opportunity</em>
                 </div>
                 
-                <div class="recommendation">
-                    <h4>3. Channel-Product Optimization</h4>
-                    <p>Con 100% visibility: Facebook domina Camisetas Locales (4.2%), Instagram lidera Casual Mujer (4.5%). Optimización = +€32,400/mes</p>
-                </div>
-                
-                <div class="recommendation">
-                    <h4>4. Complete E-commerce Tracking</h4>
-                    <p>De €0.73 a €1.26 revenue per visit con complete visibility. Merchandising optimization + cart recovery = +€47,200/mes adicional</p>
+                <div class="channel-card instagram">
+                    <strong>Instagram</strong> <span style="color: #ecc94b; font-size: 0.9em;">(optimization potential)</span><br>
+                    1. Sudadera Casual Mujer (2,234 hits) - <em>Engagement leader</em><br>
+                    2. Camiseta Retro 90s (1,890 hits) - <em>Nostalgia appeal</em><br>
+                    3. Gorra Lifestyle (1,567 hits) - <em>Youth segment</em>
                 </div>
             </div>
         </div>
@@ -987,67 +488,194 @@
     </div>
 
     <script>
-        // Simular contador en tiempo real
-        function updateMetrics() {
-            const metrics = document.querySelectorAll('.metric-value');
-            metrics.forEach(metric => {
-                if (metric.textContent.includes(',')) {
-                    let current = parseInt(metric.textContent.replace(/,/g, ''));
-                    current += Math.floor(Math.random() * 10) + 1;
-                    metric.textContent = current.toLocaleString();
-                }
-            });
-        }
-        
-        setInterval(updateMetrics, 3000);
+        // Audiencia vs Product Matrix Data
+        const audienceProductData = {
+            facebook: {
+                audiences: [
+                    'Béticos Veteranos 35-55',
+                    'Familias con Niños',
+                    'Aficionados Sevilla', 
+                    'Jóvenes Universitarios',
+                    'Mujeres Deportivas',
+                    'Supporters Internacionales',
+                    'Clientes Premium VIP',
+                    'Nostalgia Fútbol Retro',
+                    'Comunidad LGBTI+',
+                    'Influencers Deportivos'
+                ]
+            },
+            google: {
+                audiences: [
+                    'Búsquedas Entradas Betis',
+                    'Turistas Sevilla',
+                    'Compradores Online',
+                    'Fanáticos del Fútbol',
+                    'Padres Comprando',
+                    'Compradores Regalo',
+                    'Coleccionistas Deportes',
+                    'Navegación Móvil',
+                    'Comparadores Precio',
+                    'Intent Comercial Alto'
+                ]
+            },
+            instagram: {
+                audiences: [
+                    'Mujeres 18-34 Sevilla',
+                    'Lifestyle Deportivo',
+                    'Influencers Locales',
+                    'Estudiantes Universitarios',
+                    'Fashion & Sports',
+                    'Mamás Millennial',
+                    'Gen Z Fútbol',
+                    'Fitness Enthusiasts',
+                    'Stories Viewers',
+                    'Reels Engagement'
+                ]
+            },
+            tiktok: {
+                audiences: [
+                    'Gen Z España',
+                    'Jóvenes 16-25',
+                    'Trend Followers',
+                    'Mobile First Users',
+                    'Viral Content Fans',
+                    'Music & Sports',
+                    'Gaming Community',
+                    'Dance Challenges',
+                    'Comedy Sports',
+                    'Short Form Content'
+                ]
+            },
+            email: {
+                audiences: [
+                    'Socios del Club',
+                    'Newsletter Suscriptores',
+                    'Compradores Anteriores',
+                    'Abandoned Cart Users',
+                    'VIP Customers',
+                    'Season Ticket Holders',
+                    'Birthday Campaigns',
+                    'Win-back Campaigns',
+                    'New Product Alerts',
+                    'Exclusive Offers'
+                ]
+            },
+            search: {
+                audiences: [
+                    'Betis Tickets Search',
+                    'Sevilla Tourism',
+                    'Football Merchandise',
+                    'Local Sports Fans',
+                    'Gift Buyers',
+                    'Match Day Searches',
+                    'Club History Fans',
+                    'Kids Sports Gear',
+                    'Collectors Search',
+                    'Price Comparison'
+                ]
+            }
+        };
 
-        // Highlight best performers dinamically
-        function highlightBestPerformers() {
-            const rows = document.querySelectorAll('tbody tr');
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                cells.forEach(cell => {
-                    if (cell.textContent.includes('%') && parseFloat(cell.textContent) > 4.0) {
+        function generateRandomData() {
+            return (Math.random() * 6 + 0.5).toFixed(1);
+        }
+
+        function updateAudienceProductMatrix() {
+            console.log('Updating matrix...');
+            const selectedChannel = document.getElementById('channelSelector').value;
+            const channelData = audienceProductData[selectedChannel];
+            const tbody = document.getElementById('audienceProductBody');
+            
+            if (!tbody) {
+                console.error('No se encontró el tbody');
+                return;
+            }
+            
+            if (!channelData) {
+                console.error('No se encontró channelData para:', selectedChannel);
+                return;
+            }
+            
+            tbody.innerHTML = '';
+            
+            let bestCombos = [];
+            
+            channelData.audiences.forEach((audience, index) => {
+                const row = document.createElement('tr');
+                
+                // Audience name column
+                const audienceCell = document.createElement('td');
+                audienceCell.textContent = audience;
+                audienceCell.style.fontWeight = '600';
+                audienceCell.style.background = '#f7fafc';
+                audienceCell.style.position = 'sticky';
+                audienceCell.style.left = '0';
+                audienceCell.style.zIndex = '5';
+                row.appendChild(audienceCell);
+                
+                // Product conversion columns
+                const products = ['Tickets', 'Tour', 'Ecommerce', 'SoyBetico'];
+                products.forEach((product, productIndex) => {
+                    const percentage = generateRandomData();
+                    const cell = document.createElement('td');
+                    cell.textContent = percentage + '%';
+                    
+                    // Color coding based on performance
+                    const value = parseFloat(percentage);
+                    if (value >= 5.5) {
                         cell.style.color = '#00c851';
                         cell.style.fontWeight = 'bold';
+                        cell.style.background = '#f0fff4';
+                    } else if (value >= 4.0) {
+                        cell.style.color = '#ecc94b';
+                        cell.style.fontWeight = '600';
+                    } else if (value < 2.5) {
+                        cell.style.color = '#f56565';
+                        cell.style.background = '#fef5f5';
                     }
+                    
+                    // Store for insights
+                    bestCombos.push({
+                        audience: audience,
+                        product: product,
+                        rate: value
+                    });
+                    
+                    row.appendChild(cell);
                 });
+                
+                tbody.appendChild(row);
             });
+            
+            updateChannelInsights(selectedChannel, bestCombos);
         }
 
-        // Interactive hover effects
-        document.querySelectorAll('.channel-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateX(5px)';
-                this.style.transition = 'all 0.3s ease';
-            });
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateX(0px)';
-            });
-        });
+        function updateChannelInsights(channel, bestCombos) {
+            // Sort and get top 2
+            bestCombos.sort((a, b) => b.rate - a.rate);
+            const top2 = bestCombos.slice(0, 2);
+            
+            const channelNames = {
+                facebook: 'Facebook Ads',
+                google: 'Google Ads',
+                instagram: 'Instagram',
+                tiktok: 'TikTok',
+                email: 'Email Marketing',
+                search: 'Organic Search'
+            };
+            
+            const insightText = `${channelNames[channel]} - ${top2[0].audience.split(' ')[0]} ${top2[0].audience.split(' ')[1]} destacan en ${top2[0].product} (${top2[0].rate}%), ${top2[1].audience.split(' ')[0]} dominan ${top2[1].product} (${top2[1].rate}%)`;
+            
+            const insightElement = document.getElementById('channelInsightsText');
+            if (insightElement) {
+                insightElement.textContent = insightText;
+            }
+        }
 
-        // Initialize
+        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            highlightBestPerformers();
-            drawTrafficChart();
-            animateVisibilityBars();
-            console.log('🏆 Real Betis Balompié Dashboard loaded successfully!');
-        });
-
-        // Betis-specific tracking
-        function trackBetisInteraction(action, product) {
-            console.log(`⚽ Betis Action: ${action} on ${product}`);
-            // Integration with Sealmetrics tracking
-        }
-
-        // Add click tracking to product rows
-        document.querySelectorAll('tbody tr').forEach(row => {
-            row.addEventListener('click', function() {
-                const productName = this.querySelector('td strong')?.textContent;
-                if (productName) {
-                    trackBetisInteraction('product_view', productName);
-                }
-            });
+            console.log('Dashboard cargado');
+            updateAudienceProductMatrix();
         });
     </script>
 </body>
