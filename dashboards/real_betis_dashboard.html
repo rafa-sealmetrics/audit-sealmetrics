@@ -274,36 +274,36 @@
 
         <!-- Alerta Estratégica -->
         <div class="alert">
-            <h3>🚀 Oportunidades de Optimización Detectadas</h3>
+            <h3>⚠️ Pérdida Crítica de Analytics Visibility Detectada</h3>
             <ul class="alert-list">
-                <li><strong>Camisetas Locales dominan Facebook Ads</strong> - Escalar presupuesto +40%</li>
-                <li><strong>Instagram lidera en público Mujer</strong> - Potencial +€8,900/mes</li>
-                <li><strong>Google Shopping mejor en tallas L-XXL</strong> - Optimizar targeting</li>
-                <li><strong>Email Marketing: productos premium €100+</strong> - Recovery campaigns</li>
+                <li><strong>Real Betis pierde 42% de datos por cookie consent</strong> - 534,629 visitantes no trackeados/mes</li>
+                <li><strong>Mobile: 68% pérdida visibility</strong> - 2.25M hits perdidos mensualmente</li>
+                <li><strong>Revenue no visible: €156,400/mes</strong> - Decisiones basadas en datos incompletos</li>
+                <li><strong>Potencial recovery: €89,600/mes</strong> - Con analytics sin consentimiento</li>
             </ul>
         </div>
 
         <!-- Executive KPIs -->
         <div class="grid grid-4">
             <div class="card metric">
-                <div class="metric-value positive">100%</div>
-                <div class="metric-label">Data Completeness</div>
-                <div class="metric-change up">vs 60% GA4 = +€45,200/mes revenue visibility</div>
+                <div class="metric-value negative">58%</div>
+                <div class="metric-label">Analytics Visibility Actual</div>
+                <div class="metric-change down">vs 100% con Sealmetrics = +€89,600/mes recovery</div>
             </div>
             <div class="card metric">
-                <div class="metric-value neutral">€89,342</div>
-                <div class="metric-label">Revenue Visibility</div>
-                <div class="metric-change up">+42% vs GA4 = +€24,890/mes optimization potential</div>
+                <div class="metric-value neutral">€156,400</div>
+                <div class="metric-label">Revenue No Visible/Mes</div>
+                <div class="metric-change down">42% datos perdidos por cookie consent</div>
             </div>
             <div class="card metric">
-                <div class="metric-value positive">156,789</div>
-                <div class="metric-label">Total Hits Today</div>
-                <div class="metric-change up">+18% vs ayer = +€4,230/día revenue potential</div>
+                <div class="metric-value positive">1,271,498</div>
+                <div class="metric-label">Visitas Reales/Mes</div>
+                <div class="metric-change up">Solo 58% visible en analytics actuales</div>
             </div>
             <div class="card metric">
-                <div class="metric-value neutral">€0.57</div>
-                <div class="metric-label">Cost per Hit</div>
-                <div class="metric-change down">-12% vs semana = +€2,890/mes savings</div>
+                <div class="metric-value neutral">€0.73</div>
+                <div class="metric-label">Revenue per Visit Visible</div>
+                <div class="metric-change down">+42% con complete visibility = €1.26/visit</div>
             </div>
         </div>
 
@@ -528,7 +528,209 @@
             </div>
         </div>
 
-        <!-- Segmentación por Público -->
+        <!-- Traffic Distribution Analysis -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3">🥧 Distribución Real de Tráfico por Canal</h3>
+                <div style="position: relative; width: 300px; height: 300px; margin: 20px auto;">
+                    <canvas id="trafficChart" width="300" height="300"></canvas>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 12px; height: 12px; background: #00c851; border-radius: 50%; margin-right: 8px;"></div>
+                            <span><strong>Direct:</strong> 720,928 (56.7%)</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 12px; height: 12px; background: #4299e1; border-radius: 50%; margin-right: 8px;"></div>
+                            <span><strong>Organic Search:</strong> 348,138 (27.4%)</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 12px; height: 12px; background: #e4405f; border-radius: 50%; margin-right: 8px;"></div>
+                            <span><strong>Social:</strong> 155,917 (12.3%)</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 12px; height: 12px; background: #f56565; border-radius: 50%; margin-right: 8px;"></div>
+                            <span><strong>Referral:</strong> 38,735 (3.0%)</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 12px; height: 12px; background: #ecc94b; border-radius: 50%; margin-right: 8px;"></div>
+                            <span><strong>Paid Search:</strong> 5,616 (0.4%)</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 12px; height: 12px; background: #9f7aea; border-radius: 50%; margin-right: 8px;"></div>
+                            <span><strong>Paid Social:</strong> 4,971 (0.4%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3">📊 Pérdida de Visibility por Canal</h3>
+                <div style="margin-top: 20px;">
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-weight: 600;">🔗 Direct Traffic (56.7%)</span>
+                            <span style="color: #f56565; font-weight: bold;">45% visible</span>
+                        </div>
+                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
+                            <div style="width: 45%; height: 100%; background: linear-gradient(90deg, #f56565, #e53e3e);"></div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
+                            396,512 visitas perdidas • -€67,800/mes
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-weight: 600;">🔍 Organic Search (27.4%)</span>
+                            <span style="color: #ecc94b; font-weight: bold;">65% visible</span>
+                        </div>
+                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
+                            <div style="width: 65%; height: 100%; background: linear-gradient(90deg, #ecc94b, #d69e2e);"></div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
+                            121,848 visitas perdidas • -€34,200/mes
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-weight: 600;">📱 Social Media (12.3%)</span>
+                            <span style="color: #ecc94b; font-weight: bold;">58% visible</span>
+                        </div>
+                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
+                            <div style="width: 58%; height: 100%; background: linear-gradient(90deg, #e4405f, #c53030);"></div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
+                            65,485 visitas perdidas • -€18,400/mes
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-weight: 600;">💰 Paid Channels (0.8%)</span>
+                            <span style="color: #00c851; font-weight: bold;">78% visible</span>
+                        </div>
+                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
+                            <div style="width: 78%; height: 100%; background: linear-gradient(90deg, #00c851, #38a169);"></div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
+                            2,329 visitas perdidas • -€2,200/mes
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-weight: 600;">🔗 Referral (3.0%)</span>
+                            <span style="color: #ecc94b; font-weight: bold;">62% visible</span>
+                        </div>
+                        <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
+                            <div style="width: 62%; height: 100%; background: linear-gradient(90deg, #9f7aea, #805ad5);"></div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #718096; margin-top: 4px;">
+                            14,719 visitas perdidas • -€4,800/mes
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #f0fff4; border: 1px solid #00c851; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
+                    <h4 style="color: #22543d; margin-bottom: 8px;">💡 Canal Insights</h4>
+                    <p style="color: #2f855a; font-size: 0.9rem;">Direct Traffic mayor pérdida (55%). Paid channels mejor tracking. Sealmetrics recovery: <strong>+€127,400/mes</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>📱 Pérdida de Visibility por Device</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>Visitas Reales/Mes</th>
+                            <th>Visibility Actual</th>
+                            <th>Pérdida Estimada</th>
+                            <th>Revenue Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>📱 Mobile (77.9%)</strong></td>
+                            <td>990,013</td>
+                            <td><span class="tag low">32%</span></td>
+                            <td>673,209 visitas/mes</td>
+                            <td><span style="color: #f56565; font-weight: bold;">-€98,400/mes</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>💻 Desktop (22.1%)</strong></td>
+                            <td>281,485</td>
+                            <td><span class="tag medium">72%</span></td>
+                            <td>78,816 visitas/mes</td>
+                            <td><span style="color: #f56565; font-weight: bold;">-€23,600/mes</span></td>
+                        </tr>
+                        <tr style="background: #fef5e7;">
+                            <td><strong>🔄 Con Sealmetrics</strong></td>
+                            <td>1,271,498</td>
+                            <td><span class="tag high">100%</span></td>
+                            <td>0 visitas perdidas</td>
+                            <td><span style="color: #00c851; font-weight: bold;">+€122,000/mes</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3">🌐 Pérdida por Canal de Tráfico</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Canal</th>
+                            <th>Visitas/Mes</th>
+                            <th>% del Total</th>
+                            <th>Visibility</th>
+                            <th>Recovery Potential</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🔍 Organic Search</td>
+                            <td>348,138</td>
+                            <td>27.4%</td>
+                            <td><span class="tag medium">65%</span></td>
+                            <td>+€34,200/mes</td>
+                        </tr>
+                        <tr>
+                            <td>📧 Direct Traffic</td>
+                            <td>720,928</td>
+                            <td>56.7%</td>
+                            <td><span class="tag low">45%</span></td>
+                            <td>+€67,800/mes</td>
+                        </tr>
+                        <tr>
+                            <td>📱 Social Media</td>
+                            <td>155,917</td>
+                            <td>12.3%</td>
+                            <td><span class="tag medium">58%</span></td>
+                            <td>+€18,400/mes</td>
+                        </tr>
+                        <tr>
+                            <td>💰 Paid Channels</td>
+                            <td>11,232</td>
+                            <td>0.9%</td>
+                            <td><span class="tag high">78%</span></td>
+                            <td>+€2,200/mes</td>
+                        </tr>
+                        <tr>
+                            <td>🔗 Referral</td>
+                            <td>38,735</td>
+                            <td>3.0%</td>
+                            <td><span class="tag medium">62%</span></td>
+                            <td>+€4,800/mes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="grid grid-3">
             <div class="card">
                 <h3">👨 Performance por Público</h3>
@@ -750,23 +952,23 @@
                 <h3">🧠 AI-Powered Strategic Recommendations</h3>
                 
                 <div class="recommendation">
-                    <h4>1. Channel-Product Optimization</h4>
-                    <p>Facebook Ads domina Camisetas Locales (4.2% vs 3.3% media). Instagram lidera Casual Mujer (4.5%). Segmentar campaigns por tipo producto = +€32,400/mes</p>
+                    <h4>1. Mobile Analytics Recovery</h4>
+                    <p>Mobile representa 77.9% del tráfico pero solo 32% visibility. Recovery 673K visitas/mes con Sealmetrics = +€98,400/mes en mobile optimization</p>
                 </div>
                 
                 <div class="recommendation">
-                    <h4>2. Premium Product Recovery</h4>
-                    <p>Productos €100+ tienen 70.7% abandono carrito. Implementar email recovery con descuento 10% tras 24h. Recovery estimado: +€23,535/mes</p>
+                    <h4>2. Direct Traffic Intelligence</h4>
+                    <p>720K visitas directas/mes con 45% visibility. Complete tracking = +€67,800/mes en attribution accuracy y user journey optimization</p>
                 </div>
                 
                 <div class="recommendation">
-                    <h4>3. Audience-Based Targeting</h4>
-                    <p>Mujer convierte 4.2% vs 3.8% Hombre. Instagram + Facebook ideales para targeting femenino. Aumentar budget Mujer = +€18,200/mes</p>
+                    <h4>3. Channel-Product Optimization</h4>
+                    <p>Con 100% visibility: Facebook domina Camisetas Locales (4.2%), Instagram lidera Casual Mujer (4.5%). Optimización = +€32,400/mes</p>
                 </div>
                 
                 <div class="recommendation">
-                    <h4>4. Personalización Strategy</h4>
-                    <p>Camisetas personalizadas: 60% abandono pero AOV +40%. Optimizar checkout UX para personalización. Potencial: +€17,034/mes</p>
+                    <h4>4. Complete E-commerce Tracking</h4>
+                    <p>De €0.73 a €1.26 revenue per visit con complete visibility. Merchandising optimization + cart recovery = +€47,200/mes adicional</p>
                 </div>
             </div>
         </div>
@@ -827,6 +1029,8 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             highlightBestPerformers();
+            drawTrafficChart();
+            animateVisibilityBars();
             console.log('🏆 Real Betis Balompié Dashboard loaded successfully!');
         });
 
