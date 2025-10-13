@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamPlace Hotels - Product Intelligence Report | Sealmetrics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1a202c;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.3rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .executive-summary {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 6px solid #48bb78;
+            padding: 30px;
+            margin: 40px 0;
+            border-radius: 12px;
+        }
+        
+        .executive-summary h2 {
+            color: #22543d;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+        
+        .executive-summary p {
+            color: #2f855a;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+        
+        .section {
+            margin: 50px 0;
+        }
+        
+        .section h2 {
+            font-size: 1.8rem;
+            color: #2d3748;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-card .value {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .metric-card .label {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+        }
+        
+        tr:hover {
+            background: #f7fafc;
+        }
+        
+        .highlight {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .property-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .property-item {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .property-item h3 {
+            color: #2d3748;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .property-item ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .property-item li {
+            padding: 8px 0;
+            color: #4a5568;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+        }
+        
+        .property-item li:last-child {
+            border-bottom: none;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #fef5e7 0%, #ffeaa7 100%);
+            border-left: 6px solid #f39c12;
+            padding: 30px;
+            margin: 40px 0;
+            border-radius: 12px;
+        }
+        
+        .insights h3 {
+            color: #744210;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .insights ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .insights li {
+            padding: 12px 0 12px 30px;
+            color: #744210;
+            font-size: 1.05rem;
+            position: relative;
+            line-height: 1.7;
+        }
+        
+        .insights li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            font-size: 1.3rem;
+        }
+        
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 50px 0;
+        }
+        
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #718096;
+            font-size: 0.9rem;
+            margin-top: 50px;
+            border-top: 2px solid #e2e8f0;
+        }
+        
+        .logo {
+            text-align: right;
+            margin-top: 30px;
+        }
+        
+        .logo img {
+            max-width: 200px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏨 DreamPlace Hotels & Resorts</h1>
+            <div class="subtitle">Análisis de Product Intelligence con Sealmetrics</div>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="executive-summary">
+            <h2>📊 Resumen Ejecutivo</h2>
+            <p><strong>Sealmetrics te permite descubrir qué impulsa las reservas en tus hoteles.</strong> Este informe revela qué canales de marketing, tipos de habitaciones y propiedades generan más conversiones, permitiéndote optimizar presupuestos y maximizar el revenue por canal y propiedad.</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="section">
+            <h2>🎯 Métricas Clave de Conversión</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="value">3.2%</div>
+                    <div class="label">Conversion Rate Global</div>
+                </div>
+                <div class="metric-card">
+                    <div class="value">€189</div>
+                    <div class="label">Revenue Medio por Reserva</div>
+                </div>
+                <div class="metric-card">
+                    <div class="value">4.7%</div>
+                    <div class="label">Best Channel CR (Email)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="value">+€45.6K</div>
+                    <div class="label">Potencial Optimización/mes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Channel Performance -->
+        <div class="section">
+            <h2>📈 Performance por Canal de Marketing</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Canal</th>
+                            <th>Visitas</th>
+                            <th>Conversion Rate</th>
+                            <th>Tipo Habitación Top</th>
+                            <th>Revenue Potential</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Email Marketing</strong></td>
+                            <td>12,450</td>
+                            <td><span class="highlight">4.7%</span></td>
+                            <td>Suite con Vista al Mar</td>
+                            <td style="color: #48bb78; font-weight: bold;">+€18,200/mes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Google Ads</strong></td>
+                            <td>28,670</td>
+                            <td><span class="highlight">3.8%</span></td>
+                            <td>Familiar Todo Incluido</td>
+                            <td style="color: #48bb78; font-weight: bold;">+€15,800/mes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Facebook Ads</strong></td>
+                            <td>19,234</td>
+                            <td>3.4%</td>
+                            <td>Deluxe con Piscina</td>
+                            <td style="color: #48bb78; font-weight: bold;">+€11,600/mes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Instagram</strong></td>
+                            <td>15,890</td>
+                            <td>2.9%</td>
+                            <td>Junior Suite Vista Mar</td>
+                            <td style="color: #ecc94b; font-weight: bold;">+€8,400/mes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TikTok Ads</strong></td>
+                            <td>8,345</td>
+                            <td>2.1%</td>
+                            <td>Bungalow Familiar</td>
+                            <td style="color: #ed8936; font-weight: bold;">+€4,200/mes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Product Properties -->
+        <div class="section">
+            <h2>🔍 Propiedades Clave para Análisis Exhaustivo</h2>
+            <div class="property-list">
+                <div class="property-item">
+                    <h3>Tipo de Habitación</h3>
+                    <ul>
+                        <li>Individual</li>
+                        <li>Doble</li>
+                        <li>Suite</li>
+                        <li>Familiar (4 personas)</li>
+                        <li>Deluxe</li>
+                        <li>Junior Suite</li>
+                        <li>Bungalow</li>
+                        <li>Villa Premium</li>
+                        <li>Penthouse</li>
+                        <li>Suite Presidencial</li>
+                    </ul>
+                </div>
+                
+                <div class="property-item">
+                    <h3>Régimen Alimenticio</h3>
+                    <ul>
+                        <li>Solo Alojamiento</li>
+                        <li>Desayuno Incluido</li>
+                        <li>Media Pensión</li>
+                        <li>Pensión Completa</li>
+                        <li>Todo Incluido</li>
+                        <li>Ultra Todo Incluido</li>
+                    </ul>
+                </div>
+                
+                <div class="property-item">
+                    <h3>Tipo de Vista</h3>
+                    <ul>
+                        <li>Vista al Mar</li>
+                        <li>Vista a la Montaña</li>
+                        <li>Vista a la Ciudad</li>
+                        <li>Vista a la Piscina</li>
+                        <li>Vista al Jardín</li>
+                        <li>Vista Lateral Mar</li>
+                    </ul>
+                </div>
+                
+                <div class="property-item">
+                    <h3>Marca/Categoría Hotel</h3>
+                    <ul>
+                        <li>Tacande (Wellness & Relax)</li>
+                        <li>Tagoro (Family & Fun)</li>
+                        <li>Tigotan (Adults Only)</li>
+                        <li>Dream (Village/Bocayna)</li>
+                    </ul>
+                </div>
+                
+                <div class="property-item">
+                    <h3>Rango de Precio/Noche</h3>
+                    <ul>
+                        <li>€50 - €100</li>
+                        <li>€101 - €150</li>
+                        <li>€151 - €200</li>
+                        <li>€201 - €300</li>
+                        <li>€300+</li>
+                    </ul>
+                </div>
+                
+                <div class="property-item">
+                    <h3>Servicios Destacados</h3>
+                    <ul>
+                        <li>Spa & Wellness</li>
+                        <li>Piscina Climatizada</li>
+                        <li>Club Infantil</li>
+                        <li>Primera Línea de Playa</li>
+                        <li>Acceso Directo Playa</li>
+                        <li>Gym & Fitness</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conversion Matrix -->
+        <div class="section">
+            <h2>📊 Matriz de Conversión: Canales vs Tipos de Habitación</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Canal / Habitación</th>
+                            <th>Suite Mar</th>
+                            <th>Familiar TI</th>
+                            <th>Deluxe</th>
+                            <th>Junior Suite</th>
+                            <th>Bungalow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Email Marketing</strong></td>
+                            <td><span class="highlight">5.8%</span></td>
+                            <td>4.2%</td>
+                            <td><span class="highlight">5.1%</span></td>
+                            <td>4.5%</td>
+                            <td>3.8%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Google Ads</strong></td>
+                            <td>3.9%</td>
+                            <td><span class="highlight">4.8%</span></td>
+                            <td>4.1%</td>
+                            <td>3.7%</td>
+                            <td>3.4%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Facebook Ads</strong></td>
+                            <td>3.6%</td>
+                            <td>3.8%</td>
+                            <td><span class="highlight">4.2%</span></td>
+                            <td>3.5%</td>
+                            <td>3.1%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Instagram</strong></td>
+                            <td><span class="highlight">4.1%</span></td>
+                            <td>2.9%</td>
+                            <td>3.2%</td>
+                            <td><span class="highlight">3.8%</span></td>
+                            <td>2.6%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TikTok Ads</strong></td>
+                            <td>2.3%</td>
+                            <td>2.6%</td>
+                            <td>2.1%</td>
+                            <td>2.4%</td>
+                            <td><span class="highlight">2.9%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Insights -->
+        <div class="insights">
+            <h3>💡 Insights Clave & Recomendaciones</h3>
+            <ul>
+                <li><strong>Email Marketing lidera con Suites premium:</strong> 5.8% CR en Suite Vista al Mar. Potenciar newsletters segmentadas para clientes premium = <strong>+€18,200/mes</strong></li>
+                
+                <li><strong>Google Ads domina reservas familiares Todo Incluido:</strong> 4.8% CR. Aumentar inversión en keywords "hotel todo incluido familia Canarias" = <strong>+€15,800/mes</strong></li>
+                
+                <li><strong>Facebook Ads convierte mejor en habitaciones Deluxe:</strong> 4.2% CR. Optimizar creativos mostrando amenities de lujo y vistas = <strong>+€11,600/mes</strong></li>
+                
+                <li><strong>Instagram ideal para Junior Suites con Vista al Mar:</strong> 3.8% CR. Incrementar Stories y Reels con contenido aspiracional de vistas = <strong>+€8,400/mes</strong></li>
+                
+                <li><strong>TikTok audiencia joven prefiere Bungalows:</strong> 2.9% CR. Crear contenido viral mostrando experiencia familiar en bungalows = <strong>+€4,200/mes</strong></li>
+            </ul>
+        </div>
+
+        <!-- Regime Analysis -->
+        <div class="section">
+            <h2>🍽️ Análisis por Régimen Alimenticio</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Régimen</th>
+                            <th>Conversion Rate</th>
+                            <th>Revenue Medio</th>
+                            <th>Canal Top</th>
+                            <th>Estrategia Recomendada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Todo Incluido</strong></td>
+                            <td><span class="highlight">4.1%</span></td>
+                            <td>€245/noche</td>
+                            <td>Google Ads (familias)</td>
+                            <td style="color: #48bb78;">Scale opportunity - Focus familia</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Solo Alojamiento</strong></td>
+                            <td><span class="highlight">3.9%</span></td>
+                            <td>€165/noche</td>
+                            <td>Email Marketing</td>
+                            <td style="color: #48bb78;">Premium targeting - Flexibilidad</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Media Pensión</strong></td>
+                            <td>3.2%</td>
+                            <td>€198/noche</td>
+                            <td>Facebook Ads</td>
+                            <td style="color: #ecc94b;">Optimization potential</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Desayuno Incluido</strong></td>
+                            <td>3.5%</td>
+                            <td>€178/noche</td>
+                            <td>Google Ads</td>
+                            <td style="color: #48bb78;">High volume opportunity</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta">
+            <h2>🚀 ¿Listo para optimizar tu revenue hotelero?</h2>
+            <p>Con Sealmetrics, cada dato de reserva se convierte en oportunidad de crecimiento.<br>
+            Descubre qué combinación canal + habitación + régimen genera más revenue.</p>
+            <p style="font-size: 1.4rem; margin-top: 20px;"><strong>Potencial de Optimización: +€45,600/mes</strong></p>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="section">
+            <h2>✨ Conclusión</h2>
+            <p style="font-size: 1.15rem; color: #4a5568; line-height: 1.8;">
+                <strong>Con Sealmetrics, DreamPlace Hotels puede:</strong>
+            </p>
+            <ul style="margin: 20px 0 0 30px; font-size: 1.05rem; color: #4a5568; line-height: 2;">
+                <li>Identificar qué tipos de habitaciones convierten mejor por canal</li>
+                <li>Optimizar presupuestos de marketing según performance real por propiedad</li>
+                <li>Personalizar ofertas según régimen alimenticio y preferencias del canal</li>
+                <li>Maximizar revenue por habitación con segmentación inteligente</li>
+                <li>Tomar decisiones data-driven para aumentar reservas directas</li>
+            </ul>
+            <p style="font-size: 1.3rem; color: #667eea; margin-top: 30px; text-align: center; font-weight: 700;">
+                💎 Con Sealmetrics, cada reserva cuenta una historia de optimización.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Informe generado por Sealmetrics.com</strong></p>
+            <p>Consentless Analytics para hoteles que quieren vender más</p>
+            <p style="margin-top: 15px; font-size: 0.85rem;">
+                Este análisis utiliza datos proyectados basados en benchmarks del sector hotelero.<br>
+                Para un análisis personalizado con tus datos reales, contacta con Sealmetrics.
+            </p>
+            <div class="logo">
+                <svg width="180" height="40" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="0" y="28" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#667eea">SealMetrics</text>
+                    <circle cx="168" cy="20" r="8" fill="#48bb78"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
