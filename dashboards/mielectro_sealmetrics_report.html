@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Product Intelligence - MiElectro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #c8102e 0%, #a00d26 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .alert {
+            background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value.positive { color: #48bb78; }
+        .metric-value.negative { color: #f56565; }
+        .metric-value.neutral { color: #3182ce; }
+        
+        .metric-label {
+            font-size: 1rem;
+            color: #718096;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .metric-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+        
+        .metric-change.up {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .table th,
+        .table td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            font-size: 0.95rem;
+        }
+        
+        .table tr:hover {
+            background: #f7fafc;
+        }
+        
+        .insight-box {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .insight-box h4 {
+            color: #22543d;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .insight-box p {
+            color: #2f855a;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .insight-box ul {
+            color: #2f855a;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .insight-box li {
+            margin: 8px 0;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .tag.high { background: #c6f6d5; color: #22543d; }
+        .tag.medium { background: #fef5e7; color: #744210; }
+        .tag.low { background: #fed7d7; color: #742a2a; }
+        
+        .property-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        .channel-card {
+            border-left: 4px solid;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+            background: white;
+        }
+        
+        .facebook { border-color: #1877f2; background: #f0f8ff; }
+        .google { border-color: #ea4335; background: #fff5f5; }
+        .email { border-color: #48bb78; background: #f0fff4; }
+        .instagram { border-color: #e4405f; background: #fef5f8; }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .cta-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .footer {
+            background: #2d3748;
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .metric-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-container">
+                <div>
+                    <h1>🔌 MiElectro - Product Intelligence Report</h1>
+                    <p>Descubre cómo las propiedades de tus productos impulsan tus ventas</p>
+                </div>
+                <div style="font-size: 2rem; font-weight: bold;">SealMetrics™</div>
+            </div>
+        </div>
+
+        <!-- Executive Summary Alert -->
+        <div class="alert">
+            <h3>📊 Resumen Ejecutivo</h3>
+            <p style="font-size: 1.05rem; margin-top: 10px;">
+                Sealmetrics te permite analizar el rendimiento de tus productos por <strong>marca, tamaño, tecnología y características específicas</strong>. 
+                Con Product Intelligence, descubre qué atributos convierten mejor en cada canal para optimizar tu inversión publicitaria y aumentar ventas.
+            </p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-4">
+            <div class="card metric">
+                <div class="metric-value positive">€542.8K</div>
+                <div class="metric-label">Ingresos Totales</div>
+                <span class="metric-change up">↑ 23% vs mes anterior</span>
+            </div>
+            
+            <div class="card metric">
+                <div class="metric-value neutral">2,847</div>
+                <div class="metric-label">Conversiones</div>
+                <span class="metric-change up">↑ 18% vs mes anterior</span>
+            </div>
+            
+            <div class="card metric">
+                <div class="metric-value positive">3.8%</div>
+                <div class="metric-label">Tasa Conversión</div>
+                <span class="metric-change up">↑ 0.9pp vs mes anterior</span>
+            </div>
+            
+            <div class="card metric">
+                <div class="metric-value neutral">€191</div>
+                <div class="metric-label">Ticket Medio</div>
+                <span class="metric-change up">↑ 4% vs mes anterior</span>
+            </div>
+        </div>
+
+        <!-- Channel Performance by Product Properties -->
+        <div class="card">
+            <h3>📺 Rendimiento por Canal y Categoría de Producto</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Canal</th>
+                        <th>Categoría Top</th>
+                        <th>Conversiones</th>
+                        <th>CR %</th>
+                        <th>Ingresos</th>
+                        <th>Ticket Medio</th>
+                        <th>Insight Clave</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #f0fff4;">
+                        <td><strong>🔵 Facebook Ads</strong></td>
+                        <td>Televisores (55")</td>
+                        <td>856</td>
+                        <td><strong>4.2%</strong></td>
+                        <td>€143.2K</td>
+                        <td>€167</td>
+                        <td><span style="color: #48bb78; font-weight: bold;">Líder en TV medianas</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>🔴 Google Ads</strong></td>
+                        <td>Frigoríficos (Combi)</td>
+                        <td>734</td>
+                        <td><strong>5.1%</strong></td>
+                        <td>€198.4K</td>
+                        <td>€270</td>
+                        <td><span style="color: #48bb78; font-weight: bold;">Mayor CR y ticket</span></td>
+                    </tr>
+                    <tr style="background: #fef5e7;">
+                        <td><strong>✉️ Email Marketing</strong></td>
+                        <td>Lavadoras (9-10kg)</td>
+                        <td>412</td>
+                        <td><strong>6.3%</strong></td>
+                        <td>€115.8K</td>
+                        <td>€281</td>
+                        <td><span style="color: #48bb78; font-weight: bold;">Base fidelizada</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>📸 Instagram Ads</strong></td>
+                        <td>Pequeño electro</td>
+                        <td>567</td>
+                        <td><strong>3.4%</strong></td>
+                        <td>€52.7K</td>
+                        <td>€93</td>
+                        <td><span style="color: #3182ce; font-weight: bold;">Ticket bajo, volumen</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>📱 TikTok Ads</strong></td>
+                        <td>Smartphones</td>
+                        <td>278</td>
+                        <td><strong>2.8%</strong></td>
+                        <td>€32.7K</td>
+                        <td>€118</td>
+                        <td><span style="color: #718096;">Audiencia joven</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Product Properties Analysis -->
+        <div class="grid grid-2">
+            <!-- TV Properties -->
+            <div class="card">
+                <h3>📺 Televisores: Atributos Clave</h3>
+                <div class="property-highlight">
+                    🎯 Propiedad #1: TAMAÑO DE PANTALLA
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tamaño</th>
+                            <th>Conv.</th>
+                            <th>CR %</th>
+                            <th>Canal Top</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f0fff4;">
+                            <td><strong>50"-60"</strong></td>
+                            <td>445</td>
+                            <td><strong>4.8%</strong></td>
+                            <td>Facebook (62%)</td>
+                        </tr>
+                        <tr>
+                            <td>65"-75"</td>
+                            <td>298</td>
+                            <td>3.9%</td>
+                            <td>Google (58%)</td>
+                        </tr>
+                        <tr>
+                            <td>43"-48"</td>
+                            <td>234</td>
+                            <td>3.2%</td>
+                            <td>Instagram (51%)</td>
+                        </tr>
+                        <tr>
+                            <td>+75"</td>
+                            <td>89</td>
+                            <td>5.6%</td>
+                            <td>Google (73%)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="property-highlight" style="margin-top: 20px;">
+                    🎯 Propiedad #2: TECNOLOGÍA PANTALLA
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tecnología</th>
+                            <th>Conv.</th>
+                            <th>CR %</th>
+                            <th>Ticket Medio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f0fff4;">
+                            <td><strong>QLED</strong></td>
+                            <td>312</td>
+                            <td><strong>5.2%</strong></td>
+                            <td>€589</td>
+                        </tr>
+                        <tr>
+                            <td>OLED</td>
+                            <td>167</td>
+                            <td>4.9%</td>
+                            <td>€1,240</td>
+                        </tr>
+                        <tr>
+                            <td>4K LED</td>
+                            <td>445</td>
+                            <td>3.8%</td>
+                            <td>€423</td>
+                        </tr>
+                        <tr>
+                            <td>Full HD</td>
+                            <td>142</td>
+                            <td>2.9%</td>
+                            <td>€298</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Fridge Properties -->
+            <div class="card">
+                <h3>❄️ Frigoríficos: Atributos Clave</h3>
+                <div class="property-highlight">
+                    🎯 Propiedad #1: TIPO DE FRIGORÍFICO
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Conv.</th>
+                            <th>CR %</th>
+                            <th>Canal Top</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f0fff4;">
+                            <td><strong>Combi</strong></td>
+                            <td>423</td>
+                            <td><strong>5.7%</strong></td>
+                            <td>Google (71%)</td>
+                        </tr>
+                        <tr>
+                            <td>Americano</td>
+                            <td>198</td>
+                            <td>4.8%</td>
+                            <td>Google (65%)</td>
+                        </tr>
+                        <tr>
+                            <td>2 Puertas</td>
+                            <td>234</td>
+                            <td>4.2%</td>
+                            <td>Facebook (58%)</td>
+                        </tr>
+                        <tr>
+                            <td>1 Puerta</td>
+                            <td>89</td>
+                            <td>3.1%</td>
+                            <td>Instagram (45%)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="property-highlight" style="margin-top: 20px;">
+                    🎯 Propiedad #2: CARACTERÍSTICAS ESPECIALES
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Característica</th>
+                            <th>Conv.</th>
+                            <th>CR %</th>
+                            <th>Incremento CR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f0fff4;">
+                            <td><strong>No Frost</strong></td>
+                            <td>567</td>
+                            <td><strong>6.2%</strong></td>
+                            <td class="tag high">+34%</td>
+                        </tr>
+                        <tr>
+                            <td>Dispensador agua</td>
+                            <td>298</td>
+                            <td>5.8%</td>
+                            <td class="tag high">+26%</td>
+                        </tr>
+                        <tr>
+                            <td>Bajo consumo (A++)</td>
+                            <td>412</td>
+                            <td>5.4%</td>
+                            <td class="tag high">+17%</td>
+                        </tr>
+                        <tr>
+                            <td>Inox</td>
+                            <td>334</td>
+                            <td>4.9%</td>
+                            <td class="tag medium">+6%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Washing Machine Properties -->
+        <div class="card">
+            <h3>🧺 Lavadoras: Análisis por Capacidad y Canal</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Capacidad</th>
+                        <th>Conversiones</th>
+                        <th>CR %</th>
+                        <th>Ticket Medio</th>
+                        <th>Canal Dominante</th>
+                        <th>Share Canal</th>
+                        <th>Característica Premium</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #f0fff4;">
+                        <td><strong>9-10 kg</strong></td>
+                        <td>345</td>
+                        <td><strong>5.9%</strong></td>
+                        <td>€387</td>
+                        <td>Email</td>
+                        <td>48%</td>
+                        <td class="tag high">Dosificación auto +28% CR</td>
+                    </tr>
+                    <tr>
+                        <td>8 kg</td>
+                        <td>289</td>
+                        <td>4.8%</td>
+                        <td>€324</td>
+                        <td>Google</td>
+                        <td>52%</td>
+                        <td class="tag medium">Bajo consumo +15% CR</td>
+                    </tr>
+                    <tr>
+                        <td>7 kg</td>
+                        <td>178</td>
+                        <td>3.9%</td>
+                        <td>€289</td>
+                        <td>Facebook</td>
+                        <td>61%</td>
+                        <td class="tag medium">Carga superior +12% CR</td>
+                    </tr>
+                    <tr>
+                        <td>12 kg</td>
+                        <td>67</td>
+                        <td>6.7%</td>
+                        <td>€512</td>
+                        <td>Google</td>
+                        <td>78%</td>
+                        <td class="tag high">Segmento premium</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Conversion Rate Matrix: Channel vs TV Size -->
+        <div class="card">
+            <h3>📊 Matriz de Conversion Rate: Canales vs Tamaño TV</h3>
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="background: #2d3748; color: white;">Canal / Tamaño</th>
+                            <th>32"</th>
+                            <th>43"</th>
+                            <th>50"</th>
+                            <th>55"</th>
+                            <th>60"</th>
+                            <th>65"</th>
+                            <th>75"</th>
+                            <th>85"</th>
+                            <th style="background: #e2e8f0;">Media Canal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="background: #f0f8ff; font-weight: 600;">🔵 Facebook Ads</td>
+                            <td>2.8%</td>
+                            <td>3.4%</td>
+                            <td style="background: #c6f6d5; font-weight: bold;">4.8%</td>
+                            <td style="background: #c6f6d5; font-weight: bold;">4.6%</td>
+                            <td>3.9%</td>
+                            <td>3.2%</td>
+                            <td>2.7%</td>
+                            <td>2.1%</td>
+                            <td style="background: #e2e8f0; font-weight: 600;">3.9%</td>
+                        </tr>
+                        <tr>
+                            <td style="background: #fff5f5; font-weight: 600;">🔴 Google Ads</td>
+                            <td>2.1%</td>
+                            <td>3.1%</td>
+                            <td>4.2%</td>
+                            <td>4.5%</td>
+                            <td style="background: #c6f6d5; font-weight: bold;">5.1%</td>
+                            <td style="background: #c6f6d5; font-weight: bold;">5.8%</td>
+                            <td style="background: #c6f6d5; font-weight: bold;">6.2%</td>
+                            <td>5.6%</td>
+                            <td style="background: #e2e8f0; font-weight: 600;">4.6%</td>
+                        </tr>
+                        <tr>
+                            <td style="background: #f0fff4; font-weight: 600;">✉️ Email Marketing</td>
+                            <td>3.2%</td>
+                            <td>4.1%</td>
+                            <td>5.3%</td>
+                            <td style="background: #c6f6d5; font-weight: bold;">5.9%</td>
+                            <td style="background: #c6f6d5; font-weight: bold;">6.1%</td>
+                            <td>5.4%</td>
+                            <td>4.8%</td>
+                            <td>4.2%</td>
+                            <td style="background: #e2e8f0; font-weight: 600;">4.9%</td>
+                        </tr>
+                        <tr>
+                            <td style="background: #fef5f8; font-weight: 600;">📸 Instagram Ads</td>
+                            <td>3.1%</td>
+                            <td style="background: #c6f6d5; font-weight: bold;">3.8%</td>
+                            <td>3.2%</td>
+                            <td>2.9%</td>
+                            <td>2.4%</td>
+                            <td>2.1%</td>
+                            <td>1.8%</td>
+                            <td>1.5%</td>
+                            <td style="background: #e2e8f0; font-weight: 600;">2.6%</td>
+                        </tr>
+                        <tr style="background: #f7fafc;">
+                            <td style="font-weight: 600;">Media Tamaño</td>
+                            <td>2.8%</td>
+                            <td>3.6%</td>
+                            <td>4.4%</td>
+                            <td>4.5%</td>
+                            <td>4.4%</td>
+                            <td>4.1%</td>
+                            <td>3.9%</td>
+                            <td>3.4%</td>
+                            <td style="background: #3182ce; color: white; font-weight: bold;">3.9%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="insight-box" style="margin-top: 20px;">
+                <h4>🔍 Análisis de la Matriz</h4>
+                <ul>
+                    <li><strong>Sweet spot: 50"-55" en Facebook:</strong> CR de 4.6-4.8%, ideal para campañas de volumen</li>
+                    <li><strong>Premium strategy: 65"+ en Google:</strong> CR superior (5.8-6.2%), audiencia con alta intención de compra</li>
+                    <li><strong>Email wins en 55"-60":</strong> Base fidelizada prefiere tamaños medianos-grandes</li>
+                    <li><strong>Instagram para pequeños:</strong> 32"-43" convierten mejor en audiencia joven</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Brand Performance -->
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>🏆 Rendimiento por Marca - Televisores</h3>
+                <div class="channel-card facebook">
+                    <strong>Samsung</strong> - 412 conversiones (CR: 4.8%)
+                    <br>Facebook Ads: 58% | Google: 28% | Instagram: 14%
+                </div>
+                <div class="channel-card google">
+                    <strong>LG</strong> - 334 conversiones (CR: 5.2%)
+                    <br>Google Ads: 67% | Facebook: 21% | Email: 12%
+                </div>
+                <div class="channel-card email">
+                    <strong>Sony</strong> - 223 conversiones (CR: 5.9%)
+                    <br>Email: 45% | Google: 38% | Facebook: 17%
+                </div>
+                <div class="channel-card instagram">
+                    <strong>Hisense</strong> - 289 conversiones (CR: 3.4%)
+                    <br>Instagram: 52% | Facebook: 31% | TikTok: 17%
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🏆 Rendimiento por Marca - Electrodomésticos</h3>
+                <div class="channel-card google">
+                    <strong>Bosch</strong> - 456 conversiones (CR: 6.1%)
+                    <br>Google Ads: 72% | Email: 19% | Facebook: 9%
+                </div>
+                <div class="channel-card email">
+                    <strong>Balay</strong> - 389 conversiones (CR: 5.8%)
+                    <br>Email: 51% | Google: 34% | Facebook: 15%
+                </div>
+                <div class="channel-card facebook">
+                    <strong>Samsung</strong> - 312 conversiones (CR: 4.7%)
+                    <br>Facebook: 48% | Google: 32% | Instagram: 20%
+                </div>
+                <div class="channel-card google">
+                    <strong>LG</strong> - 267 conversiones (CR: 5.3%)
+                    <br>Google: 62% | Email: 24% | Facebook: 14%
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Insights -->
+        <div class="insight-box">
+            <h4>🎯 Insights Clave y Oportunidades de Crecimiento</h4>
+            <ul>
+                <li><strong>Televisores 50"-60" en Facebook Ads:</strong> Representan el 52% de las conversiones de TV. Crear campañas específicas con creatividades destacando tamaño medio puede aumentar CR un 15-20%.</li>
+                
+                <li><strong>Tecnología QLED vs OLED:</strong> Aunque OLED tiene ticket medio 2.1x superior, QLED convierte 86% más volumen. Estrategia: promover QLED en Facebook/Instagram para volumen, OLED en Google Search para intención alta.</li>
+                
+                <li><strong>Frigoríficos No Frost:</strong> Esta característica aumenta la conversión un 34%. Destacar "No Frost" en títulos de anuncios y descripciones puede incrementar CTR significativamente.</li>
+                
+                <li><strong>Capacidad lavadoras 9-10kg:</strong> Domina Email Marketing (48% share) con CR de 5.9%. La base de clientes fidelizados valora capacidad grande. Crear campaña de upselling para clientes con lavadoras de 7-8kg.</li>
+                
+                <li><strong>Marcas Premium (Bosch, Sony):</strong> Convierten mejor en Google Ads (búsqueda con intención). Aumentar pujas en keywords de marca + características específicas ("lavadora Bosch dosificación automática").</li>
+                
+                <li><strong>Instagram/TikTok para pequeño electro:</strong> CR inferior pero volumen alto y ticket bajo. Perfecto para adquisición de nuevos clientes y cross-selling de accesorios.</li>
+                
+                <li><strong>Características premium (dosificación auto, dispensador agua):</strong> Aumentan CR entre 15-34%. Crear landing pages específicas por característica premium para maximizar conversión.</li>
+            </ul>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="card">
+            <h3>🚀 Plan de Acción Recomendado (30 días)</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Semana</th>
+                        <th>Acción</th>
+                        <th>Canal</th>
+                        <th>Impacto Esperado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>S1</strong></td>
+                        <td>Crear campañas segmentadas por tamaño TV (50-60" foco principal)</td>
+                        <td>Facebook Ads</td>
+                        <td class="tag high">+12-15% CR</td>
+                    </tr>
+                    <tr>
+                        <td><strong>S1-S2</strong></td>
+                        <td>Destacar "No Frost" en copies y títulos de frigoríficos</td>
+                        <td>Google + Facebook</td>
+                        <td class="tag high">+20% CTR</td>
+                    </tr>
+                    <tr>
+                        <td><strong>S2</strong></td>
+                        <td>Landing pages por característica premium (dosificación auto, etc.)</td>
+                        <td>Todos los canales</td>
+                        <td class="tag high">+18% CR</td>
+                    </tr>
+                    <tr>
+                        <td><strong>S3</strong></td>
+                        <td>Campaña Email upselling lavadoras 9-10kg a base con 7-8kg</td>
+                        <td>Email Marketing</td>
+                        <td class="tag medium">€35K ingresos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>S4</strong></td>
+                        <td>Aumentar pujas keywords de marca premium + características</td>
+                        <td>Google Ads</td>
+                        <td class="tag high">+25% conversiones</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Comparison Matrix: Sealmetrics vs Alternatives -->
+        <div class="card">
+            <h3>⚡ ¿Por qué Sealmetrics vs alternativas para eCommerce?</h3>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Solución</th>
+                        <th>Visibilidad Datos</th>
+                        <th>Product Intelligence</th>
+                        <th>Consentimiento</th>
+                        <th>Setup</th>
+                        <th>Tiempo Implementación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #f0fff4;">
+                        <td><strong>🏆 Sealmetrics</strong></td>
+                        <td><span class="tag high">100% visibilidad</span></td>
+                        <td><span class="tag high">Atributos ilimitados</span></td>
+                        <td><span class="tag high">No necesario</span></td>
+                        <td><span class="tag high">Automático</span></td>
+                        <td><span class="tag high">&lt; 1 día</span></td>
+                    </tr>
+                    <tr>
+                        <td>Google Analytics + Consent</td>
+                        <td><span class="tag medium">55-70%</span></td>
+                        <td><span class="tag low">Limitado por eventos</span></td>
+                        <td><span class="tag low">Obligatorio</span></td>
+                        <td><span class="tag medium">Manual</span></td>
+                        <td><span class="tag medium">1-2 semanas</span></td>
+                    </tr>
+                    <tr>
+                        <td>Server-side tracking</td>
+                        <td><span class="tag medium">75-85%</span></td>
+                        <td><span class="tag medium">Requiere dev</span></td>
+                        <td><span class="tag medium">Parcial</span></td>
+                        <td><span class="tag low">Complejo</span></td>
+                        <td><span class="tag low">2-4 semanas</span></td>
+                    </tr>
+                    <tr>
+                        <td>Enhanced Ecommerce GA4</td>
+                        <td><span class="tag medium">60-75%</span></td>
+                        <td><span class="tag medium">Basic tracking</span></td>
+                        <td><span class="tag low">Obligatorio</span></td>
+                        <td><span class="tag low">Manual complejo</span></td>
+                        <td><span class="tag medium">1-3 semanas</span></td>
+                    </tr>
+                    <tr>
+                        <td>Status quo actual</td>
+                        <td><span class="tag low">55%</span></td>
+                        <td><span class="tag low">No disponible</span></td>
+                        <td><span class="tag low">Inconsistente</span></td>
+                        <td><span class="tag low">Riesgo legal</span></td>
+                        <td><span class="tag medium">Ya implementado</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="margin-top: 20px; padding: 20px; background: #f0fff4; border-radius: 8px; border-left: 4px solid #48bb78;">
+                <h4 style="color: #22543d; margin-bottom: 10px;">💡 Ventaja Competitiva de Sealmetrics</h4>
+                <div style="color: #2f855a; font-size: 0.95rem; line-height: 1.8;">
+                    <p><strong>✓ 100% de tus visitantes trackeados:</strong> Sin pérdida de datos por rechazo de cookies (45-55% de usuarios rechazan tracking)</p>
+                    <p><strong>✓ Product Intelligence sin límites:</strong> Trackea todas las propiedades que necesites sin configuración técnica compleja</p>
+                    <p><strong>✓ Cumplimiento GDPR automático:</strong> Sin banners de cookies, sin consentimiento, sin riesgo legal</p>
+                    <p><strong>✓ ROI inmediato:</strong> Implementación en menos de 24h y datos precisos desde el primer día</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Propiedades Recomendadas para Tracking -->
+        <div class="card">
+            <h3>📋 Propiedades Recomendadas para Product Intelligence</h3>
+            <p style="margin-bottom: 15px; color: #718096;">
+                Estas son las propiedades que deberías trackear con Sealmetrics para obtener insights accionables:
+            </p>
+            
+            <div class="grid grid-3">
+                <div>
+                    <h4 style="color: #2d3748; margin-bottom: 10px;">📺 Televisores</h4>
+                    <ul style="color: #4a5568; line-height: 2;">
+                        <li>• Tamaño pantalla</li>
+                        <li>• Tecnología (QLED/OLED/LED)</li>
+                        <li>• Resolución (4K/8K/FHD)</li>
+                        <li>• Marca</li>
+                        <li>• Smart TV (Sí/No)</li>
+                        <li>• Rango precio</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="color: #2d3748; margin-bottom: 10px;">❄️ Frigoríficos</h4>
+                    <ul style="color: #4a5568; line-height: 2;">
+                        <li>• Tipo (Combi/Americano/2P)</li>
+                        <li>• No Frost (Sí/No)</li>
+                        <li>• Dispensador agua</li>
+                        <li>• Eficiencia energética</li>
+                        <li>• Color/acabado</li>
+                        <li>• Capacidad (litros)</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="color: #2d3748; margin-bottom: 10px;">🧺 Lavadoras</h4>
+                    <ul style="color: #4a5568; line-height: 2;">
+                        <li>• Capacidad (kg)</li>
+                        <li>• Dosificación automática</li>
+                        <li>• Tipo carga (frontal/superior)</li>
+                        <li>• Eficiencia energética</li>
+                        <li>• Velocidad centrifugado</li>
+                        <li>• Conectividad (WiFi)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <h4 style="color: #2d3748; margin-bottom: 10px;">🎯 Propiedades Transversales (todas las categorías)</h4>
+                <ul style="color: #4a5568; line-height: 2; columns: 2;">
+                    <li>• Marca</li>
+                    <li>• Rango de precio (económico/medio/premium)</li>
+                    <li>• Color/acabado</li>
+                    <li>• Garantía extendida (Sí/No)</li>
+                    <li>• Instalación incluida (Sí/No)</li>
+                    <li>• En oferta/promoción</li>
+                    <li>• Stock (disponible/reserva/pedido)</li>
+                    <li>• Valoración clientes (1-5 estrellas)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h3>🚀 Transforma tus datos en decisiones rentables</h3>
+            <p style="font-size: 1.1rem; margin: 15px 0;">
+                Con Sealmetrics Product Intelligence, cada atributo de producto se convierte en una oportunidad de optimización. 
+                <br><strong>Sin cookies. Sin consentimiento. 100% de visibilidad.</strong>
+            </p>
+            <p style="font-size: 1.05rem; margin-top: 20px;">
+                📧 Contacta con nosotros: <strong>hello@sealmetrics.com</strong>
+                <br>🌐 Visita: <strong>www.sealmetrics.com</strong>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                <strong>SealMetrics™</strong> - Consentless Analytics Solution
+                <br>© 2025 SealMetrics. Informe generado para MiElectro con datos simulados con fines demostrativos.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
