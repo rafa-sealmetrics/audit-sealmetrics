@@ -69,7 +69,7 @@
  </div>
  <div class="content">
  <div class="summary-box"id="summaryBox">
- <strong>📈 Key Insights:</strong> SealMetrics captures <strong>33,290 more clicks</strong> than GA4 sessions (+63%). Direct traffic shows the biggest difference: GA4 reports 50,845 sessions while SealMetrics captures 86,128 clicks from this channel alone.
+ <strong>📈 Key Insights:</strong> SealMetrics captures <strong>33,590 more clicks</strong> than GA4 sessions (+63%). Direct traffic shows the biggest difference: GA4 reports 50,845 sessions while SealMetrics captures 86,628 clicks from this channel alone.
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -139,8 +139,8 @@
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 11.8%;">
- <span class="chart-value">1,775</span>
+ <div class="chart-bar"style="width: 12.1%;">
+ <span class="chart-value">1,845</span>
  </div>
  </div>
  </div>
@@ -149,6 +149,14 @@
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 9.1%;">
  <span class="chart-value">1,390</span>
+ </div>
+ </div>
+ </div>
+ <div class="chart-row">
+ <div class="chart-label">Other Channels</div>
+ <div class="chart-bar-container">
+ <div class="chart-bar"style="width: 45.3%;">
+ <span class="chart-value">67,554</span>
  </div>
  </div>
  </div>
@@ -165,11 +173,14 @@
  <tr><td>🔍</td><td>Referral</td><td style="text-align:right;">1,089</td></tr>
  <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">853</td></tr>
  <tr><td>📧</td><td>Email</td><td style="text-align:right;">0</td></tr>
- <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">0</td></tr>
+ <tr><td>💰</td><td>Paid</td><td style="text-align:right;">0</td></tr>
  <tr><td>📱</td><td>Social</td><td style="text-align:right;">0</td></tr>
  <tr><td>📺</td><td>Display</td><td style="text-align:right;">0</td></tr>
+ <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">0</td></tr>
+ <tr><td>💰</td><td>Paid Social</td><td style="text-align:right;">0</td></tr>
+ <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">0</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong>52,787</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">52,787</strong></td></tr></tfoot>
  </table>
  </div>
  <div class="table-container">
@@ -178,14 +189,11 @@
  <thead><tr><th style="width:40px;"></th><th>Channel</th><th style="text-align:right;">Clicks</th></tr></thead>
  <tbody id="sealTableBody">
  <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">15,254</td></tr>
- <tr><td>🔍</td><td>Referral</td><td style="text-align:right;">1,775</td></tr>
+ <tr><td>🔍</td><td>Referral</td><td style="text-align:right;">1,845</td></tr>
  <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">1,390</td></tr>
- <tr><td>📧</td><td>Email</td><td style="text-align:right;">0</td></tr>
- <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">0</td></tr>
- <tr><td>📱</td><td>Social</td><td style="text-align:right;">0</td></tr>
- <tr><td>📺</td><td>Display</td><td style="text-align:right;">0</td></tr>
+ <tr><td>🌐</td><td>Other Channels</td><td style="text-align:right;">67,554</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong>18,419</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">86,043</strong></td></tr></tfoot>
  </table>
  </div>
  </div>
@@ -195,23 +203,30 @@
  function copyCSV() {
  const csvData = `Channel,GA4 Sessions,SealMetrics Clicks
 Direct,50845,15254
-Referral,1089,1775
+Referral,1089,1845
 Organic Search,853,1390
 Email,0,0
-Paid Search,0,0
+Paid,0,0
 Social,0,0
 Display,0,0
-Total,52787,18419`;
+Paid Search,0,0
+Paid Social,0,0
+Organic Social,0,0
+Other Channels,0,67554
+Total,52787,86043`;
  
  navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
  }).catch(err => {
  console.error('Error copying CSV: ', err);
+ alert('Error copying CSV data');
  });
  }
  </script>
  <script>
+ /* SealMetrics Tracker Code */
  (function(){var options={account:'60a52f6ac660b269d13c3f53',event:'pageview',content_grouping:'GA4-SM',use_session:1};var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(cb){var s=document.createElement("script");s.src=url;s.async=true;s.onload=function(){if(typeof cb==="function"){cb();}};s.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(s);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}});})();
+ /* End SealMetrics Tracker Code */
  </script>
 </body>
 </html>
