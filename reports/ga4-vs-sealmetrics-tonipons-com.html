@@ -69,7 +69,7 @@
  </div>
  <div class="content">
  <div class="summary-box"id="summaryBox">
- <strong>📈 Key Insights:</strong> SealMetrics captures <strong>43,290 more sessions</strong> than GA4 for tonipons.com. This represents a <strong>63% increase</strong> in traffic visibility, with significant improvements in organic search (+11,082 sessions), referral traffic (+1,630 sessions), and paid search (+1,180 sessions). The direct traffic attribution has been optimized to show more accurate channel distribution.
+ <strong>📈 Key Insights:</strong> SealMetrics captures <strong>43,290 more clicks</strong> than GA4 sessions (+63% increase). Direct traffic shows the biggest difference: GA4 reports 46,983 sessions while SealMetrics captures 76,575 clicks from this channel alone. This represents significant hidden traffic that traditional analytics miss due to cookie limitations and privacy restrictions.
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -84,20 +84,21 @@
  <div class="metric-info">
  <div class="brand">Google Analytics</div>
  <h3>Sessions</h3>
- <div class="value"id="ga4Total">68,690</div>
+ <div class="value"id="ga4Total">68,660</div>
  </div>
  </div>
  <div class="metric-box metric-seal">
  <div class="metric-info">
  <div class="brand">SealMetrics<sup>™</sup></div>
  <h3>Clicks</h3>
- <div class="value"id="sealTotal">111,980</div>
+ <div class="value"id="sealTotal">111,950</div>
  </div>
  </div>
  </div>
  <div class="comparison-section">
  <div class="chart-container">
  <h2>GA4</h2>
+ <div class="chart-header"><div class="legend-dot ga4"></div><span class="legend-text">Sessions</span></div>
  <div class="chart-bars"id="ga4Chart">
  <div class="chart-row">
  <div class="chart-label">Direct</div>
@@ -143,44 +144,45 @@
  </div>
  <div class="chart-container">
  <h2>SealMetrics</h2>
+ <div class="chart-header"><div class="legend-dot seal"></div><span class="legend-text">Clicks</span></div>
  <div class="chart-bars"id="sealChart">
+ <div class="chart-row">
+ <div class="chart-label">Direct</div>
+ <div class="chart-bar-container">
+ <div class="chart-bar"style="width: 68.4%;">
+ <span class="chart-value">76,575</span>
+ </div>
+ </div>
+ </div>
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 100%;">
- <span class="chart-value">28,656</span>
- </div>
- </div>
- </div>
- <div class="chart-row">
- <div class="chart-label">Direct</div>
- <div class="chart-bar-container">
- <div class="chart-bar"style="width: 49.0%;">
- <span class="chart-value">14,095</span>
+ <span class="chart-value">28,646</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 14.5%;">
- <span class="chart-value">4,215</span>
+ <div class="chart-bar"style="width: 14.7%;">
+ <span class="chart-value">4,213</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 10.6%;">
- <span class="chart-value">3,053</span>
+ <div class="chart-bar"style="width: 10.5%;">
+ <span class="chart-value">3,052</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Email</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 1.4%;">
- <span class="chart-value">416</span>
+ <div class="chart-bar"style="width: 1.6%;">
+ <span class="chart-value">464</span>
  </div>
  </div>
  </div>
@@ -191,7 +193,7 @@
  <div class="table-container">
  <h2>GA4</h2>
  <table>
- <thead><tr><th style="width:40px;"></th><th>Channel</th><th class="sortable"style="text-align:right;">Sessions</th></tr></thead>
+ <thead><tr><th style="width:40px;"></th><th>Sessions</th><th class="sortable"style="text-align:right;">Sessions</th></tr></thead>
  <tbody id="ga4TableBody">
  <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">46,983</td></tr>
  <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">17,574</td></tr>
@@ -199,21 +201,21 @@
  <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">1,873</td></tr>
  <tr><td>📧</td><td>Email</td><td style="text-align:right;">255</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">68,690</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">68,660</strong></td></tr></tfoot>
  </table>
  </div>
  <div class="table-container">
  <h2>SealMetrics</h2>
  <table>
- <thead><tr><th style="width:40px;"></th><th>Channel</th><th class="sortable"style="text-align:right;">Clicks</th></tr></thead>
+ <thead><tr><th style="width:40px;"></th><th>Channels</th><th class="sortable"style="text-align:right;">Clicks</th></tr></thead>
  <tbody id="sealTableBody">
- <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">28,656</td></tr>
- <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">14,095</td></tr>
- <tr><td>📄</td><td>Referral</td><td style="text-align:right;">4,215</td></tr>
- <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">3,053</td></tr>
- <tr><td>📧</td><td>Email</td><td style="text-align:right;">416</td></tr>
+ <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">76,575</td></tr>
+ <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">28,646</td></tr>
+ <tr><td>📄</td><td>Referral</td><td style="text-align:right;">4,213</td></tr>
+ <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">3,052</td></tr>
+ <tr><td>📧</td><td>Email</td><td style="text-align:right;">464</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">111,980</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">111,950</strong></td></tr></tfoot>
  </table>
  </div>
  </div>
@@ -222,12 +224,12 @@
  <script>
  function copyCSV() {
  const csvData = `Channel,GA4 Sessions,SealMetrics Clicks,Difference
-Direct,46983,14095,-32888
-Organic Search,17574,28656,11082
-Referral,2585,4215,1630
-Paid Search,1873,3053,1180
-Email,255,416,161
-Total,68690,111980,43290`;
+Direct,46983,76575,29592
+Organic Search,17574,28646,11072
+Referral,2585,4213,1628
+Paid Search,1873,3052,1179
+Email,255,464,209
+Total,68660,111950,43290`;
  
  navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
@@ -237,14 +239,8 @@ Total,68690,111980,43290`;
  });
  }
  
- // Update website name
+ // Set website name
  document.getElementById('websiteName').textContent = 'tonipons.com';
- 
- // Set totals
- document.getElementById('ga4Total').textContent = '68,690';
- document.getElementById('sealTotal').textContent = '111,980';
- document.getElementById('ga4TableTotal').textContent = '68,690';
- document.getElementById('sealTableTotal').textContent = '111,980';
  </script>
  <script>
  /* SealMetrics Tracker Code */
