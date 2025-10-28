@@ -69,7 +69,7 @@
  </div>
  <div class="content">
  <div class="summary-box"id="summaryBox">
- <strong>📈 Key Insights:</strong> SealMetrics captures <strong>63% more traffic</strong> than GA4 for puig.com. While GA4 shows <strong>126,757 sessions</strong>, SealMetrics reveals the true picture with <strong>206,614 clicks</strong>. The biggest difference is in direct traffic attribution - GA4 shows 51,017 direct visits, but SealMetrics more accurately attributes this traffic to its original sources, revealing <strong>79,857 additional clicks</strong> that GA4 misses due to cookie limitations and privacy restrictions.
+ <strong>🎯 Key Insight:</strong> SealMetrics captures <strong>63% more traffic</strong> than GA4 for puig.com. While GA4 shows <strong>126,698 sessions</strong>, SealMetrics reveals the true picture with <strong>206,518 clicks</strong>. The biggest difference is in direct traffic attribution - GA4 shows 51,017 direct visits, but SealMetrics properly attributes this traffic to its real sources, showing only 15,305 truly direct clicks.
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -84,14 +84,14 @@
  <div class="metric-info">
  <div class="brand">Google Analytics</div>
  <h3>Sessions</h3>
- <div class="value"id="ga4Total">126,757</div>
+ <div class="value"id="ga4Total">126,698</div>
  </div>
  </div>
  <div class="metric-box metric-seal">
  <div class="metric-info">
  <div class="brand">SealMetrics<sup>™</sup></div>
  <h3>Clicks</h3>
- <div class="value"id="sealTotal">206,614</div>
+ <div class="value"id="sealTotal">206,518</div>
  </div>
  </div>
  </div>
@@ -141,9 +141,9 @@
  </div>
  </div>
  <div class="chart-row">
- <div class="chart-label">Paid Social</div>
+ <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 0.1%;">
+ <div class="chart-bar"style="width: 1.2%;">
  <span class="chart-value">59</span>
  </div>
  </div>
@@ -163,18 +163,18 @@
  </div>
  </div>
  <div class="chart-row">
- <div class="chart-label">Referral</div>
+ <div class="chart-label">Organic Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 42.7%;">
- <span class="chart-value">24,795</span>
+ <div class="chart-bar"style="width: 43.7%;">
+ <span class="chart-value">25,418</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
- <div class="chart-label">Organic Social</div>
+ <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 43.8%;">
- <span class="chart-value">25,418</span>
+ <div class="chart-bar"style="width: 42.5%;">
+ <span class="chart-value">24,795</span>
  </div>
  </div>
  </div>
@@ -195,9 +195,9 @@
  </div>
  </div>
  <div class="chart-row">
- <div class="chart-label">Paid Social</div>
+ <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 0.2%;">
+ <div class="chart-bar"style="width: 1.6%;">
  <span class="chart-value">96</span>
  </div>
  </div>
@@ -216,9 +216,9 @@
  <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">15,594</td></tr>
  <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">15,212</td></tr>
  <tr><td>📧</td><td>Email</td><td style="text-align:right;">9,154</td></tr>
- <tr><td>💰</td><td>Paid Social</td><td style="text-align:right;">59</td></tr>
+ <tr><td>👥</td><td>Social</td><td style="text-align:right;">59</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">126,757</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">126,698</strong></td></tr></tfoot>
  </table>
  </div>
  <div class="table-container">
@@ -231,9 +231,9 @@
  <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">24,795</td></tr>
  <tr><td>🎯</td><td>Direct</td><td style="text-align:right;">15,305</td></tr>
  <tr><td>📧</td><td>Email</td><td style="text-align:right;">14,921</td></tr>
- <tr><td>💰</td><td>Paid Social</td><td style="text-align:right;">96</td></tr>
+ <tr><td>👥</td><td>Social</td><td style="text-align:right;">96</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">206,614</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">206,518</strong></td></tr></tfoot>
  </table>
  </div>
  </div>
@@ -247,8 +247,8 @@ Organic Search,35662,58129
 Organic Social,15594,25418
 Referral,15212,24795
 Email,9154,14921
-Paid Social,59,96
-Total,126757,206614`;
+Social,59,96
+Total,126698,206518`;
  
  navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
