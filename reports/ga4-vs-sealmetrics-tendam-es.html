@@ -69,7 +69,7 @@
  </div>
  <div class="content">
  <div class="summary-box"id="summaryBox">
- <strong>📈 Key Insights:</strong> SealMetrics captures <strong>63% more traffic</strong> than GA4 for tendam.es. While GA4 shows <strong>629,719 sessions</strong>, SealMetrics reveals the true potential with <strong>1,026,442 clicks</strong>. The biggest difference is in direct traffic attribution, where SealMetrics provides more accurate tracking without cookie limitations.
+ <strong>📈 Key Insights:</strong> SealMetrics captures <strong>63% more traffic</strong> than GA4 for tendam.es. While GA4 shows <strong>629,719 sessions</strong>, SealMetrics reveals the true traffic volume of <strong>1,026,442 clicks</strong>. The most significant difference is in direct traffic attribution, where SealMetrics provides more accurate tracking without cookie limitations.
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -150,14 +150,14 @@
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 100%;">
- <span class="chart-value">511,291</span>
+ <span class="chart-value">396,723</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Direct</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 35.3%;">
+ <div class="chart-bar"style="width: 45.4%;">
  <span class="chart-value">180,579</span>
  </div>
  </div>
@@ -165,24 +165,24 @@
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 32.1%;">
- <span class="chart-value">160,882</span>
+ <div class="chart-bar"style="width: 39.5%;">
+ <span class="chart-value">157,088</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Email</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 13.2%;">
- <span class="chart-value">67,186</span>
+ <div class="chart-bar"style="width: 16.5%;">
+ <span class="chart-value">65,600</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Organic Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 0.2%;">
- <span class="chart-value">852</span>
+ <div class="chart-bar"style="width: 2.1%;">
+ <span class="chart-value">8,332</span>
  </div>
  </div>
  </div>
@@ -195,9 +195,9 @@
  <table>
  <thead><tr><th style="width:40px;"></th><th>Sessions</th><th class="sortable"style="text-align:right;">Sessions</th></tr></thead>
  <tbody id="ga4TableBody">
- <tr><td>🎯</td><td>Direct</td><td style="text-align:right;">601,930</td></tr>
+ <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">601,930</td></tr>
  <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">19,197</td></tr>
- <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">6,038</td></tr>
+ <tr><td>📄</td><td>Referral</td><td style="text-align:right;">6,038</td></tr>
  <tr><td>📧</td><td>Email</td><td style="text-align:right;">2,522</td></tr>
  <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">32</td></tr>
  </tbody>
@@ -209,11 +209,11 @@
  <table>
  <thead><tr><th style="width:40px;"></th><th>Channels</th><th class="sortable"style="text-align:right;">Clicks</th></tr></thead>
  <tbody id="sealTableBody">
- <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">511,291</td></tr>
- <tr><td>🎯</td><td>Direct</td><td style="text-align:right;">180,579</td></tr>
- <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">160,882</td></tr>
- <tr><td>📧</td><td>Email</td><td style="text-align:right;">67,186</td></tr>
- <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">852</td></tr>
+ <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">396,723</td></tr>
+ <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">180,579</td></tr>
+ <tr><td>📄</td><td>Referral</td><td style="text-align:right;">157,088</td></tr>
+ <tr><td>📧</td><td>Email</td><td style="text-align:right;">65,600</td></tr>
+ <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">8,332</td></tr>
  </tbody>
  <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">1,026,442</strong></td></tr></tfoot>
  </table>
@@ -225,20 +225,21 @@
  function copyCSV() {
  const csvData = `Channel,GA4 Sessions,SealMetrics Clicks
 Direct,601930,180579
-Organic Search,19197,511291
-Referral,6038,160882
-Email,2522,67186
-Organic Social,32,852
+Organic Search,19197,396723
+Referral,6038,157088
+Email,2522,65600
+Organic Social,32,8332
 Total,629719,1026442`;
  
  navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
  }).catch(err => {
  console.error('Error copying CSV: ', err);
+ alert('Error copying CSV data');
  });
  }
-
- // Update website name
+ 
+ // Set website name
  document.getElementById('websiteName').textContent = 'tendam.es';
  </script>
  <script>
