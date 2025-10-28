@@ -148,7 +148,7 @@
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 100%;">
- <span class="chart-value">15,493</span>
+ <span class="chart-value">15,491</span>
  </div>
  </div>
  </div>
@@ -207,7 +207,7 @@
  <table>
  <thead><tr><th style="width:40px;"></th><th>Channel</th><th style="text-align:right;">Clicks</th></tr></thead>
  <tbody id="sealTableBody">
- <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">15,493</td></tr>
+ <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">15,491</td></tr>
  <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">7,334</td></tr>
  <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">5,198</td></tr>
  <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">498</td></tr>
@@ -221,18 +221,19 @@
  </div>
  <script>
  function copyCSV() {
- const csvData = `Channel,GA4 Sessions,SealMetrics Clicks
-Direct,17325,5198
-Referral,5791,15493
-Organic Search,2743,7334
-Paid Search,186,498
-Email,53,142
-Total,26784,43680`;
+ const csvData = `Channel,GA4 Sessions,SealMetrics Clicks,Difference
+Direct,17325,5198,-12127
+Referral,5791,15491,9700
+Organic Search,2743,7334,4591
+Paid Search,186,498,312
+Email,53,142,89
+Total,26784,43680,16896`;
  
  navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
  }).catch(err => {
  console.error('Error copying CSV: ', err);
+ alert('Error copying CSV data');
  });
  }
  </script>
