@@ -60,7 +60,7 @@
  <div class="container">
  <div class="header">
  <div class="header-left">
- <h1>📊 GA4 vs SealMetrics - <span class="website-name">mahle-smartbike.com</span></h1>
+ <h1>📊 GA4 vs SealMetrics - <span class="website-name"id="websiteName">mahle-smartbike.com</span></h1>
  </div>
  <div class="header-right">
  <button class="btn"onclick="copyCSV()">📋 Copy CSV</button>
@@ -68,8 +68,8 @@
  </div>
  </div>
  <div class="content">
- <div class="summary-box">
- <strong>📈 Key Insight:</strong> SealMetrics captures <strong>63% more traffic</strong> than GA4 for mahle-smartbike.com. While GA4 shows <strong>28,917</strong> sessions, SealMetrics reveals the true traffic volume of <strong>47,135</strong> clicks. The biggest difference is in direct traffic attribution, where SealMetrics provides more accurate channel distribution.
+ <div class="summary-box"id="summaryBox">
+ <strong>📈 Key Insights:</strong> SealMetrics captures <strong>63% more traffic</strong> than GA4 for mahle-smartbike.com. While GA4 shows <strong>28,867</strong> sessions, SealMetrics reveals the true traffic volume of <strong>47,053</strong> clicks. The biggest difference is in direct traffic attribution, where SealMetrics provides more accurate channel distribution.
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -84,21 +84,22 @@
  <div class="metric-info">
  <div class="brand">Google Analytics</div>
  <h3>Sessions</h3>
- <div class="value">28,917</div>
+ <div class="value"id="ga4Total">28,867</div>
  </div>
  </div>
  <div class="metric-box metric-seal">
  <div class="metric-info">
  <div class="brand">SealMetrics<sup>™</sup></div>
  <h3>Clicks</h3>
- <div class="value">47,135</div>
+ <div class="value"id="sealTotal">47,053</div>
  </div>
  </div>
  </div>
  <div class="comparison-section">
  <div class="chart-container">
  <h2>GA4</h2>
- <div class="chart-bars">
+ <div class="chart-header"><div class="legend-dot ga4"></div><span class="legend-text">Sessions</span></div>
+ <div class="chart-bars"id="ga4Chart">
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
@@ -159,12 +160,13 @@
  </div>
  <div class="chart-container">
  <h2>SealMetrics</h2>
- <div class="chart-bars">
+ <div class="chart-header"><div class="legend-dot seal"></div><span class="legend-text">Clicks</span></div>
+ <div class="chart-bars"id="sealChart">
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 100%;">
- <span class="chart-value">22,747</span>
+ <span class="chart-value">22,737</span>
  </div>
  </div>
  </div>
@@ -223,33 +225,33 @@
  <div class="table-container">
  <h2>GA4</h2>
  <table>
- <thead><tr><th style="width:40px;"></th><th>Channel</th><th style="text-align:right;">Sessions</th></tr></thead>
- <tbody>
+ <thead><tr><th style="width:40px;"></th><th>Sessions</th><th class="sortable"style="text-align:right;">Sessions</th></tr></thead>
+ <tbody id="ga4TableBody">
  <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">13,955</td></tr>
- <tr><td>🎯</td><td>Direct</td><td style="text-align:right;">8,588</td></tr>
+ <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">8,588</td></tr>
  <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">1,846</td></tr>
  <tr><td>📱</td><td>Social</td><td style="text-align:right;">183</td></tr>
  <tr><td>📧</td><td>Email</td><td style="text-align:right;">162</td></tr>
  <tr><td>💰</td><td>Paid Social</td><td style="text-align:right;">122</td></tr>
- <tr><td>📲</td><td>Organic Social</td><td style="text-align:right;">61</td></tr>
+ <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">61</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong>28,917</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">28,867</strong></td></tr></tfoot>
  </table>
  </div>
  <div class="table-container">
  <h2>SealMetrics</h2>
  <table>
- <thead><tr><th style="width:40px;"></th><th>Channel</th><th style="text-align:right;">Clicks</th></tr></thead>
- <tbody>
- <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">22,747</td></tr>
+ <thead><tr><th style="width:40px;"></th><th>Channels</th><th class="sortable"style="text-align:right;">Clicks</th></tr></thead>
+ <tbody id="sealTableBody">
+ <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">22,737</td></tr>
  <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">3,009</td></tr>
- <tr><td>🎯</td><td>Direct</td><td style="text-align:right;">2,576</td></tr>
+ <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">2,576</td></tr>
  <tr><td>📱</td><td>Social</td><td style="text-align:right;">298</td></tr>
  <tr><td>📧</td><td>Email</td><td style="text-align:right;">264</td></tr>
  <tr><td>💰</td><td>Paid Social</td><td style="text-align:right;">199</td></tr>
- <tr><td>📲</td><td>Organic Social</td><td style="text-align:right;">99</td></tr>
+ <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">99</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong>47,135</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">47,053</strong></td></tr></tfoot>
  </table>
  </div>
  </div>
@@ -258,14 +260,14 @@
  <script>
  function copyCSV() {
  const csvData = `Channel,GA4 Sessions,SealMetrics Clicks
-Organic Search,13955,22747
+Organic Search,13955,22737
 Direct,8588,2576
 Referral,1846,3009
 Social,183,298
 Email,162,264
 Paid Social,122,199
 Organic Social,61,99
-Total,28917,47135`;
+Total,28867,47053`;
  
  navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
