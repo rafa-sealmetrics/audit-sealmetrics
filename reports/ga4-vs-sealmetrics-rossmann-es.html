@@ -69,7 +69,7 @@
  </div>
  <div class="content">
  <div class="summary-box"id="summaryBox">
- <strong>📈 Key Insights:</strong> SealMetrics captures <strong>42,264 additional clicks</strong> that GA4 misses. Your website receives <strong>63% more traffic</strong> than GA4 reports, with significant improvements in organic search (+18,027 clicks) and paid search (+3,962 clicks).
+ <strong>🎯 Key Insight:</strong> SealMetrics captures <strong>42,204 additional clicks</strong> that GA4 misses on rossmann.es. This represents <strong>63% more traffic</strong> than what Google Analytics reports, revealing the true scope of your website's performance.
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -98,6 +98,7 @@
  <div class="comparison-section">
  <div class="chart-container">
  <h2>GA4</h2>
+ <div class="chart-header"><div class="legend-dot ga4"></div><span class="legend-text">Sessions</span></div>
  <div class="chart-bars"id="ga4Chart">
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
@@ -143,20 +144,21 @@
  </div>
  <div class="chart-container">
  <h2>SealMetrics</h2>
+ <div class="chart-header"><div class="legend-dot seal"></div><span class="legend-text">Clicks</span></div>
  <div class="chart-bars"id="sealChart">
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 100%;">
- <span class="chart-value">46,461</span>
+ <span class="chart-value">46,368</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 21.2%;">
- <span class="chart-value">9,852</span>
+ <div class="chart-bar"style="width: 20.7%;">
+ <span class="chart-value">9,601</span>
  </div>
  </div>
  </div>
@@ -171,8 +173,8 @@
  <div class="chart-row">
  <div class="chart-label">Organic Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 16.4%;">
- <span class="chart-value">7,614</span>
+ <div class="chart-bar"style="width: 15.7%;">
+ <span class="chart-value">7,294</span>
  </div>
  </div>
  </div>
@@ -180,7 +182,7 @@
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 1.2%;">
- <span class="chart-value">565</span>
+ <span class="chart-value">541</span>
  </div>
  </div>
  </div>
@@ -197,7 +199,7 @@
  <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">27,910</td></tr>
  <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">5,890</td></tr>
  <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">4,475</td></tr>
- <tr><td>🌐</td><td>Referral</td><td style="text-align:right;">332</td></tr>
+ <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">332</td></tr>
  </tbody>
  <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">67,041</strong></td></tr></tfoot>
  </table>
@@ -207,11 +209,11 @@
  <table>
  <thead><tr><th style="width:40px;"></th><th>Channels</th><th class="sortable"style="text-align:right;">Clicks</th></tr></thead>
  <tbody id="sealTableBody">
- <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">46,461</td></tr>
- <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">9,852</td></tr>
+ <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">46,368</td></tr>
+ <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">9,601</td></tr>
  <tr><td>🔗</td><td>Direct</td><td style="text-align:right;">8,373</td></tr>
- <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">7,614</td></tr>
- <tr><td>🌐</td><td>Referral</td><td style="text-align:right;">565</td></tr>
+ <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">7,294</td></tr>
+ <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">541</td></tr>
  </tbody>
  <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">109,277</strong></td></tr></tfoot>
  </table>
@@ -221,19 +223,19 @@
  </div>
  <script>
  function copyCSV() {
- const csvData = `Channel,GA4 Sessions,SealMetrics Clicks,Difference
-Organic Search,28434,46461,+18027
-Direct,27910,8373,-19537
-Paid Search,5890,9852,+3962
-Organic Social,4475,7614,+3139
-Referral,332,565,+233
-Total,67041,109277,+42236`;
+ const csvData = `Channel,GA4 Sessions,SealMetrics Clicks
+Organic Search,28434,46368
+Direct,27910,8373
+Paid Search,5890,9601
+Organic Social,4475,7294
+Referral,332,541
+Total,67041,109277`;
  
  navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
  }).catch(err => {
- console.error('Error copying to clipboard:', err);
- alert('Error copying data to clipboard');
+ console.error('Error copying CSV: ', err);
+ alert('Error copying CSV data');
  });
  }
  </script>
