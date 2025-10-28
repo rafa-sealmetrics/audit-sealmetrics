@@ -181,32 +181,32 @@
  <div class="chart-row">
  <div class="chart-label">Paid Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 20.4%;">
- <span class="chart-value">10,402</span>
+ <div class="chart-bar"style="width: 21.0%;">
+ <span class="chart-value">10,398</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 9.5%;">
- <span class="chart-value">4,747</span>
+ <div class="chart-bar"style="width: 10.2%;">
+ <span class="chart-value">4,746</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 6.5%;">
- <span class="chart-value">3,256</span>
+ <div class="chart-bar"style="width: 7.0%;">
+ <span class="chart-value">3,254</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 6.2%;">
- <span class="chart-value">3,097</span>
+ <div class="chart-bar"style="width: 6.6%;">
+ <span class="chart-value">3,096</span>
  </div>
  </div>
  </div>
@@ -245,10 +245,10 @@
  <tbody id="sealTableBody">
  <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">49,373</td></tr>
  <tr><td>🎯</td><td>Direct</td><td style="text-align:right;">17,929</td></tr>
- <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">10,402</td></tr>
- <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">4,747</td></tr>
- <tr><td>📱</td><td>Social</td><td style="text-align:right;">3,256</td></tr>
- <tr><td>📢</td><td>Paid Social</td><td style="text-align:right;">3,097</td></tr>
+ <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">10,398</td></tr>
+ <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">4,746</td></tr>
+ <tr><td>📱</td><td>Social</td><td style="text-align:right;">3,254</td></tr>
+ <tr><td>📢</td><td>Paid Social</td><td style="text-align:right;">3,096</td></tr>
  <tr><td>👥</td><td>Organic Social</td><td style="text-align:right;">159</td></tr>
  </tbody>
  <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">173,636</strong></td></tr></tfoot>
@@ -262,17 +262,18 @@
  const csvData = `Channel,GA4 Sessions,SealMetrics Clicks
 Direct,59763,17929
 Organic Search,18020,49373
-Paid Search,3796,10402
-Referral,1732,4747
-Social,1188,3256
-Paid Social,1130,3097
+Paid Search,3796,10398
+Referral,1732,4746
+Social,1188,3254
+Paid Social,1130,3096
 Organic Social,58,159
 Total,106525,173636`;
  
- navigator.clipboard.writeText(csvData).then(function() {
+ navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
- }, function(err) {
- console.error('Could not copy text: ', err);
+ }).catch(err => {
+ console.error('Error copying CSV: ', err);
+ alert('Error copying CSV data');
  });
  }
  </script>
