@@ -69,7 +69,7 @@
  </div>
  <div class="content">
  <div class="summary-box"id="summaryBox">
- <strong>📈 Key Insights:</strong> SealMetrics captures <strong>24,396 additional clicks</strong> that GA4 misses. Your direct traffic is likely overestimated by GA4 - SealMetrics shows the real attribution across channels, revealing <strong>63% more traffic</strong> than currently reported.
+ <strong>📈 Key Insights:</strong> SealMetrics captures <strong>63% more traffic</strong> than GA4 for avoltaworld.com. While GA4 shows <strong>39,446 sessions</strong>, SealMetrics reveals the true traffic volume of <strong>64,297 clicks</strong>. The biggest difference is in direct traffic attribution - GA4 shows 16,721 direct visits, but SealMetrics more accurately attributes this traffic across all channels, revealing <strong>24,851 additional clicks</strong> that GA4 misses due to cookie limitations and privacy restrictions.
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -84,14 +84,14 @@
  <div class="metric-info">
  <div class="brand">Google Analytics</div>
  <h3>Sessions</h3>
- <div class="value"id="ga4Total">38,446</div>
+ <div class="value"id="ga4Total">39,446</div>
  </div>
  </div>
  <div class="metric-box metric-seal">
  <div class="metric-info">
  <div class="brand">SealMetrics<sup>™</sup></div>
  <h3>Clicks</h3>
- <div class="value"id="sealTotal">62,842</div>
+ <div class="value"id="sealTotal">64,297</div>
  </div>
  </div>
  </div>
@@ -200,8 +200,11 @@
  <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">4,956</td></tr>
  <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">2,203</td></tr>
  <tr><td>📧</td><td>Email</td><td style="text-align:right;">350</td></tr>
+ <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">0</td></tr>
+ <tr><td>📢</td><td>Paid Social</td><td style="text-align:right;">0</td></tr>
+ <tr><td>🖼️</td><td>Display</td><td style="text-align:right;">0</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">38,446</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">39,446</strong></td></tr></tfoot>
  </table>
  </div>
  <div class="table-container">
@@ -214,8 +217,11 @@
  <tr><td>🎯</td><td>Direct</td><td style="text-align:right;">5,016</td></tr>
  <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">3,591</td></tr>
  <tr><td>📧</td><td>Email</td><td style="text-align:right;">571</td></tr>
+ <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">0</td></tr>
+ <tr><td>📢</td><td>Paid Social</td><td style="text-align:right;">0</td></tr>
+ <tr><td>🖼️</td><td>Display</td><td style="text-align:right;">0</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">62,842</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">64,297</strong></td></tr></tfoot>
  </table>
  </div>
  </div>
@@ -229,13 +235,15 @@ Organic Search,15216,24802
 Organic Social,4956,8078
 Referral,2203,3591
 Email,350,571
-Total,38446,62842`;
+Paid Search,0,0
+Paid Social,0,0
+Display,0,0
+Total,39446,64297`;
  
  navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
  }).catch(err => {
  console.error('Error copying CSV: ', err);
- alert('Error copying CSV data');
  });
  }
  </script>
