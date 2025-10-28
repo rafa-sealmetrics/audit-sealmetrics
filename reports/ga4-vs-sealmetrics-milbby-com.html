@@ -69,7 +69,7 @@
  </div>
  <div class="content">
  <div class="summary-box"id="summaryBox">
- <strong>📈 Key Insights:</strong> SealMetrics captures <strong>36,574 additional clicks</strong> that GA4 misses, representing a <strong>63% increase</strong> in traffic visibility. The most significant improvements are in organic search (+22,726 clicks) and referral traffic (+1,783 clicks), while direct traffic shows more accurate attribution with cookieless tracking.
+ <strong>📈 Key Insights:</strong> SealMetrics captures <strong>36,568 additional clicks</strong> that GA4 misses. This represents <strong>63% more traffic</strong> than what Google Analytics reports. The biggest differences are in Direct traffic (reduced attribution errors) and better tracking across all channels.
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -91,7 +91,7 @@
  <div class="metric-info">
  <div class="brand">SealMetrics<sup>™</sup></div>
  <h3>Clicks</h3>
- <div class="value"id="sealTotal">94,780</div>
+ <div class="value"id="sealTotal">94,774</div>
  </div>
  </div>
  </div>
@@ -158,14 +158,14 @@
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 100%;">
- <span class="chart-value">43,768</span>
+ <span class="chart-value">36,298</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Direct</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 18.9%;">
+ <div class="chart-bar"style="width: 22.8%;">
  <span class="chart-value">8,275</span>
  </div>
  </div>
@@ -173,32 +173,32 @@
  <div class="chart-row">
  <div class="chart-label">Paid Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 17.3%;">
- <span class="chart-value">7,577</span>
+ <div class="chart-bar"style="width: 22.3%;">
+ <span class="chart-value">8,227</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Email</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 12.5%;">
- <span class="chart-value">5,470</span>
+ <div class="chart-bar"style="width: 16.1%;">
+ <span class="chart-value">5,938</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 6.6%;">
- <span class="chart-value">2,877</span>
+ <div class="chart-bar"style="width: 5.1%;">
+ <span class="chart-value">1,888</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Organic Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 1.0%;">
- <span class="chart-value">443</span>
+ <div class="chart-bar"style="width: 1.3%;">
+ <span class="chart-value">481</span>
  </div>
  </div>
  </div>
@@ -226,14 +226,14 @@
  <table>
  <thead><tr><th style="width:40px;"></th><th>Channels</th><th class="sortable"style="text-align:right;">Clicks</th></tr></thead>
  <tbody id="sealTableBody">
- <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">43,768</td></tr>
+ <tr><td>🔍</td><td>Organic Search</td><td style="text-align:right;">36,298</td></tr>
  <tr><td>🎯</td><td>Direct</td><td style="text-align:right;">8,275</td></tr>
- <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">7,577</td></tr>
- <tr><td>📧</td><td>Email</td><td style="text-align:right;">5,470</td></tr>
- <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">2,877</td></tr>
- <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">443</td></tr>
+ <tr><td>💰</td><td>Paid Search</td><td style="text-align:right;">8,227</td></tr>
+ <tr><td>📧</td><td>Email</td><td style="text-align:right;">5,938</td></tr>
+ <tr><td>🔗</td><td>Referral</td><td style="text-align:right;">1,888</td></tr>
+ <tr><td>📱</td><td>Organic Social</td><td style="text-align:right;">481</td></tr>
  </tbody>
- <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">94,780</strong></td></tr></tfoot>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">94,774</strong></td></tr></tfoot>
  </table>
  </div>
  </div>
@@ -243,12 +243,12 @@
  function copyCSV() {
  const csvData = `Channel,GA4 Sessions,SealMetrics Clicks,Difference
 Direct,27582,8275,-19307
-Organic Search,21042,43768,22726
-Paid Search,4768,7577,2809
-Email,3441,5470,2029
-Referral,1094,2877,1783
-Organic Social,279,443,164
-Total,58206,94780,36574`;
+Organic Search,21042,36298,15256
+Paid Search,4768,8227,3459
+Email,3441,5938,2497
+Referral,1094,1888,794
+Organic Social,279,481,202
+Total,58206,94774,36568`;
  
  navigator.clipboard.writeText(csvData).then(() => {
  alert('CSV data copied to clipboard!');
