@@ -132,14 +132,6 @@
  </div>
  </div>
  <div class="chart-row">
- <div class="chart-label">Mail</div>
- <div class="chart-bar-container">
- <div class="chart-bar"style="width: 2.2%;">
- <span class="chart-value">6,888</span>
- </div>
- </div>
- </div>
- <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 0.3%;">
@@ -163,40 +155,32 @@
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 22.7%;">
- <span class="chart-value">113,137</span>
+ <div class="chart-bar"style="width: 22.5%;">
+ <span class="chart-value">112,116</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 21.7%;">
- <span class="chart-value">108,208</span>
+ <div class="chart-bar"style="width: 21.6%;">
+ <span class="chart-value">107,718</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 8.4%;">
- <span class="chart-value">41,860</span>
- </div>
- </div>
- </div>
- <div class="chart-row">
- <div class="chart-label">Mail</div>
- <div class="chart-bar-container">
- <div class="chart-bar"style="width: 6.9%;">
- <span class="chart-value">34,442</span>
+ <div class="chart-bar"style="width: 13.7%;">
+ <span class="chart-value">68,300</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 4.3%;">
- <span class="chart-value">21,210</span>
+ <div class="chart-bar"style="width: 6.2%;">
+ <span class="chart-value">30,723</span>
  </div>
  </div>
  </div>
@@ -209,48 +193,36 @@
  <table>
  <thead>
  <tr>
- <th style="width:40px;"></th>
  <th>Channel</th>
  <th style="text-align:right;">Sessions</th>
  </tr>
  </thead>
  <tbody id="ga4TableBody">
  <tr>
- <td>🌐</td>
  <td>Direct</td>
  <td style="text-align:right;">179,572</td>
  </tr>
  <tr>
- <td>🔍</td>
  <td>Organic Search</td>
  <td style="text-align:right;">56,158</td>
  </tr>
  <tr>
- <td>🔗</td>
  <td>Referral</td>
  <td style="text-align:right;">53,859</td>
  </tr>
  <tr>
- <td>💰</td>
- <td>Paid</td>
+ <td>Paid Search</td>
  <td style="text-align:right;">8,380</td>
  </tr>
  <tr>
- <td>📧</td>
- <td>Mail</td>
- <td style="text-align:right;">6,888</td>
- </tr>
- <tr>
- <td>👥</td>
  <td>Social</td>
  <td style="text-align:right;">829</td>
  </tr>
  </tbody>
  <tfoot>
  <tr>
- <td></td>
  <td><strong>Total</strong></td>
- <td style="text-align:right;"><strong id="ga4TableTotal">305,784</strong></td>
+ <td style="text-align:right;"><strong>305,784</strong></td>
  </tr>
  </tfoot>
  </table>
@@ -260,48 +232,36 @@
  <table>
  <thead>
  <tr>
- <th style="width:40px;"></th>
  <th>Channel</th>
  <th style="text-align:right;">Clicks</th>
  </tr>
  </thead>
  <tbody id="sealTableBody">
  <tr>
- <td>🌐</td>
  <td>Direct</td>
  <td style="text-align:right;">179,572</td>
  </tr>
  <tr>
- <td>🔍</td>
  <td>Organic Search</td>
- <td style="text-align:right;">113,137</td>
+ <td style="text-align:right;">112,116</td>
  </tr>
  <tr>
- <td>🔗</td>
  <td>Referral</td>
- <td style="text-align:right;">108,208</td>
+ <td style="text-align:right;">107,718</td>
  </tr>
  <tr>
- <td>💰</td>
  <td>Paid</td>
- <td style="text-align:right;">41,860</td>
+ <td style="text-align:right;">68,300</td>
  </tr>
  <tr>
- <td>📧</td>
- <td>Mail</td>
- <td style="text-align:right;">34,442</td>
- </tr>
- <tr>
- <td>👥</td>
  <td>Social</td>
- <td style="text-align:right;">21,210</td>
+ <td style="text-align:right;">30,723</td>
  </tr>
  </tbody>
  <tfoot>
  <tr>
- <td></td>
  <td><strong>Total</strong></td>
- <td style="text-align:right;"><strong id="sealTableTotal">498,429</strong></td>
+ <td style="text-align:right;"><strong>498,429</strong></td>
  </tr>
  </tfoot>
  </table>
@@ -316,34 +276,27 @@
  ['Direct', 179572],
  ['Organic Search', 56158],
  ['Referral', 53859],
- ['Paid', 8380],
- ['Mail', 6888],
+ ['Paid Search', 8380],
  ['Social', 829]
  ];
  
  const sealData = [
  ['Channel', 'Clicks'],
  ['Direct', 179572],
- ['Organic Search', 113137],
- ['Referral', 108208],
- ['Paid', 41860],
- ['Mail', 34442],
- ['Social', 21210]
+ ['Organic Search', 112116],
+ ['Referral', 107718],
+ ['Paid', 68300],
+ ['Social', 30723]
  ];
  
- const csvContent = "data:text/csv;charset=utf-8,"+
- "GA4 Data\n"+
- ga4Data.map(e => e.join(",")).join("\n") +
- "\n\nSealMetrics Data\n"+
+ const csvContent = "GA4 Data:\n"+ 
+ ga4Data.map(e => e.join(",")).join("\n") + 
+ "\n\nSealMetrics Data:\n"+ 
  sealData.map(e => e.join(",")).join("\n");
  
- const encodedUri = encodeURI(csvContent);
- const link = document.createElement("a");
- link.setAttribute("href", encodedUri);
- link.setAttribute("download", "clarel_es_traffic_comparison.csv");
- document.body.appendChild(link);
- link.click();
- document.body.removeChild(link);
+ navigator.clipboard.writeText(csvContent).then(() => {
+ alert('CSV data copied to clipboard!');
+ });
  }
  </script>
  <script>
