@@ -91,13 +91,13 @@
  <div class="metric-info">
  <div class="brand">SealMetrics<sup>™</sup></div>
  <h3>Clicks</h3>
- <div class="value"id="sealTotal">26,823,448</div>
+ <div class="value"id="sealTotal">26,823,428</div>
  </div>
  </div>
  </div>
  <div class="comparison-section">
  <div class="chart-container">
- <h2>GA4 Traffic Channels</h2>
+ <h2>GA4 Channels</h2>
  <div class="chart-bars"id="ga4Chart">
  <div class="chart-row">
  <div class="chart-label">Direct</div>
@@ -132,12 +132,12 @@
  </div>
  </div>
  <div class="chart-container">
- <h2>SealMetrics Traffic Channels</h2>
+ <h2>SealMetrics Channels</h2>
  <div class="chart-bars"id="sealChart">
  <div class="chart-row">
  <div class="chart-label">Direct</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 55%"><div class="chart-value">4,434,142</div></div>
+ <div class="chart-bar"style="width: 55%"><div class="chart-value">4,434,143</div></div>
  </div>
  </div>
  <div class="chart-row">
@@ -149,7 +149,7 @@
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 6%"><div class="chart-value">1,073,738</div></div>
+ <div class="chart-bar"style="width: 6%"><div class="chart-value">1,073,737</div></div>
  </div>
  </div>
  <div class="chart-row">
@@ -161,7 +161,7 @@
  <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 1%"><div class="chart-value">141,644</div></div>
+ <div class="chart-bar"style="width: 1%"><div class="chart-value">141,645</div></div>
  </div>
  </div>
  </div>
@@ -169,24 +169,45 @@
  </div>
  <div class="table-section">
  <div class="table-container">
- <h2>GA4 Traffic Breakdown</h2>
+ <h2>GA4 Channels</h2>
  <table>
  <thead>
  <tr>
+ <th style="width:40px;"></th>
  <th>Channel</th>
  <th style="text-align:right;">Sessions</th>
  </tr>
  </thead>
  <tbody id="ga4TableBody">
- <tr><td>Direct</td><td style="text-align:right;">14,780,474</td></tr>
- <tr><td>Organic Search</td><td style="text-align:right;">4,740,417</td></tr>
- <tr><td>Referral</td><td style="text-align:right;">658,414</td></tr>
- <tr><td>Paid Search</td><td style="text-align:right;">500,961</td></tr>
- <tr><td>Social</td><td style="text-align:right;">86,972</td></tr>
- <tr><td>Display Ads</td><td style="text-align:right;">6,882</td></tr>
+ <tr>
+ <td>🌐</td>
+ <td>Direct</td>
+ <td style="text-align:right;">14,780,474</td>
+ </tr>
+ <tr>
+ <td>🔍</td>
+ <td>Organic Search</td>
+ <td style="text-align:right;">4,740,417</td>
+ </tr>
+ <tr>
+ <td>🔗</td>
+ <td>Referral</td>
+ <td style="text-align:right;">658,414</td>
+ </tr>
+ <tr>
+ <td>💰</td>
+ <td>Paid</td>
+ <td style="text-align:right;">500,961</td>
+ </tr>
+ <tr>
+ <td>👥</td>
+ <td>Social</td>
+ <td style="text-align:right;">86,972</td>
+ </tr>
  </tbody>
  <tfoot>
  <tr>
+ <td></td>
  <td><strong>Total</strong></td>
  <td style="text-align:right;"><strong id="ga4TableTotal">16,453,944</strong></td>
  </tr>
@@ -194,25 +215,47 @@
  </table>
  </div>
  <div class="table-container">
- <h2>SealMetrics Traffic Breakdown</h2>
+ <h2>SealMetrics Channels</h2>
  <table>
  <thead>
  <tr>
+ <th style="width:40px;"></th>
  <th>Channel</th>
  <th style="text-align:right;">Clicks</th>
  </tr>
  </thead>
  <tbody id="sealTableBody">
- <tr><td>Direct</td><td style="text-align:right;">4,434,142</td></tr>
- <tr><td>Organic Search</td><td style="text-align:right;">7,728,680</td></tr>
- <tr><td>Referral</td><td style="text-align:right;">1,073,738</td></tr>
- <tr><td>Paid</td><td style="text-align:right;">816,568</td></tr>
- <tr><td>Social</td><td style="text-align:right;">141,644</td></tr>
+ <tr>
+ <td>🌐</td>
+ <td>Direct</td>
+ <td style="text-align:right;">4,434,143</td>
+ </tr>
+ <tr>
+ <td>🔍</td>
+ <td>Organic Search</td>
+ <td style="text-align:right;">7,728,680</td>
+ </tr>
+ <tr>
+ <td>🔗</td>
+ <td>Referral</td>
+ <td style="text-align:right;">1,073,737</td>
+ </tr>
+ <tr>
+ <td>💰</td>
+ <td>Paid</td>
+ <td style="text-align:right;">816,568</td>
+ </tr>
+ <tr>
+ <td>👥</td>
+ <td>Social</td>
+ <td style="text-align:right;">141,645</td>
+ </tr>
  </tbody>
  <tfoot>
  <tr>
+ <td></td>
  <td><strong>Total</strong></td>
- <td style="text-align:right;"><strong id="sealTableTotal">26,823,448</strong></td>
+ <td style="text-align:right;"><strong id="sealTableTotal">26,823,428</strong></td>
  </tr>
  </tfoot>
  </table>
@@ -227,31 +270,29 @@
  ['Direct', 14780474],
  ['Organic Search', 4740417],
  ['Referral', 658414],
- ['Paid Search', 500961],
- ['Social', 86972],
- ['Display Ads', 6882],
- ['Total', 16453944]
+ ['Paid', 500961],
+ ['Social', 86972]
  ];
- 
  const sealData = [
  ['Channel', 'Clicks'],
- ['Direct', 4434142],
+ ['Direct', 4434143],
  ['Organic Search', 7728680],
- ['Referral', 1073738],
+ ['Referral', 1073737],
  ['Paid', 816568],
- ['Social', 141644],
- ['Total', 26823448]
+ ['Social', 141645]
  ];
- 
- const csvContent = 
- "GA4 Data:\n"+ 
+ const csvContent = "data:text/csv;charset=utf-8,"+ 
+ "GA4 Channels\n"+ 
  ga4Data.map(e => e.join(",")).join("\n") + 
- "\n\nSealMetrics Data:\n"+ 
+ "\n\nSealMetrics Channels\n"+ 
  sealData.map(e => e.join(",")).join("\n");
- 
- navigator.clipboard.writeText(csvContent).then(() => {
- alert('CSV data copied to clipboard!');
- });
+ const encodedUri = encodeURI(csvContent);
+ const link = document.createElement("a");
+ link.setAttribute("href", encodedUri);
+ link.setAttribute("download", "carrefour_fr_traffic_comparison.csv");
+ document.body.appendChild(link);
+ link.click();
+ document.body.removeChild(link);
  }
  </script>
  <script>
