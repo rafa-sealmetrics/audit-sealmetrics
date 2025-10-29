@@ -156,31 +156,23 @@
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 37%;">
- <span class="chart-value">64,662</span>
+ <span class="chart-value">99,636</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 12%;">
- <span class="chart-value">20,888</span>
+ <div class="chart-bar"style="width: 14.8%;">
+ <span class="chart-value">39,845</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 5.4%;">
- <span class="chart-value">2,072</span>
- </div>
- </div>
- </div>
- <div class="chart-row">
- <div class="chart-label">Referral</div>
- <div class="chart-bar-container">
- <div class="chart-bar"style="width: 6%;">
- <span class="chart-value">7,611</span>
+ <div class="chart-bar"style="width: 8.6%;">
+ <span class="chart-value">23,382</span>
  </div>
  </div>
  </div>
@@ -189,13 +181,13 @@
  </div>
  <div class="table-section">
  <div class="table-container">
- <h2>GA4 Channels</h2>
+ <h2>GA4 Traffic</h2>
  <table>
  <thead>
  <tr>
  <th style="width:40px;"></th>
  <th>Channel</th>
- <th class="sortable"style="text-align:right;">Sessions</th>
+ <th style="text-align:right;">Sessions</th>
  </tr>
  </thead>
  <tbody id="ga4TableBody">
@@ -235,13 +227,13 @@
  </table>
  </div>
  <div class="table-container">
- <h2>SealMetrics Channels</h2>
+ <h2>SealMetrics Traffic</h2>
  <table>
  <thead>
  <tr>
  <th style="width:40px;"></th>
  <th>Channel</th>
- <th class="sortable"style="text-align:right;">Clicks</th>
+ <th style="text-align:right;">Clicks</th>
  </tr>
  </thead>
  <tbody id="sealTableBody">
@@ -253,22 +245,17 @@
  <tr>
  <td>🔍</td>
  <td>Organic Search</td>
- <td style="text-align:right;">64,662</td>
+ <td style="text-align:right;">99,636</td>
  </tr>
  <tr>
  <td>👥</td>
  <td>Social</td>
- <td style="text-align:right;">20,888</td>
+ <td style="text-align:right;">39,845</td>
  </tr>
  <tr>
  <td>💰</td>
  <td>Paid</td>
- <td style="text-align:right;">2,072</td>
- </tr>
- <tr>
- <td>🔗</td>
- <td>Referral</td>
- <td style="text-align:right;">7,611</td>
+ <td style="text-align:right;">23,382</td>
  </tr>
  </tbody>
  <tfoot>
@@ -293,21 +280,15 @@
  ['Paid', 1271],
  ['Referral', 4662]
  ];
- 
  const sealData = [
  ['Channel', 'Clicks'],
  ['Direct', 31950],
- ['Organic Search', 64662],
- ['Social', 20888],
- ['Paid', 2072],
- ['Referral', 7611]
+ ['Organic Search', 99636],
+ ['Social', 39845],
+ ['Paid', 23382]
  ];
- 
- const csvContent = "GA4 Data:\n"+ 
- ga4Data.map(e => e.join(",")).join("\n") + 
- "\n\nSealMetrics Data:\n"+ 
- sealData.map(e => e.join(",")).join("\n");
- 
+ const csvContent = "GA4 Data:\n"+ ga4Data.map(e => e.join(",")).join("\n") + 
+ "\n\nSealMetrics Data:\n"+ sealData.map(e => e.join(",")).join("\n");
  navigator.clipboard.writeText(csvContent).then(() => {
  alert('CSV data copied to clipboard!');
  });
