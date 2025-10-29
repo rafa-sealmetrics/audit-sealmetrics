@@ -97,7 +97,7 @@
  </div>
  <div class="comparison-section">
  <div class="chart-container">
- <h2>GA4 Traffic Channels</h2>
+ <h2>GA4 Channels</h2>
  <div class="chart-bars"id="ga4Chart">
  <div class="chart-row">
  <div class="chart-label">Direct</div>
@@ -134,7 +134,7 @@
  </div>
  </div>
  <div class="chart-container">
- <h2>SealMetrics Traffic Channels</h2>
+ <h2>SealMetrics Channels</h2>
  <div class="chart-bars"id="sealChart">
  <div class="chart-row">
  <div class="chart-label">Direct</div>
@@ -148,7 +148,7 @@
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 36.1%;">
- <span class="chart-value">4,180,962</span>
+ <span class="chart-value">4,180,416</span>
  </div>
  </div>
  </div>
@@ -164,7 +164,7 @@
  <div class="chart-label">Paid</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 12.2%;">
- <span class="chart-value">1,083,496</span>
+ <span class="chart-value">1,184,042</span>
  </div>
  </div>
  </div>
@@ -173,42 +173,45 @@
  </div>
  <div class="table-section">
  <div class="table-container">
- <h2>GA4 Traffic Breakdown</h2>
+ <h2>GA4 Channels</h2>
  <table>
  <thead>
  <tr>
+ <th style="width:40px;"></th>
  <th>Channel</th>
  <th style="text-align:right;">Sessions</th>
  </tr>
  </thead>
  <tbody id="ga4TableBody">
  <tr>
+ <td>🌐</td>
  <td>Direct</td>
  <td style="text-align:right;">7,840,586</td>
  </tr>
  <tr>
+ <td>🔍</td>
  <td>Organic Search</td>
  <td style="text-align:right;">3,413,327</td>
  </tr>
  <tr>
+ <td>🔗</td>
  <td>Referral</td>
  <td style="text-align:right;">324,463</td>
  </tr>
  <tr>
- <td>Paid Search</td>
+ <td>💰</td>
+ <td>Paid</td>
  <td style="text-align:right;">289,210</td>
  </tr>
  <tr>
+ <td>📱</td>
  <td>Social</td>
  <td style="text-align:right;">21,460</td>
- </tr>
- <tr>
- <td>Display Ads</td>
- <td style="text-align:right;">3,507</td>
  </tr>
  </tbody>
  <tfoot>
  <tr>
+ <td></td>
  <td><strong>Total</strong></td>
  <td style="text-align:right;"><strong id="ga4TableTotal">11,593,693</strong></td>
  </tr>
@@ -216,38 +219,40 @@
  </table>
  </div>
  <div class="table-container">
- <h2>SealMetrics Traffic Breakdown</h2>
+ <h2>SealMetrics Channels</h2>
  <table>
  <thead>
  <tr>
+ <th style="width:40px;"></th>
  <th>Channel</th>
  <th style="text-align:right;">Clicks</th>
  </tr>
  </thead>
  <tbody id="sealTableBody">
  <tr>
+ <td>🌐</td>
  <td>Direct</td>
  <td style="text-align:right;">2,352,176</td>
  </tr>
  <tr>
+ <td>🔍</td>
  <td>Organic Search</td>
- <td style="text-align:right;">4,180,962</td>
+ <td style="text-align:right;">4,180,416</td>
  </tr>
  <tr>
+ <td>🔗</td>
  <td>Referral</td>
  <td style="text-align:right;">1,181,686</td>
  </tr>
  <tr>
+ <td>💰</td>
  <td>Paid</td>
- <td style="text-align:right;">1,083,496</td>
- </tr>
- <tr>
- <td>Social</td>
- <td style="text-align:right;">100,000</td>
+ <td style="text-align:right;">1,184,042</td>
  </tr>
  </tbody>
  <tfoot>
  <tr>
+ <td></td>
  <td><strong>Total</strong></td>
  <td style="text-align:right;"><strong id="sealTableTotal">18,898,320</strong></td>
  </tr>
@@ -264,23 +269,22 @@
  ['Direct', 7840586],
  ['Organic Search', 3413327],
  ['Referral', 324463],
- ['Paid Search', 289210],
+ ['Paid', 289210],
  ['Social', 21460],
- ['Display Ads', 3507],
  ['Total', 11593693]
  ];
  
  const sealData = [
  ['Channel', 'Clicks'],
  ['Direct', 2352176],
- ['Organic Search', 4180962],
+ ['Organic Search', 4180416],
  ['Referral', 1181686],
- ['Paid', 1083496],
- ['Social', 100000],
+ ['Paid', 1184042],
  ['Total', 18898320]
  ];
  
- const csvContent = "GA4 Data:\n"+ 
+ const csvContent = 
+ "GA4 Data:\n"+ 
  ga4Data.map(e => e.join(",")).join("\n") + 
  "\n\nSealMetrics Data:\n"+ 
  sealData.map(e => e.join(",")).join("\n");
