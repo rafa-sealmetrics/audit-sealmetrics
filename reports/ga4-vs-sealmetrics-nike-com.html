@@ -143,25 +143,25 @@
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 32.9%"><div class="chart-value">33,873,045</div></div>
+ <div class="chart-bar"style="width: 32.9%"><div class="chart-value">32,873,044</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 9.4%"><div class="chart-value">9,754,825</div></div>
+ <div class="chart-bar"style="width: 9.4%"><div class="chart-value">9,462,548</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 7.6%"><div class="chart-value">7,773,285</div></div>
+ <div class="chart-bar"style="width: 7.5%"><div class="chart-value">7,541,307</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 2.1%"><div class="chart-value">2,115,058</div></div>
+ <div class="chart-bar"style="width: 2.1%"><div class="chart-value">2,050,452</div></div>
  </div>
  </div>
  </div>
@@ -233,22 +233,22 @@
  <tr>
  <td>🔍</td>
  <td>Organic Search</td>
- <td style="text-align:right;">33,873,045</td>
+ <td style="text-align:right;">32,873,044</td>
  </tr>
  <tr>
  <td>🔗</td>
  <td>Referral</td>
- <td style="text-align:right;">9,754,825</td>
+ <td style="text-align:right;">9,462,548</td>
  </tr>
  <tr>
  <td>💰</td>
  <td>Paid Search</td>
- <td style="text-align:right;">7,773,285</td>
+ <td style="text-align:right;">7,541,307</td>
  </tr>
  <tr>
  <td>👥</td>
  <td>Social</td>
- <td style="text-align:right;">2,115,058</td>
+ <td style="text-align:right;">2,050,452</td>
  </tr>
  </tbody>
  <tfoot>
@@ -277,13 +277,14 @@
  const sealData = [
  ['Channel', 'Clicks'],
  ['Direct', 21463428],
- ['Organic Search', 33873045],
- ['Referral', 9754825],
- ['Paid Search', 7773285],
- ['Social', 2115058]
+ ['Organic Search', 32873044],
+ ['Referral', 9462548],
+ ['Paid Search', 7541307],
+ ['Social', 2050452]
  ];
  
- const csvContent = "GA4 Data:\n"+ 
+ const csvContent = 
+ "GA4 Data:\n"+ 
  ga4Data.map(e => e.join(",")).join("\n") + 
  "\n\nSealMetrics Data:\n"+ 
  sealData.map(e => e.join(",")).join("\n");
