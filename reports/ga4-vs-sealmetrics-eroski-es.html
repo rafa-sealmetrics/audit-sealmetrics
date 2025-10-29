@@ -163,8 +163,8 @@
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 11%;">
- <span class="chart-value">380,000</span>
+ <div class="chart-bar"style="width: 9%;">
+ <span class="chart-value">310,629</span>
  </div>
  </div>
  </div>
@@ -172,15 +172,15 @@
  <div class="chart-label">Paid</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 5%;">
- <span class="chart-value">172,560</span>
+ <span class="chart-value">172,561</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 3.5%;">
- <span class="chart-value">120,973</span>
+ <div class="chart-bar"style="width: 2.5%;">
+ <span class="chart-value">86,343</span>
  </div>
  </div>
  </div>
@@ -195,7 +195,7 @@
  <tr>
  <th style="width:40px;"></th>
  <th>Channel</th>
- <th style="text-align:right;">Sessions</th>
+ <th class="sortable"style="text-align:right;">Sessions</th>
  </tr>
  </thead>
  <tbody id="ga4TableBody">
@@ -241,7 +241,7 @@
  <tr>
  <th style="width:40px;"></th>
  <th>Channel</th>
- <th style="text-align:right;">Clicks</th>
+ <th class="sortable"style="text-align:right;">Clicks</th>
  </tr>
  </thead>
  <tbody id="sealTableBody">
@@ -258,17 +258,17 @@
  <tr>
  <td>🔗</td>
  <td>Referral</td>
- <td style="text-align:right;">380,000</td>
+ <td style="text-align:right;">310,629</td>
  </tr>
  <tr>
  <td>💰</td>
  <td>Paid</td>
- <td style="text-align:right;">172,560</td>
+ <td style="text-align:right;">172,561</td>
  </tr>
  <tr>
  <td>👥</td>
  <td>Social</td>
- <td style="text-align:right;">120,973</td>
+ <td style="text-align:right;">86,343</td>
  </tr>
  </tbody>
  <tfoot>
@@ -293,16 +293,21 @@
  ['Paid', 23464],
  ['Social', 15028]
  ];
+ 
  const sealData = [
  ['Channel', 'Clicks'],
  ['Direct', 491736],
  ['Organic Search', 1138559],
- ['Referral', 380000],
- ['Paid', 172560],
- ['Social', 120973]
+ ['Referral', 310629],
+ ['Paid', 172561],
+ ['Social', 86343]
  ];
- const csvContent = "GA4 Data:\n"+ ga4Data.map(e => e.join(",")).join("\n") + 
- "\n\nSealMetrics Data:\n"+ sealData.map(e => e.join(",")).join("\n");
+ 
+ const csvContent = "GA4 Data:\n"+ 
+ ga4Data.map(e => e.join(",")).join("\n") + 
+ "\n\nSealMetrics Data:\n"+ 
+ sealData.map(e => e.join(",")).join("\n");
+ 
  navigator.clipboard.writeText(csvContent).then(() => {
  alert('CSV data copied to clipboard!');
  });
