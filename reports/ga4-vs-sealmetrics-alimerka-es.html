@@ -69,7 +69,7 @@
  </div>
  <div class="content">
  <div class="summary-box"id="summaryBox">
- <strong>Key Insights:</strong> SealMetrics reveals 63% more traffic compared to Google Analytics 4, providing a more comprehensive view of your website's performance.
+ <p>🔍 <strong>Key Insights:</strong> SealMetrics reveals a more comprehensive view of your website traffic, capturing up to 63% more interactions than Google Analytics 4.</p>
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -102,7 +102,7 @@
  <div class="chart-row">
  <div class="chart-label">Direct</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 86.9%"><div class="chart-value">238,444</div></div>
+ <div class="chart-bar"style="width: 86.8%"><div class="chart-value">238,444</div></div>
  </div>
  </div>
  <div class="chart-row">
@@ -145,35 +145,34 @@
  </div>
  <div class="table-section">
  <div class="table-container">
- <h2>GA4 Channels</h2>
+ <h2>GA4 Traffic Breakdown</h2>
  <table>
  <thead>
  <tr>
- <th style="width:40px;"></th>
  <th>Channel</th>
  <th style="text-align:right;">Sessions</th>
  </tr>
  </thead>
  <tbody id="ga4TableBody">
  <tr>
- <td>🌐</td>
  <td>Direct</td>
  <td style="text-align:right;">238,444</td>
  </tr>
  <tr>
- <td>🔍</td>
  <td>Organic Search</td>
  <td style="text-align:right;">27,146</td>
  </tr>
  <tr>
- <td>🔗</td>
  <td>Referral</td>
  <td style="text-align:right;">8,435</td>
+ </tr>
+ <tr>
+ <td>Mail</td>
+ <td style="text-align:right;">178</td>
  </tr>
  </tbody>
  <tfoot>
  <tr>
- <td></td>
  <td><strong>Total</strong></td>
  <td style="text-align:right;"><strong id="ga4TableTotal">274,025</strong></td>
  </tr>
@@ -181,35 +180,34 @@
  </table>
  </div>
  <div class="table-container">
- <h2>SealMetrics Channels</h2>
+ <h2>SealMetrics Traffic Breakdown</h2>
  <table>
  <thead>
  <tr>
- <th style="width:40px;"></th>
  <th>Channel</th>
  <th style="text-align:right;">Clicks</th>
  </tr>
  </thead>
  <tbody id="sealTableBody">
  <tr>
- <td>🌐</td>
  <td>Direct</td>
  <td style="text-align:right;">319,624</td>
  </tr>
  <tr>
- <td>🔍</td>
  <td>Organic Search</td>
  <td style="text-align:right;">72,048</td>
  </tr>
  <tr>
- <td>🔗</td>
  <td>Referral</td>
  <td style="text-align:right;">22,789</td>
+ </tr>
+ <tr>
+ <td>Mail</td>
+ <td style="text-align:right;">474</td>
  </tr>
  </tbody>
  <tfoot>
  <tr>
- <td></td>
  <td><strong>Total</strong></td>
  <td style="text-align:right;"><strong id="sealTableTotal">446,761</strong></td>
  </tr>
@@ -225,16 +223,26 @@
  ['Channel', 'Sessions'],
  ['Direct', 238444],
  ['Organic Search', 27146],
- ['Referral', 8435]
+ ['Referral', 8435],
+ ['Mail', 178],
+ ['Total', 274025]
  ];
+ 
  const sealData = [
  ['Channel', 'Clicks'],
  ['Direct', 319624],
  ['Organic Search', 72048],
- ['Referral', 22789]
+ ['Referral', 22789],
+ ['Mail', 474],
+ ['Total', 446761]
  ];
- const csvContent = "GA4 Data:\n"+ ga4Data.map(e => e.join(",")).join("\n") + 
- "\n\nSealMetrics Data:\n"+ sealData.map(e => e.join(",")).join("\n");
+ 
+ const csvContent = 
+ "GA4 Data:\n"+ 
+ ga4Data.map(e => e.join(",")).join("\n") + 
+ "\n\nSealMetrics Data:\n"+ 
+ sealData.map(e => e.join(",")).join("\n");
+ 
  navigator.clipboard.writeText(csvContent).then(() => {
  alert('CSV data copied to clipboard!');
  });
