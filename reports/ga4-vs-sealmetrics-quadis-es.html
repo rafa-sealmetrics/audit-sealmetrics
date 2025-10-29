@@ -69,7 +69,7 @@
  </div>
  <div class="content">
  <div class="summary-box"id="summaryBox">
- <p>🔍 <strong>Key Insights:</strong> SealMetrics reveals a 63% increase in total traffic compared to Google Analytics 4, providing a more comprehensive view of your website's performance.</p>
+ <p>🔍 <strong>Key Insights:</strong> SealMetrics reveals 63% more traffic compared to Google Analytics 4, providing a more comprehensive view of your website's performance.</p>
  </div>
  <div class="cta-box">
  <div class="cta-content">
@@ -102,7 +102,7 @@
  <div class="chart-row">
  <div class="chart-label">Direct</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 82.6%"><div class="chart-value">138,751</div></div>
+ <div class="chart-bar"style="width: 82.7%"><div class="chart-value">138,751</div></div>
  </div>
  </div>
  <div class="chart-row">
@@ -137,31 +137,31 @@
  <div class="chart-row">
  <div class="chart-label">Direct</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 50.7%"><div class="chart-value">138,751</div></div>
+ <div class="chart-bar"style="width: 50.7%"><div class="chart-value">138,478</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 12.7%"><div class="chart-value">34,819</div></div>
+ <div class="chart-bar"style="width: 32.8%"><div class="chart-value">56,774</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 2.2%"><div class="chart-value">5,978</div></div>
+ <div class="chart-bar"style="width: 7.7%"><div class="chart-value">13,250</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 9%"><div class="chart-value">24,527</div></div>
+ <div class="chart-bar"style="width: 6.8%"><div class="chart-value">11,700</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 0.7%"><div class="chart-value">1,818</div></div>
+ <div class="chart-bar"style="width: 2%"><div class="chart-value">3,138</div></div>
  </div>
  </div>
  </div>
@@ -228,27 +228,27 @@
  <tr>
  <td>🌐</td>
  <td>Direct</td>
- <td style="text-align:right;">41,625</td>
+ <td style="text-align:right;">138,478</td>
  </tr>
  <tr>
  <td>🔍</td>
  <td>Organic Search</td>
- <td style="text-align:right;">56,755</td>
+ <td style="text-align:right;">56,774</td>
  </tr>
  <tr>
  <td>💰</td>
  <td>Paid</td>
- <td style="text-align:right;">9,746</td>
+ <td style="text-align:right;">13,250</td>
  </tr>
  <tr>
  <td>🔗</td>
  <td>Referral</td>
- <td style="text-align:right;">40,000</td>
+ <td style="text-align:right;">11,700</td>
  </tr>
  <tr>
  <td>👥</td>
  <td>Social</td>
- <td style="text-align:right;">2,966</td>
+ <td style="text-align:right;">3,138</td>
  </tr>
  </tbody>
  <tfoot>
@@ -271,21 +271,20 @@
  ['Organic Search', 34819],
  ['Paid', 5978],
  ['Referral', 24527],
- ['Social', 1818],
- ['Total', 167693]
+ ['Social', 1818]
  ];
  
  const sealData = [
  ['Channel', 'Clicks'],
- ['Direct', 41625],
- ['Organic Search', 56755],
- ['Paid', 9746],
- ['Referral', 40000],
- ['Social', 2966],
- ['Total', 273340]
+ ['Direct', 138478],
+ ['Organic Search', 56774],
+ ['Paid', 13250],
+ ['Referral', 11700],
+ ['Social', 3138]
  ];
  
- const csvContent = "GA4 Data:\n"+ 
+ const csvContent = 
+ "GA4 Data:\n"+ 
  ga4Data.map(e => e.join(",")).join("\n") + 
  "\n\nSealMetrics Data:\n"+ 
  sealData.map(e => e.join(",")).join("\n");
