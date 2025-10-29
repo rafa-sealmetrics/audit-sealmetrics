@@ -261,13 +261,8 @@
  ['Referral', 65092],
  ['Social', 1146]
  ];
- 
- const csvContent = 
- "GA4 Data:\n"+ 
- ga4Data.map(e => e.join(",")).join("\n") + 
- "\n\nSealMetrics Data:\n"+ 
- sealData.map(e => e.join(",")).join("\n");
- 
+ const csvContent = 'GA4 Data:\n' + ga4Data.map(e => e.join(',')).join('\n') + 
+ '\n\nSealMetrics Data:\n' + sealData.map(e => e.join(',')).join('\n');
  navigator.clipboard.writeText(csvContent).then(() => {
  alert('CSV data copied to clipboard!');
  });
