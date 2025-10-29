@@ -137,7 +137,7 @@
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 40.3%"><div class="chart-value">102,333,850</div></div>
+ <div class="chart-bar"style="width: 40.4%"><div class="chart-value">102,334,049</div></div>
  </div>
  </div>
  <div class="chart-row">
@@ -149,7 +149,7 @@
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 3.3%"><div class="chart-value">7,769,247</div></div>
+ <div class="chart-bar"style="width: 3.2%"><div class="chart-value">7,769,267</div></div>
  </div>
  </div>
  </div>
@@ -226,7 +226,7 @@
  <tr>
  <td>🔍</td>
  <td>Organic Search</td>
- <td style="text-align:right;">102,333,850</td>
+ <td style="text-align:right;">102,334,049</td>
  </tr>
  <tr>
  <td>💰</td>
@@ -236,17 +236,17 @@
  <tr>
  <td>🔗</td>
  <td>Referral</td>
- <td style="text-align:right;">7,769,247</td>
+ <td style="text-align:right;">7,769,267</td>
  </tr>
  <tr>
  <td>📱</td>
  <td>Social</td>
- <td style="text-align:right;">2,048,839</td>
+ <td style="text-align:right;">2,047,839</td>
  </tr>
  <tr>
  <td>📧</td>
  <td>Email</td>
- <td style="text-align:right;">4,774,933</td>
+ <td style="text-align:right;">4,774,761</td>
  </tr>
  </tbody>
  <tfoot>
@@ -276,17 +276,17 @@
  const sealData = [
  ['Channel', 'Clicks'],
  ['Direct', 43717531],
- ['Organic Search', 102333850],
+ ['Organic Search', 102334049],
  ['Paid', 19565244],
- ['Referral', 7769247],
- ['Social', 2048839],
- ['Email', 4774933]
+ ['Referral', 7769267],
+ ['Social', 2047839],
+ ['Email', 4774761]
  ];
  
  const csvContent = "data:text/csv;charset=utf-8,"+ 
- "GA4 Channels\n"+
+ "GA4 Data\n"+
  ga4Data.map(e => e.join(",")).join("\n") + 
- "\n\nSealMetrics Channels\n"+
+ "\n\nSealMetrics Data\n"+
  sealData.map(e => e.join(",")).join("\n");
  
  const encodedUri = encodeURI(csvContent);
