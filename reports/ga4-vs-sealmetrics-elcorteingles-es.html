@@ -284,7 +284,7 @@
  ['Display Ads', '23,137'],
  ['Total', '16,783,173']
  ];
- 
+
  const sealData = [
  ['Channel', 'SealMetrics Clicks'],
  ['Direct', '3,335,230'],
@@ -296,12 +296,13 @@
  ['Display Ads', '37,687'],
  ['Total', '27,349,572']
  ];
- 
- const csvContent = "GA4 Data:\n"+ 
+
+ const csvContent = 
+ "GA4 Channels\n"+ 
  ga4Data.map(e => e.join(",")).join("\n") + 
- "\n\nSealMetrics Data:\n"+ 
+ "\n\nSealMetrics Channels\n"+ 
  sealData.map(e => e.join(",")).join("\n");
- 
+
  navigator.clipboard.writeText(csvContent).then(() => {
  alert('CSV data copied to clipboard!');
  });
