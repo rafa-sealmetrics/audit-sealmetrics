@@ -91,7 +91,7 @@
  <div class="metric-info">
  <div class="brand">SealMetrics<sup>™</sup></div>
  <h3>Clicks</h3>
- <div class="value"id="sealTotal">46,461,294</div>
+ <div class="value"id="sealTotal">46,460,694</div>
  </div>
  </div>
  </div>
@@ -140,31 +140,31 @@
  <div class="chart-label">Direct</div>
  <div class="chart-bar-container">
  <div class="chart-bar"style="width: 40.9%;">
- <span class="chart-value">5,696,664</span>
+ <span class="chart-value">19,000,000</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 10.1%;">
- <span class="chart-value">7,645,471</span>
+ <div class="chart-bar"style="width: 25.3%;">
+ <span class="chart-value">7,640,000</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 4.5%;">
- <span class="chart-value">3,415,369</span>
+ <div class="chart-bar"style="width: 11.2%;">
+ <span class="chart-value">3,420,000</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 1.7%;">
- <span class="chart-value">1,236,110</span>
+ <div class="chart-bar"style="width: 4.2%;">
+ <span class="chart-value">1,236,000</span>
  </div>
  </div>
  </div>
@@ -179,7 +179,7 @@
  <tr>
  <th style="width:40px;"></th>
  <th>Channel</th>
- <th class="sortable"style="text-align:right;">Sessions</th>
+ <th style="text-align:right;">Sessions</th>
  </tr>
  </thead>
  <tbody id="ga4TableBody">
@@ -208,11 +208,6 @@
  <td>Social</td>
  <td style="text-align:right;">391,349</td>
  </tr>
- <tr>
- <td>📧</td>
- <td>Email</td>
- <td style="text-align:right;">1,343,525</td>
- </tr>
  </tbody>
  <tfoot>
  <tr>
@@ -230,46 +225,41 @@
  <tr>
  <th style="width:40px;"></th>
  <th>Channel</th>
- <th class="sortable"style="text-align:right;">Clicks</th>
+ <th style="text-align:right;">Clicks</th>
  </tr>
  </thead>
  <tbody id="sealTableBody">
  <tr>
  <td>🌐</td>
  <td>Direct</td>
- <td style="text-align:right;">5,696,664</td>
+ <td style="text-align:right;">19,000,000</td>
  </tr>
  <tr>
  <td>🔍</td>
  <td>Organic Search</td>
- <td style="text-align:right;">7,645,471</td>
+ <td style="text-align:right;">7,640,000</td>
  </tr>
  <tr>
  <td>💰</td>
  <td>Paid</td>
- <td style="text-align:right;">3,415,369</td>
+ <td style="text-align:right;">3,420,000</td>
  </tr>
  <tr>
  <td>🔗</td>
  <td>Referral</td>
- <td style="text-align:right;">1,236,110</td>
+ <td style="text-align:right;">1,236,000</td>
  </tr>
  <tr>
  <td>📱</td>
  <td>Social</td>
- <td style="text-align:right;">637,169</td>
- </tr>
- <tr>
- <td>📧</td>
- <td>Email</td>
- <td style="text-align:right;">2,190,351</td>
+ <td style="text-align:right;">638,000</td>
  </tr>
  </tbody>
  <tfoot>
  <tr>
  <td></td>
  <td><strong>Total</strong></td>
- <td style="text-align:right;"><strong id="sealTableTotal">46,461,294</strong></td>
+ <td style="text-align:right;"><strong id="sealTableTotal">46,460,694</strong></td>
  </tr>
  </tfoot>
  </table>
@@ -286,21 +276,20 @@
  ['Paid', 2094030],
  ['Referral', 757994],
  ['Social', 391349],
- ['Email', 1343525]
+ ['Total', 28491223]
  ];
  
  const sealData = [
  ['Channel', 'Clicks'],
- ['Direct', 5696664],
- ['Organic Search', 7645471],
- ['Paid', 3415369],
- ['Referral', 1236110],
- ['Social', 637169],
- ['Email', 2190351]
+ ['Direct', 19000000],
+ ['Organic Search', 7640000],
+ ['Paid', 3420000],
+ ['Referral', 1236000],
+ ['Social', 638000],
+ ['Total', 46460694]
  ];
  
- const csvContent = 
- "GA4 Data:\n"+ 
+ const csvContent = "GA4 Data:\n"+ 
  ga4Data.map(e => e.join(",")).join("\n") + 
  "\n\nSealMetrics Data:\n"+ 
  sealData.map(e => e.join(",")).join("\n");
