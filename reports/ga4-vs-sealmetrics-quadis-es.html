@@ -137,31 +137,31 @@
  <div class="chart-row">
  <div class="chart-label">Direct</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 50.7%"><div class="chart-value">138,540</div></div>
+ <div class="chart-bar"style="width: 50.7%"><div class="chart-value">138,751</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 12.7%"><div class="chart-value">34,775</div></div>
+ <div class="chart-bar"style="width: 12.7%"><div class="chart-value">34,819</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 2.2%"><div class="chart-value">6,000</div></div>
+ <div class="chart-bar"style="width: 2.2%"><div class="chart-value">5,978</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 9%"><div class="chart-value">24,600</div></div>
+ <div class="chart-bar"style="width: 9%"><div class="chart-value">24,527</div></div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 0.7%"><div class="chart-value">1,825</div></div>
+ <div class="chart-bar"style="width: 0.7%"><div class="chart-value">1,818</div></div>
  </div>
  </div>
  </div>
@@ -228,27 +228,27 @@
  <tr>
  <td>🌐</td>
  <td>Direct</td>
- <td style="text-align:right;">138,540</td>
+ <td style="text-align:right;">41,625</td>
  </tr>
  <tr>
  <td>🔍</td>
  <td>Organic Search</td>
- <td style="text-align:right;">34,775</td>
+ <td style="text-align:right;">56,755</td>
  </tr>
  <tr>
  <td>💰</td>
  <td>Paid</td>
- <td style="text-align:right;">6,000</td>
+ <td style="text-align:right;">9,746</td>
  </tr>
  <tr>
  <td>🔗</td>
  <td>Referral</td>
- <td style="text-align:right;">24,600</td>
+ <td style="text-align:right;">40,000</td>
  </tr>
  <tr>
  <td>👥</td>
  <td>Social</td>
- <td style="text-align:right;">1,825</td>
+ <td style="text-align:right;">2,966</td>
  </tr>
  </tbody>
  <tfoot>
@@ -271,18 +271,25 @@
  ['Organic Search', 34819],
  ['Paid', 5978],
  ['Referral', 24527],
- ['Social', 1818]
+ ['Social', 1818],
+ ['Total', 167693]
  ];
+ 
  const sealData = [
  ['Channel', 'Clicks'],
- ['Direct', 138540],
- ['Organic Search', 34775],
- ['Paid', 6000],
- ['Referral', 24600],
- ['Social', 1825]
+ ['Direct', 41625],
+ ['Organic Search', 56755],
+ ['Paid', 9746],
+ ['Referral', 40000],
+ ['Social', 2966],
+ ['Total', 273340]
  ];
- const csvContent = "GA4 Data:\n"+ ga4Data.map(e => e.join(",")).join("\n") + 
- "\n\nSealMetrics Data:\n"+ sealData.map(e => e.join(",")).join("\n");
+ 
+ const csvContent = "GA4 Data:\n"+ 
+ ga4Data.map(e => e.join(",")).join("\n") + 
+ "\n\nSealMetrics Data:\n"+ 
+ sealData.map(e => e.join(",")).join("\n");
+ 
  navigator.clipboard.writeText(csvContent).then(() => {
  alert('CSV data copied to clipboard!');
  });
