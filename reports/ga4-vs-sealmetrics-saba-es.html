@@ -84,14 +84,14 @@
  <div class="metric-info">
  <div class="brand">Google Analytics</div>
  <h3>Sessions</h3>
- <div class="value"id="ga4Total">186,957</div>
+ <div class="value"id="ga4Total">186,057</div>
  </div>
  </div>
  <div class="metric-box metric-seal">
  <div class="metric-info">
  <div class="brand">SealMetrics<sup>™</sup></div>
  <h3>Clicks</h3>
- <div class="value"id="sealTotal">304,742</div>
+ <div class="value"id="sealTotal">303,273</div>
  </div>
  </div>
  </div>
@@ -102,7 +102,7 @@
  <div class="chart-row">
  <div class="chart-label">Direct</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 58.5%;">
+ <div class="chart-bar"style="width: 58.8%;">
  <span class="chart-value">109,443</span>
  </div>
  </div>
@@ -110,7 +110,7 @@
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 22.2%;">
+ <div class="chart-bar"style="width: 22.3%;">
  <span class="chart-value">41,554</span>
  </div>
  </div>
@@ -147,6 +147,14 @@
  </div>
  </div>
  </div>
+ <div class="chart-row">
+ <div class="chart-label">Email</div>
+ <div class="chart-bar-container">
+ <div class="chart-bar"style="width: 0.01%;">
+ <span class="chart-value">25</span>
+ </div>
+ </div>
+ </div>
  </div>
  </div>
  <div class="chart-container">
@@ -163,40 +171,48 @@
  <div class="chart-row">
  <div class="chart-label">Organic Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 34%;">
- <span class="chart-value">103,872</span>
+ <div class="chart-bar"style="width: 34.7%;">
+ <span class="chart-value">105,336</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Paid Search</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 14.8%;">
- <span class="chart-value">45,022</span>
+ <div class="chart-bar"style="width: 14.9%;">
+ <span class="chart-value">45,228</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Referral</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 7.8%;">
- <span class="chart-value">23,770</span>
+ <div class="chart-bar"style="width: 4%;">
+ <span class="chart-value">12,131</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Display Ads</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 4.2%;">
- <span class="chart-value">12,779</span>
+ <div class="chart-bar"style="width: 3.3%;">
+ <span class="chart-value">10,008</span>
  </div>
  </div>
  </div>
  <div class="chart-row">
  <div class="chart-label">Social</div>
  <div class="chart-bar-container">
- <div class="chart-bar"style="width: 3%;">
- <span class="chart-value">9,466</span>
+ <div class="chart-bar"style="width: 1.5%;">
+ <span class="chart-value">4,637</span>
+ </div>
+ </div>
+ </div>
+ <div class="chart-row">
+ <div class="chart-label">Email</div>
+ <div class="chart-bar-container">
+ <div class="chart-bar"style="width: 0.1%;">
+ <span class="chart-value">408</span>
  </div>
  </div>
  </div>
@@ -245,12 +261,17 @@
  <td>Social</td>
  <td style="text-align:right;">295</td>
  </tr>
+ <tr>
+ <td>📧</td>
+ <td>Email</td>
+ <td style="text-align:right;">25</td>
+ </tr>
  </tbody>
  <tfoot>
  <tr>
  <td></td>
  <td><strong>Total</strong></td>
- <td style="text-align:right;"><strong id="ga4TableTotal">186,957</strong></td>
+ <td style="text-align:right;"><strong id="ga4TableTotal">186,057</strong></td>
  </tr>
  </tfoot>
  </table>
@@ -274,34 +295,39 @@
  <tr>
  <td>🔍</td>
  <td>Organic Search</td>
- <td style="text-align:right;">103,872</td>
+ <td style="text-align:right;">105,336</td>
  </tr>
  <tr>
  <td>💰</td>
  <td>Paid Search</td>
- <td style="text-align:right;">45,022</td>
+ <td style="text-align:right;">45,228</td>
  </tr>
  <tr>
  <td>🔗</td>
  <td>Referral</td>
- <td style="text-align:right;">23,770</td>
+ <td style="text-align:right;">12,131</td>
  </tr>
  <tr>
  <td>📺</td>
  <td>Display Ads</td>
- <td style="text-align:right;">12,779</td>
+ <td style="text-align:right;">10,008</td>
  </tr>
  <tr>
  <td>👥</td>
  <td>Social</td>
- <td style="text-align:right;">9,466</td>
+ <td style="text-align:right;">4,637</td>
+ </tr>
+ <tr>
+ <td>📧</td>
+ <td>Email</td>
+ <td style="text-align:right;">408</td>
  </tr>
  </tbody>
  <tfoot>
  <tr>
  <td></td>
  <td><strong>Total</strong></td>
- <td style="text-align:right;"><strong id="sealTableTotal">304,742</strong></td>
+ <td style="text-align:right;"><strong id="sealTableTotal">303,273</strong></td>
  </tr>
  </tfoot>
  </table>
@@ -318,29 +344,30 @@
  ['Paid Search', 9129],
  ['Referral', 2365],
  ['Display Ads', 2042],
- ['Social', 295]
+ ['Social', 295],
+ ['Email', 25]
  ];
+ 
  const sealData = [
  ['Channel', 'Clicks'],
  ['Direct', 32833],
- ['Organic Search', 103872],
- ['Paid Search', 45022],
- ['Referral', 23770],
- ['Display Ads', 12779],
- ['Social', 9466]
+ ['Organic Search', 105336],
+ ['Paid Search', 45228],
+ ['Referral', 12131],
+ ['Display Ads', 10008],
+ ['Social', 4637],
+ ['Email', 408]
  ];
- const csvContent = "data:text/csv;charset=utf-8,"+
- "GA4 Channels\n"+
- ga4Data.map(e => e.join(",")).join("\n") +
- "\n\nSealMetrics Channels\n"+
+ 
+ const csvContent = 
+ "GA4 Data:\n"+ 
+ ga4Data.map(e => e.join(",")).join("\n") + 
+ "\n\nSealMetrics Data:\n"+ 
  sealData.map(e => e.join(",")).join("\n");
- const encodedUri = encodeURI(csvContent);
- const link = document.createElement("a");
- link.setAttribute("href", encodedUri);
- link.setAttribute("download", "saba_es_traffic_comparison.csv");
- document.body.appendChild(link);
- link.click();
- document.body.removeChild(link);
+ 
+ navigator.clipboard.writeText(csvContent).then(() => {
+ alert('CSV data copied to clipboard!');
+ });
  }
  </script>
  <script>
