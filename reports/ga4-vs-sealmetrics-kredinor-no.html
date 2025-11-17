@@ -16,7 +16,7 @@
  .btn { padding: 8px 16px; border: 1px solid #dadce0; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; background: white; color: #5f6368; transition: all 0.2s; }
  .btn:hover { background: #f8f9fa; border-color: #dadce0; }
  .btn-primary { background: #1a73e8; color: white; border-color: #1a73e8; }
- .btn-primary:hover { background: #1765cc; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+ .btn-primary:hover { background: #1765cc; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
  .content { padding: 24px; }
  .top-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px; }
  .metric-box { display: flex; align-items: center; gap: 20px; }
@@ -118,52 +118,107 @@
  </div>
  </div>
  <script>
- // Populate data based on provided GA4 data and computed SealMetrics values
+ // Populate data from GA4-like object provided
  (function(){
- var website = 'kredinor.no';
- document.getElementById('websiteName').textContent = website;
- // GA4 data (provided as JSON in prompt). We parse the given object from prompt:
- var ga4 = {
- mail_visits: 321,
- paid_visits: 2491,
- direct_visits: 26976,
- search_visits: 13662,
+ // Input data from user-provided JSON (GA4 data placeholder)
+ var ga4Total = 0; // since GA4 value not provided explicitly, we will compute from traffic object below
+ // Provided GA4 data object (from prompt) would normally be parsed. Here we simulate using the given traffic counts if available.
+ // If GA4 exact totals were provided, replace the following with the actual number.
+ // For this dataset, we compute GA4 total as sum of the detailed channels from the traffic object minus unknowns.
+ })();
+ // We'll compute totals from the given traffic object in this page's context
+ (function(){
+ var traffic = {
+ mail_visits: 346,
+ paid_visits: 1117,
+ direct_visits: 36209,
+ search_visits: 8250,
  social_visits: 0,
- referral_visits: 6605,
+ referral_visits: 5197,
  display_ad_visits: 0,
- paid_search_visits: 2491,
+ paid_search_visits: 1117,
  paid_social_visits: 0,
- organic_search_visits: 13662,
+ organic_search_visits: 8250,
  organic_social_visits: 0,
  unknown_channel_visits: 0
  };
- // Compute totals for GA4 as sum of relevant channels (excluding unknowns).
- var ga4Total = ga4.direct_visits + ga4.mail_visits + ga4.paid_visits + ga4.referral_visits + ga4.display_ad_visits + ga4.search_visits + ga4.social_visits + ga4.unknown_channel_visits;
- // For banner clarity we’ll treat GA4 total as sum of all provided fields except possibly unknowns; ensure numeric
- ga4Total = 0;
- Object.keys(ga4).forEach(function(k){ ga4Total += Number(ga4[k]||0); });
- // SealMetrics calculations
- // Total SealMetrics = Total GA4 × 1.63
+ // GA4 total as sum of all non-unknown channels
+ var ga4Total = Object.values(traffic).reduce(function(a,b){ return a + (typeof b==='number'?b:0); },0);
+ // But if GA4 total should be sum of sessions, we can keep as above
+ document.getElementById('ga4Total').textContent = ga4Total.toLocaleString();
+ // Convert to SealMetrics totals
  var sealTotal = Math.round(ga4Total * 1.63);
- // Direct traffic in SealMetrics = Direct GA4 × 0.30
- var sealDirect = Math.round(ga4.direct_visits * 0.30);
- // Other channels: distribute increment proportionally according to each channel’s weight
- // First compute GA4 totals per channel excluding unknowns and direct? We'll map channels roughly:
- var channels = {
- mail_visits: ga4.mail_visits,
- paid_visits: ga4.paid_visits,
- direct_visits: ga4.direct_visits,
- search_visits: ga4.search_visits,
- social_visits: ga4.social_visits,
- referral_visits: ga4.referral_visits,
- display_ad_visits: ga4.display_ad_visits,
- paid_search_visits: ga4.paid_search_visits,
- paid_social_visits: ga4.paid_social_visits,
- organic_search_visits: ga4.organic_search_visits,
- organic_social_visits: ga4.organic_social_visits
- };
- // sum total GA4 again for distribution base (excluding unknowns)
- var ga4Total2 = 0; Object.values(channels).forEach(function(v){ ga4Total2 += Number(v||0); });
- // If total is zero safeguard
- var sealChannels = {};
- // compute increment = sealTotal - sealDirect as the amount to distribute among
+ document.getElementById('sealTotal').textContent = sealTotal.toLocaleString();
+ // Build simple charts bars (percentages by channel weight for SealMetrics)
+ // GA4 chart representation using the same channel weights as in provided data
+ function addBar(containerId, label, value, max){
+ var el = document.createElement('div');
+ el.className = 'chart-row';
+ var labelEl = document.createElement('div'); labelEl.className='chart-label'; labelEl.textContent = label;
+ var barContainer = document.createElement('div'); barContainer.className='chart-bar-container';
+ var bar = document.createElement('div'); bar.className='chart-bar';
+ var w = max>0 ? Math.round((value/max)*100) : 0; bar.style.width = w + '%';
+ var val = document.createElement('span'); val.className='chart-value'; val.textContent = value;
+ barContainer.appendChild(bar); barContainer.appendChild(val);
+ el.appendChild(labelEl); el.appendChild(barContainer);
+ document.getElementById(containerId).appendChild(el);
+ }
+ // GA4 breakdown based on provided traffic object (approx assumption): distribute all channels as GA4 sessions
+ var ga4Channels = [
+ {label:'Mail', value: traffic.mail_visits},
+ {label:'Paid', value: traffic.paid_visits},
+ {label:'Direct', value: traffic.direct_visits},
+ {label:'Search', value: traffic.search_visits},
+ {label:'Social', value: traffic.social_visits},
+ {label:'Referral', value: traffic.referral_visits},
+ {label:'Display Ad', value: traffic.display_ad_visits}
+ ];
+ var ga4Max = ga4Channels.reduce(function(a,c){ return a + c.value; },0);
+ ga4Channels.forEach(function(ch){ addBar('ga4Chart', ch.label, ch.value, ga4Max); });
+ // SealMetrics breakdown by channel weights proportionally to GA4 channel weights, excluding Unknowns
+ // Compute SealMetrics per channel proportionally to GA4's channel share, scaling to total sealTotal
+ var sealTotalValue = sealTotal;
+ var sealBreakdown = ga4Channels.map(function(ch){ return {label: ch.label, value: Math.round((ch.value/ga4Max)*sealTotalValue)}; });
+ sealBreakdown.forEach(function(ch){ addBar('sealChart', ch.label, ch.value, sealTotalValue); });
+ // Fill GA4 table (rows equal to channels)
+ var ga4Body = document.getElementById('ga4TableBody');
+ ga4Body.innerHTML = '';
+ ga4Channels.forEach(function(ch){
+ var tr = document.createElement('tr');
+ var tdLabel = document.createElement('td'); tdLabel.textContent = ch.label;
+ var tdVal1 = document.createElement('td'); tdVal1.textContent = ch.value.toLocaleString();
+ var tdVal2 = document.createElement('td'); tdVal2.style.textAlign='right'; tdVal2.textContent = ch.value.toLocaleString();
+ tr.appendChild(tdLabel); tr.appendChild(tdVal1); tr.appendChild(tdVal2);
+ ga4Body.appendChild(tr);
+ });
+ document.getElementById('ga4TableTotal').textContent = ga4Total.toLocaleString();
+ // SealMetrics table by channel
+ var sealBody = document.getElementById('sealTableBody'); sealBody.innerHTML = '';
+ sealBreakdown.forEach(function(ch){
+ var tr = document.createElement('tr');
+ var tdLabel = document.createElement('td'); tdLabel.textContent = ch.label;
+ var tdVal = document.createElement('td'); tdVal.style.textAlign='right'; tdVal.textContent = ch.value.toLocaleString();
+ tr.appendChild(tdLabel); tr.appendChild(tdVal);
+ sealBody.appendChild(tr);
+ });
+ document.getElementById('sealTableTotal').textContent = sealTotal.toLocaleString();
+ // Summary box
+ var summary = 'GA4 total sessions: ' + ga4Total.toLocaleString() + ' • SealMetrics total clicks: ' + sealTotal.toLocaleString() + ' (SealMetrics is GA4 × 1.63)';
+ document.getElementById('summaryBox').textContent = summary;
+ // Keyboard: store website name for potential copy CSV function
+ document.getElementById('websiteName').textContent = 'kredinor.no';
+ })();
+ function copyCSV(){
+ var ga4Total = document.getElementById('ga4Total').textContent;
+ var sealTotal = document.getElementById('sealTotal').textContent;
+ var csv = 'Site,GA4 Sessions,SealMetrics Clicks\\n' + 'kredinor.no,'+ga4Total+','+sealTotal+'\\n';
+ navigator.clipboard?.writeText(csv).then(function(){ alert('CSV copied to clipboard'); }).catch(function(){ alert('Could not copy CSV'); });
+ }
+ </script>
+ <script>
+ /* SealMetrics Tracker Code */
+ (function(){var options={account:'60a52f6ac660b269d13c3f53',event:'pageview',content_grouping:'GA4-SM',use_session:1};var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(cb){var s=document.createElement("script");s.src=url;s.async=true;s.onload=function(){if(typeof cb==='function'){cb();}};s.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(s);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}});})();
+ /* End SealMetrics Tracker Code */
+ </script>
+</body>
+</html>
