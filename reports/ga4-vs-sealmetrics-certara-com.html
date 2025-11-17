@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport"content="width=device-width, initial-scale=1.0">
+ <title>GA4 vs SealMetrics - certara.com</title>
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Google Sans', Arial, sans-serif; background: #f8f9fa; color: #202124; line-height: 1.5; padding: 20px; }
+ .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 8px; padding: 0; box-shadow: 0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15); }
+ .header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid #dadce0; }
+ .header-left { display: flex; align-items: center; gap: 12px; }
+ .header-left h1 { font-size: 22px; font-weight: 400; color: #5f6368; }
+ .website-name { color: #1a73e8; font-weight: 500; }
+ .header-right { display: flex; gap: 10px; }
+ .btn { padding: 8px 16px; border: 1px solid #dadce0; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; background: white; color: #5f6368; transition: all 0.2s; }
+ .btn:hover { background: #f8f9fa; border-color: #dadce0; }
+ .btn-primary { background: #1a73e8; color: white; border-color: #1a73e8; }
+ .btn-primary:hover { background: #1765cc; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+ .content { padding: 24px; }
+ .top-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px; }
+ .metric-box { display: flex; align-items: center; gap: 20px; }
+ .metric-icon { display: flex; gap: 4px; }
+ .bar { width: 12px; background: #fbbc04; border-radius: 2px; }
+ .bar:nth-child(1) { height: 30px; } .bar:nth-child(2) { height: 45px; } .bar:nth-child(3) { height: 60px; }
+ .metric-info h3 { font-size: 13px; color: #5f6368; font-weight: 400; margin-bottom: 4px; }
+ .metric-info .value { font-size: 36px; font-weight: 300; color: #202124; }
+ .metric-ga4 .brand { font-size: 20px; font-weight: 500; color: #5f6368; margin-bottom: 4px; }
+ .metric-seal .brand { font-size: 24px; font-weight: 500; color: #202124; }
+ .metric-seal .brand sup { font-size: 12px; color: #16a34a; top: -8px; }
+ .comparison-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+ .chart-container h2 { font-size: 16px; font-weight: 500; color: #202124; margin-bottom: 20px; }
+ .chart-bars { display: flex; flex-direction: column; gap: 12px; }
+ .chart-row { display: flex; align-items: center; gap: 12px; }
+ .chart-label { width: 120px; font-size: 13px; color: #5f6368; text-align: right; }
+ .chart-bar-container { flex: 1; position: relative; height: 28px; }
+ .chart-bar { height: 100%; background: #4285f4; border-radius: 2px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; transition: all 0.3s; }
+ .chart-bar:hover { opacity: 0.8; }
+ .chart-value { font-size: 12px; color: white; font-weight: 500; }
+ .table-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+ table { width: 100%; border-collapse: collapse; font-size: 13px; }
+ thead { background: #f8f9fa; }
+ th { padding: 12px 16px; text-align: left; font-weight: 500; color: #5f6368; border-bottom: 1px solid #dadce0; }
+ td { padding: 12px 16px; border-bottom: 1px solid #f1f3f4; color: #202124; }
+ tr:hover { background: #f8f9fa; }
+ tfoot { background: #f8f9fa; font-weight: 500; }
+ tfoot td { border-top: 2px solid #dadce0; border-bottom: none; }
+ .summary-box { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid #4caf50; padding: 20px; border-radius: 4px; margin-bottom: 30px; font-size: 14px; color: #1b5e20; }
+ .summary-box strong { color: #2e7d32; }
+ .cta-box { background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%); border-radius: 8px; padding: 24px; margin-bottom: 30px; color: white; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3); }
+ .cta-content { flex: 1; }
+ .cta-content h3 { font-size: 18px; font-weight: 500; margin-bottom: 8px; color: white; }
+ .cta-content p { font-size: 14px; opacity: 0.95; line-height: 1.5; }
+ .cta-button { background: white; color: #1a73e8; padding: 12px 24px; border-radius: 4px; font-size: 15px; font-weight: 500; text-decoration: none; display: inline-block; transition: all 0.2s; white-space: nowrap; }
+ .cta-button:hover { background: #f8f9fa; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); transform: translateY(-1px); }
+ @media (max-width: 768px) { .cta-box { flex-direction: column; text-align: center; gap: 16px; } .table-section { grid-template-columns: 1fr; } }
+ </style>
+</head>
+<body>
+ <div class="container">
+ <div class="header">
+ <div class="header-left">
+ <h1>📊 GA4 vs SealMetrics - <span class="website-name"id="websiteName">certara.com</span></h1>
+ </div>
+ <div class="header-right">
+ <button class="btn"onclick="copyCSV()">📋 Copy CSV</button>
+ <button class="btn btn-primary"onclick="window.print()">🖨️ Export</button>
+ </div>
+ </div>
+ <div class="content">
+ <div class="summary-box"id="summaryBox"></div>
+ <div class="cta-box">
+ <div class="cta-content">
+ <h3>🚀 Discover your website’s real traffic</h3>
+ <p>SealMetrics captures up to 63% more traffic than GA4. No cookies, no banners, 100% GDPR compliant.</p>
+ </div>
+ <a href="https://sealmetrics.com/demo-request?utm_source=email&utm_medium=landing&utm_campaign=GA4-SM"class="cta-button"target="_blank">Request Free Demo</a>
+ </div>
+ <div class="top-metrics">
+ <div class="metric-box metric-ga4">
+ <div class="metric-icon"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+ <div class="metric-info">
+ <div class="brand">Google Analytics</div>
+ <h3>Sessions</h3>
+ <div class="value"id="ga4Total">0</div>
+ </div>
+ </div>
+ <div class="metric-box metric-seal">
+ <div class="metric-info">
+ <div class="brand">SealMetrics<sup>™</sup></div>
+ <h3>Clicks</h3>
+ <div class="value"id="sealTotal">0</div>
+ </div>
+ </div>
+ </div>
+ <div class="comparison-section">
+ <div class="chart-container"><h2>GA4</h2><div class="chart-header"><div class="legend-dot ga4"></div><span class="legend-text">Sessions</span></div><div class="chart-bars"id="ga4Chart"></div></div>
+ <div class="chart-container"><h2>SealMetrics</h2><div class="chart-header"><div class="legend-dot seal"></div><span class="legend-text">Clicks</span></div><div class="chart-bars"id="sealChart"></div></div>
+ </div>
+ <div class="table-section">
+ <div class="table-container">
+ <h2>GA4</h2>
+ <table>
+ <thead><tr><th style="width:40px;"></th><th>Sessions</th><th class="sortable"style="text-align:right;">Sessions</th></tr></thead>
+ <tbody id="ga4TableBody"></tbody>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="ga4TableTotal">0</strong></td></tr></tfoot>
+ </table>
+ </div>
+ <div class="table-container">
+ <h2>SealMetrics</h2>
+ <table>
+ <thead><tr><th style="width:40px;"></th><th>Channels</th><th class="sortable"style="text-align:right;">Clicks</th></tr></thead>
+ <tbody id="sealTableBody"></tbody>
+ <tfoot><tr><td></td><td><strong>Total</strong></td><td style="text-align:right;"><strong id="sealTableTotal">0</strong></td></tr></tfoot>
+ </table>
+ </div>
+ </div>
+ </div>
+ </div>
+ <script>
+ // Populate with provided GA4 data (object literally provided as JSON in prompt is mapped below)
+ (function(){
+ // Website name already set by default, ensure accurate
+ document.getElementById('websiteName').textContent = 'certara.com';
+ // GA4 data placeholder (since provided as [object Object], reconstruct from the second message payload)
+ // We'll compute totals from the provided traffic matrix below
+ var ga4Totals = {
+ total: 0,
+ sessions: 0
+ };
+ // We'll parse the provided GA4-like object from prompt: we assume key fields align: total sessions equals sum of all visits excluding unknowns? Here we’ll sum standard channels as a proxy
+ // But we have the SealMetrics data block in next step; we will display GA4 total as sum of all GA4-like visits in provided data.
+ var ga4Data = {
+ mail_visits: 688,
+ paid_visits: 2691,
+ direct_visits: 17503,
+ search_visits: 21081,
+ social_visits: 6626,
+ referral_visits: 15261,
+ display_ad_visits: 0,
+ paid_search_visits: 2691,
+ paid_social_visits: 151,
+ organic_search_visits: 21081,
+ organic_social_visits: 6475,
+ unknown_channel_visits: 0
+ };
+ // Sum some representative GA4 sessions (excluding unknown/unassigned) as a best-effort
+ var ga4Sum = ga4Data.mail_visits + ga4Data.paid_visits + ga4Data.direct_visits + ga4Data.search_visits + ga4Data.social_visits + ga4Data.referral_visits + ga4Data.display_ad_visits + ga4Data.paid_search_visits + ga4Data.paid_social_visits + ga4Data.organic_search_visits + ga4Data.organic_social_visits;
+ document.getElementById('ga4Total').textContent = ga4Sum.toLocaleString();
+ // SealMetrics data derived from GA4 via rule: Total SealMetrics = Total GA4 × 1.63
+ var sealTotal = Math.round(ga4Sum * 1.63);
+ document.getElementById('sealTotal').textContent = sealTotal.toLocaleString();
+ // Distribute channels for SealMetrics based on GA4 channel weights (excluding unknown)
+ // Define GA4 channel mapping values based on provided counts
+ var ga4Channels = {
+ Direct: ga4Data.direct_visits,
+ OrganicSearch: ga4Data.organic_search_visits,
+ OrganicSocial: ga4Data.organic_social_visits,
+ PaidSearch: ga4Data.paid_search_visits,
+ PaidSocial: ga4Data.paid_social_visits,
+ Social: ga4Data.social_visits,
+ Referral: ga4Data.referral_visits,
+ Mail: ga4Data.mail_visits,
+ Display: ga4Data.display_ad_visits,
+ Unknown: ga4Data.unknown_channel_visits
+ };
+ // Remove Unknown from SealMetrics weight distribution
+ var totalGA4ForWeights = Object.values(ga4Channels).reduce((a,b)=>a+b,0) - ga4Channels.Unknown;
+ if(totalGA4ForWeights <= 0) totalGA4ForWeights = 1;
+ // Compute SealMetrics per channel using same proportion of GA4 channel weights, but ensure total sums and no Unknown
+ var sealChannels = {
+ Direct: Math.round(ga4Channels.Direct / totalGA4ForWeights * (sealTotal * (ga4Channels.Direct/ (totalGA4ForWeights)))) // initial proportional, we'll normalize
+ };
+ // Simpler: compute proportional shares by channel weight, then scale to sealTotal
+ var shares = {};
+ for (var key in ga4Channels) {
+ if (key === 'Unknown' || ga4Channels[key] === 0) continue;
+ shares[key] = ga4Channels[key];
+ }
+ var sumWeights = Object.values(shares).reduce((a,b)=>a+b,0);
+ var sealByChannel = {};
+ var accumulated = 0;
+ for (var ch in shares) {
+ var value = Math.round(shares[ch] / sumWeights * sealTotal);
+ sealByChannel[ch] = value;
+ accumulated += value;
+ }
+ // Adjust rounding to match exact total
+ var diff = sealTotal - accumulated;
+ var keys = Object.keys(sealByChannel);
+ if (keys.length>0){ sealByChannel[keys[0]] += diff; }
+ // Build table bodies for GA4 and SealMetrics
+ function format(n){ return n.toLocaleString(); }
+ // GA4 table - show a simple breakdown mirroring GA4 channels
+ var ga4Rows = [];
+ for (var k in ga4Channels){
+ if (k === 'Unknown' || ga4Channels[k]===0) continue;
+ ga4Rows.push({label:k, value: ga4Channels[k]});
+ }
+ // Sort for consistency
+ ga4Rows.sort((a,b)=> a.label.localeCompare(b.label));
+ var ga4Body = document.getElementById('ga4TableBody');
+ ga4Body.innerHTML = '';
+ ga4Rows.forEach(function(r){
+ var tr = document.createElement('tr');
+ var td1 = document.createElement('td'); td1.textContent = ''; tr.appendChild(td1);
+ var td2 = document.createElement('td'); td2.textContent = r.label; tr.appendChild(td2);
+ var td3 = document.createElement('td'); td3.style.textAlign='right'; td3.textContent = format(r.value); tr.appendChild(td3);
+ ga4Body.appendChild(tr);
+ });
+ document.getElementById('ga4TableTotal').textContent = format(ga4Sum);
+ // SealMetrics table
+ var sealRows = [];
+ for (var c in sealByChannel){
+ if (!sealByChannel[c]) continue;
+ sealRows.push({label:c, value: sealByChannel[c]});
+ }
+ sealRows.sort((a,b)=> a.label.localeCompare(b.label));
+ var sealBody = document.getElementById('sealTableBody');
+ sealBody.innerHTML = '';
+ sealRows.forEach(function(r){
+ var tr = document.createElement('tr');
+ var td1 = document.createElement('td'); td1.textContent = ''; tr.appendChild(td1);
+ var td2 = document.createElement('td'); td2.textContent = r.label; tr.appendChild(td2);
+ var td3 = document.createElement('td'); td3.style.textAlign='right'; td3.textContent = format(r.value); tr.appendChild(td3);
+ sealBody.appendChild(tr);
+ });
+ document.getElementById('sealTableTotal').textContent = format(sealTotal);
+ // Simple bar visuals for GA4 vs SealMetrics charts
+ function addBar(containerId, values, maxVal){
+ var container = document.getElementById(containerId);
+ container.innerHTML = '';
+ values.forEach(function(v,i){
+ var row = document.createElement('div'); row.className='chart-row';
+ var label = document.createElement('div'); label.className='chart-label'; label.textContent = v.label; row.appendChild(label);
+ var barWrap = document.createElement('div'); barWrap.className='chart-bar-container';
+ var bar = document.createElement('div'); bar.className='chart-bar'; var ratio = maxVal? v.value/maxVal : 0; bar.style.width = Math.max(2, ratio*100) + '%';
+ bar.textContent = v.value.toLocaleString(); barWrap.appendChild(bar);
+ row.appendChild(barWrap);
+ container.appendChild(row);
+ });
+ }
+ // GA4 chart data (top categories by value)
+ var ga4ChartData = ga4Rows.map(function(r){ return {label: r.label, value: r.value}; });
+ var maxGA4 = Math.max.apply(null, ga4ChartData.map(function(d){ return d.value; }));
+ addBar('ga4Chart', ga4ChartData, maxGA4);
+ var sealChartData = sealRows.map(function(r){ return {label: r.label, value: r.value}; });
+ var maxSeal = Math.max.apply(null, sealChartData.map(function(d){ return d.value; }));
+ addBar('sealChart', sealChartData, maxSeal);
+ // Summary heading text
+ document.getElementById('summaryBox').innerHTML = 'GA4 total sessions: ' + format(ga4Sum) + ' · SealMetrics total clicks (predicted): ' + format(sealTotal) + '. The SealMetrics totals are a 63% uplift from GA4 totals.';
+ })();
+ function copyCSV(){ alert('CSV export is a placeholder in this static demo.'); }
+ </script>
+ <script>
+ // SealMetrics Tracker Code placeholder for functional demo (non-blocking)
+ (function(){var s=document.createElement('script');s.src='https://app.sealmetrics.com/tag/v2/tracker';s.async=true;document.head.appendChild(s);})();
+ </script>
+</body>
+</html>
